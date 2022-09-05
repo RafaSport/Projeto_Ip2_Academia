@@ -29,12 +29,13 @@ LOGIN → Tela inicial do login terá as seguintes opções;
  	  2.1 – Cadastrar → Os exercicios
  	  2.2 – Consultar → Os exercicios
  	  2.3 – Editar    → Os exercicios
+	  2.4 - Listar    -> Os alunos
 
 3 – GERENTE → Terá que validar com login e senha, uma vez validado terá as opções;
 
    	3.1 – Cadastrar → Professor e aluno
    	3.2 – Consultar → Professor e aluno
    	3.3 – Editar    → Professor e aluno
-	   3.4 – Excluir   → Professor e aluno
-	   3.5 – Relatorio →  a) Professor → Quantidade de professores e gasto com folha
-		        	            b) Aluno     → Quantidade de alunos e receita com as mensalidades
+	3.4 – Excluir   → Professor e aluno
+	3.5 – Relatorio →  a) Professor → Quantidade de professores e gasto com folha
+		           b) Aluno     → Quantidade de alunos e receita com as mensalidades
