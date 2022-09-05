@@ -117,5 +117,10 @@ public class RepositorioGenerico <T> implements IRepositorioGenerico<T>{
         }
         return Collections.unmodifiableList(this.lista);
     }
+
+    @Override
+    public List<T> listarTodos() {
+        return Collections.unmodifiableList(this.lista);
+    }
     
 }
