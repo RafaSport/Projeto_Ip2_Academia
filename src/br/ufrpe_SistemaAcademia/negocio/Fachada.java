@@ -1,5 +1,8 @@
 package br.ufrpe_SistemaAcademia.negocio;
 
+import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
+import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
+import br.ufrpe_SistemaAcademia.exception.ProfessorNaoContemAluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Exercicio;
 import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
@@ -32,23 +35,25 @@ public class Fachada {
     }
     
     //-----------------Metodos Delegate ControladorPessoa-----------------------
-    public void adicionar(Pessoa usuario, Pessoa p){
+    public void adicionar(Pessoa usuario, Pessoa p)throws ElementoJaExisteException{
        this.controladorPessoa.adicionar(usuario, p);
     }
     
-    public void remover(Pessoa usuario, Pessoa p){
+    public void remover(Pessoa usuario, Pessoa p)throws ElementoNaoExisteException{
       this.controladorPessoa.remover(usuario, p);
     }
     
-    public void alterar(Pessoa usuario, Pessoa pessoaAtual, Pessoa pessoaAlterado){
+    public void alterar(Pessoa usuario, Pessoa pessoaAtual, Pessoa pessoaAlterado)
+                        throws ElementoNaoExisteException{
+        
         this.controladorPessoa.alterar(usuario, pessoaAtual, pessoaAlterado);
     }
     
-    public Object consultar(Pessoa usuario, Pessoa p){
+    public Object consultar (Pessoa usuario, Pessoa p)throws ElementoNaoExisteException{
         return this.controladorPessoa.consultar(usuario, p);
     }
     
-    public void cadastrarAlunoParaProfessor(Aluno a, Professor p){
+    public void cadastrarAlunoParaProfessor(Aluno a, Professor p)throws ElementoJaExisteException{
        this.controladorPessoa.cadastrarAlunoParaProfessor(a, p);
     }
 
@@ -65,38 +70,46 @@ public class Fachada {
     }
     
     //--------------------Metodos Delegate ControladorTreino---------------------
-    public void cadastrarPlanoTreino(Professor p, Aluno a, List<Treino> treinos, LocalDate dataInicio){
+    public void cadastrarPlanoTreino(Professor p, Aluno a, List<Treino> treinos, 
+            LocalDate dataInicio) throws ProfessorNaoContemAluno, ElementoJaExisteException{
         
         this.controladorTreino.cadastrarPlanoTreino(p, a, treinos, dataInicio);
     }
     
-    public void alterarPlanoTreino(Professor p, Aluno a, List<Treino> treinos, LocalDate dataInicio){
+    public void alterarPlanoTreino(Professor p, Aluno a, List<Treino> treinos, 
+            LocalDate dataInicio) throws ProfessorNaoContemAluno, ElementoNaoExisteException{
         
        this.controladorTreino.alterarPlanoTreino(p, a, treinos, dataInicio);
     }
     
-    public PlanoTreinoSemanal consultarPlanoTreino(Professor p, Aluno a){
+    public PlanoTreinoSemanal consultarPlanoTreino(Professor p, Aluno a) 
+            throws ProfessorNaoContemAluno, ElementoNaoExisteException{
         
         return this.controladorTreino.consultarPlanoTreino(p, a);
     }
     
-    public void alterarTreino(Professor p, Aluno a, List<Exercicio> exercicios, int posicao){
+    public void alterarTreino(Professor p, Aluno a, List<Exercicio> exercicios, 
+            Treino treino) throws ProfessorNaoContemAluno, ElementoNaoExisteException{
         
-      this.controladorTreino.alterarTreino(p, a, exercicios, posicao);
+
+        this.controladorTreino.alterarTreino(p, a, exercicios, treino);
     }
     
-    public Treino consultarTreino(Professor p, Aluno a, int posicao){
+    public Treino consultarTreino(Professor p, Aluno a, Treino treino) 
+            throws ProfessorNaoContemAluno, ElementoNaoExisteException{
        
-        return this.controladorTreino.consultarTreino(p, a, posicao);
+        return this.controladorTreino.consultarTreino(p, a, treino);
     }
     
     //---------------Metodos Delegate ControladorTreinoExecutado----------------
 
-    public void salvarTreinoExecutado(TreinoExecutado treinoExecutado) {
+    public void salvarTreinoExecutado(TreinoExecutado treinoExecutado)
+                                    throws ElementoJaExisteException{
         this.controladorTreinoExecutado.salvarTreinoExecutado(treinoExecutado);
     }
 
-    public TreinoExecutado consultarTreinoExecutado(TreinoExecutado treinoExecutado) {
+    public TreinoExecutado consultarTreinoExecutado(TreinoExecutado treinoExecutado) 
+                                    throws ElementoNaoExisteException{
         return this.controladorTreinoExecutado.consultarTreinoExecutado(treinoExecutado);
     }
     

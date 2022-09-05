@@ -1,5 +1,7 @@
 package br.ufrpe_SistemaAcademia.dados;
 
+import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
+import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,24 +13,24 @@ public class RepositorioDeTreino <TreinoExecutado> {
         this.lista = new ArrayList<>();
     }
     
-    public void salvarTreinoExecutado(TreinoExecutado treinoExecutado){
+    public void salvarTreinoExecutado(TreinoExecutado treinoExecutado)throws ElementoJaExisteException{
         if(!this.lista.contains(treinoExecutado)){
             this.lista.add(treinoExecutado);
         }else{
-            //colocar exception
-            System.out.println("Treino ja esta salvo");
+            throw new ElementoJaExisteException(treinoExecutado);
         }
     }
     
-    public TreinoExecutado consultarTreinoExecutado(TreinoExecutado treinoExecutado){
+    public TreinoExecutado consultarTreinoExecutado(TreinoExecutado treinoExecutado)
+                            throws ElementoNaoExisteException{
         
-        TreinoExecutado te = null;
-        
-        for(TreinoExecutado t: this.lista){
-            if(t.equals(treinoExecutado)){
-                te = t;
-            }
+        if(this.lista.contains(treinoExecutado)){
+            int x = this.lista.indexOf(treinoExecutado);
+            return this.lista.get(x);
+            
+        }else{
+            throw new ElementoNaoExisteException(treinoExecutado);
         }
-        return te;
+       
     }
 }

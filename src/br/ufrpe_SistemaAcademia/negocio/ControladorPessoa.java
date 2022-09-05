@@ -2,6 +2,8 @@ package br.ufrpe_SistemaAcademia.negocio;
 
 import br.ufrpe_SistemaAcademia.dados.IRepositorioGenerico;
 import br.ufrpe_SistemaAcademia.dados.RepositorioGenerico;
+import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
+import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
@@ -24,19 +26,21 @@ public class ControladorPessoa {
         return instance;
     }
     
-    public void adicionar(Pessoa usuario, Pessoa p){
+    public void adicionar(Pessoa usuario, Pessoa p) throws ElementoJaExisteException{
        this.repositorioPessoa.adicionar(usuario, p);
     }
     
-    public void remover(Pessoa usuario, Pessoa p){
+    public void remover(Pessoa usuario, Pessoa p) throws ElementoNaoExisteException{
       this.repositorioPessoa.remover(usuario, p);
     }
     
-    public void alterar(Pessoa usuario, Pessoa pessoaAtual, Pessoa pessoaAlterado){
+    public void alterar(Pessoa usuario, Pessoa pessoaAtual, Pessoa pessoaAlterado) 
+            throws ElementoNaoExisteException{
+        
         this.repositorioPessoa.alterar(usuario, pessoaAtual, pessoaAlterado);
     }
     
-    public Object consultar(Pessoa usuario, Pessoa p){
+    public Object consultar(Pessoa usuario, Pessoa p) throws ElementoNaoExisteException{
         return this.repositorioPessoa.consultar(usuario, p);
     }
     

@@ -1,6 +1,8 @@
 package br.ufrpe_SistemaAcademia.negocio;
 
 import br.ufrpe_SistemaAcademia.dados.RepositorioDeTreino;
+import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
+import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
 import br.ufrpe_SistemaAcademia.negocio.bean.TreinoExecutado;
 
 public class ControladorTreinoExecutado {
@@ -19,11 +21,15 @@ public class ControladorTreinoExecutado {
         return instance;
     }
 
-    public void salvarTreinoExecutado(TreinoExecutado treinoExecutado) {
+    public void salvarTreinoExecutado(TreinoExecutado treinoExecutado) 
+            throws ElementoJaExisteException {
+        
         this.repositorioDeTreinos.salvarTreinoExecutado(treinoExecutado);
     }
 
-    public TreinoExecutado consultarTreinoExecutado(TreinoExecutado treinoExecutado) {
+    public TreinoExecutado consultarTreinoExecutado(TreinoExecutado treinoExecutado) 
+            throws ElementoNaoExisteException {
+        
         return this.repositorioDeTreinos.consultarTreinoExecutado(treinoExecutado);
     }
     
