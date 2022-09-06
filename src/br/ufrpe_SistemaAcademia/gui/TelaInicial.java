@@ -1,6 +1,26 @@
 package br.ufrpe_SistemaAcademia.gui;
 
+import br.ufrpe_SistemaAcademia.exception.LoginInvalidoException;
+import br.ufrpe_SistemaAcademia.negocio.Fachada;
+import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
+import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
+import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
+import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 public class TelaInicial extends javax.swing.JFrame {
+    
+    private Pessoa usuario;
+
+    public Pessoa getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Pessoa usuario) {
+        this.usuario = usuario;
+    }
     
     public TelaInicial() {
         initComponents();
@@ -172,14 +192,35 @@ public class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        if(txtLogin.getText().equalsIgnoreCase("aluno")){
+        
+        String email = txtLogin.getText();
+        String senha = String.valueOf(txtSenha.getPassword());
+                
+        usuario = Fachada.getInstance().login(email, senha);
+
+        txtLogin.setText("");
+        txtSenha.setText("");
+        
+        if(usuario != null){
             
-            txtLogin.setText("");
-            txtSenha.setText("");
-            
-            
-            new TelaAluno().setVisible(true);
+            if(usuario instanceof Gerente){
+                new TelaGerente().setVisible(true);
+            }else if(usuario instanceof Professor){
+                new TelaProfessor().setVisible(true);
+            }else if(usuario instanceof Aluno){
+                new TelaAluno().setVisible(true);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Email ou senha incorretos", "ERRO", 0);
         }
+
+        /*
+        if(usuario != null){
+            new TelaAluno().setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(rootPane, "Login ou senha incorretos");
+        }        
+        */
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     /**

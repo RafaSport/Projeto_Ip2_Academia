@@ -40,12 +40,13 @@ public class ProgramaSistemaAcademia {
         Pessoa a4 = new Aluno("004", (Professor) p2, "maria", "4040", 
                             LocalDate.of(1999, 2, 21), "maria@gmail.com");
         try {
+            
+            Fachada.getInstance().adicionar(gerente, gerente);
             Fachada.getInstance().adicionar(gerente, a1);
             Fachada.getInstance().adicionar(gerente, a2);
             Fachada.getInstance().adicionar(gerente, a3);
             Fachada.getInstance().adicionar(gerente, a4);
-            Fachada.getInstance().adicionar(gerente, a4);//objeto igual
-
+            
             Fachada.getInstance().adicionar(gerente, p1);
             Fachada.getInstance().adicionar(gerente, p2);
         } catch (ElementoJaExisteException e) {
@@ -79,8 +80,11 @@ public class ProgramaSistemaAcademia {
         Fachada.getInstance().cadastrarAlunoParaProfessor((Aluno)a2, (Professor)p1);
         Fachada.getInstance().cadastrarPlanoTreino((Professor)p1, (Aluno)a1, treinos, LocalDate.now());
         
-        System.out.println(((Professor)p1).getAlunos().get(0));
-        System.out.println(((Professor)p1).getAlunos().get(1));
+        for(Pessoa p: Fachada.getInstance().listarTodos()){
+            System.out.println(p.getNome());
+        }
+        
+        new TelaInicial().setVisible(true);
         
     } 
     

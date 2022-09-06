@@ -2,6 +2,7 @@ package br.ufrpe_SistemaAcademia.negocio;
 
 import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
 import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
+import br.ufrpe_SistemaAcademia.exception.LoginInvalidoException;
 import br.ufrpe_SistemaAcademia.exception.ProfessorNaoContemAluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Exercicio;
@@ -67,6 +68,14 @@ public class Fachada {
 
     public List<Pessoa> listarAlunosDoProfessor(Pessoa usuario) {
         return controladorPessoa.listarAlunosDoProfessor(usuario);
+    }
+    
+    public List<Pessoa> listarTodos(){
+        return controladorPessoa.listarTodos();
+    }
+    
+    public Pessoa login(String email, String senha){
+        return controladorPessoa.login(email, senha);
     }
     
     //--------------------Metodos Delegate ControladorTreino---------------------

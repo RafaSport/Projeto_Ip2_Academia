@@ -70,14 +70,14 @@ public class ControladorPessoa {
         }
     }
     
-    public Pessoa login(String email, String senha)throws LoginInvalidoException{
+    public Pessoa login(String email, String senha){
         
         Pessoa usuario = null;
-        
+        System.out.println("\n\nEntrou no login");
         for(Pessoa p: this.listarTodos()){
             
             if(p.getEmail().equals(email)){
-                
+                System.out.println("\n\nEmail eh igual");
                 if(p instanceof Gerente && ((Gerente)p).getSenha().equals(senha) ){
                     int i = this.listarTodos().indexOf(p);
                     
@@ -85,14 +85,12 @@ public class ControladorPessoa {
                     
                 }else if(p instanceof Professor && ((Professor)p).getSenha().equals(senha)){
                     int i = this.listarTodos().indexOf(p);
-                    
+                    System.out.println("\n\nSenha eh igual");
                     usuario = this.listarTodos().get(i);
                 }else if(p instanceof Aluno && ((Aluno)p).getMatricula().equals(senha)){
                     int i = this.listarTodos().indexOf(p);
                     
                     usuario = this.listarTodos().get(i);
-                }else{
-                    throw new LoginInvalidoException();
                 }
             }
         }
