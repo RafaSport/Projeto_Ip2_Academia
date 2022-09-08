@@ -1,31 +1,19 @@
 package br.ufrpe_SistemaAcademia.gui;
 
-import br.ufrpe_SistemaAcademia.exception.LoginInvalidoException;
 import br.ufrpe_SistemaAcademia.negocio.Fachada;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
 import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class TelaInicial extends javax.swing.JFrame {
     
-    private Pessoa usuario;
-
-    public Pessoa getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Pessoa usuario) {
-        this.usuario = usuario;
-    }
-    
     public TelaInicial() {
         initComponents();
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -196,18 +184,18 @@ public class TelaInicial extends javax.swing.JFrame {
         String email = txtLogin.getText();
         String senha = String.valueOf(txtSenha.getPassword());
                 
-        usuario = Fachada.getInstance().login(email, senha);
+        Fachada.getInstance().setUsuario(Fachada.getInstance().login(email, senha));
 
         txtLogin.setText("");
         txtSenha.setText("");
         
-        if(usuario != null){
+        if(Fachada.getInstance().getUsuario() != null){
             
-            if(usuario instanceof Gerente){
+            if(Fachada.getInstance().getUsuario() instanceof Gerente){
                 new TelaGerente().setVisible(true);
-            }else if(usuario instanceof Professor){
+            }else if(Fachada.getInstance().getUsuario() instanceof Professor){
                 new TelaProfessor().setVisible(true);
-            }else if(usuario instanceof Aluno){
+            }else if(Fachada.getInstance().getUsuario() instanceof Aluno){
                 new TelaAluno().setVisible(true);
             }
         }else{

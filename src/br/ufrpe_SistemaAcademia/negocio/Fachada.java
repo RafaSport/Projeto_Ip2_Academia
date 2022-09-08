@@ -21,6 +21,7 @@ public class Fachada {
     private ControladorPessoa controladorPessoa;
     private ControladorTreino controladorTreino;
     private ControladorTreinoExecutado controladorTreinoExecutado;
+    private Pessoa usuario;
 
     private Fachada() {
         this.controladorPessoa = ControladorPessoa.getInstance();
@@ -121,6 +122,13 @@ public class Fachada {
                                     throws ElementoNaoExisteException{
         return this.controladorTreinoExecutado.consultarTreinoExecutado(treinoExecutado);
     }
-    
+
+    public Pessoa getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Pessoa usuario) {
+        this.usuario = usuario;
+    }
 
 }

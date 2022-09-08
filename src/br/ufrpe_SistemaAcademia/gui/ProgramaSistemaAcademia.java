@@ -84,6 +84,10 @@ public class ProgramaSistemaAcademia {
             System.out.println(p.getNome());
         }
         
+        Fachada.getInstance().setUsuario(a1);
+        
+        System.out.println(Fachada.getInstance().getUsuario().getNome());
+        
         new TelaInicial().setVisible(true);
         
     } 
