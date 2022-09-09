@@ -8,11 +8,13 @@ public class PlanoPagamento {
     private Double valorMensal;
     private Integer qtdMesPago;
     private LocalDate dataInicio;
+    private LocalDate dataFim;
 
     public PlanoPagamento(Double valorMensal, Integer qtdMesPago, LocalDate dataInicio) {
         this.valorMensal = valorMensal;
         this.qtdMesPago = qtdMesPago;
         this.dataInicio = dataInicio;
+        this.dataFim = this.dataInicio.plusMonths(this.qtdMesPago);
     }
 
     public PlanoPagamento() {
@@ -42,6 +44,10 @@ public class PlanoPagamento {
         this.dataInicio = dataInicio;
     }
 
+    public LocalDate getDataFim() {
+        return dataFim;
+    }
+    
     @Override
     public String toString() {
         return "PlanoPagamento{" + "valorMensal=" + valorMensal + ", qtdMesPago=" + qtdMesPago + ", dataInicio=" + dataInicio + '}';

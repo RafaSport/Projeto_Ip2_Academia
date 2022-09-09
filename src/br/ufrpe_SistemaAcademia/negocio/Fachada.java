@@ -79,6 +79,10 @@ public class Fachada {
         return controladorPessoa.login(email, senha);
     }
     
+    public String dateParaString(LocalDate data){
+        return this.controladorPessoa.dataParaString(data);
+    }
+    
     //--------------------Metodos Delegate ControladorTreino---------------------
     public void cadastrarPlanoTreino(Professor p, Aluno a, List<Treino> treinos, 
             LocalDate dataInicio) throws ProfessorNaoContemAluno, ElementoJaExisteException{

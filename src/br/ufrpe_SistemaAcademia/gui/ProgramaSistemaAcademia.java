@@ -9,7 +9,6 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Exercicio;
 import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
 import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.PlanoPagamento;
-import br.ufrpe_SistemaAcademia.negocio.bean.PlanoTreinoSemanal;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import br.ufrpe_SistemaAcademia.negocio.bean.Treino;
 import java.time.LocalDate;
@@ -39,19 +38,17 @@ public class ProgramaSistemaAcademia {
                             LocalDate.of(1995, 7, 24), "joao@gmail.com");
         Pessoa a4 = new Aluno("004", (Professor) p2, "maria", "4040", 
                             LocalDate.of(1999, 2, 21), "maria@gmail.com");
-        try {
+        
             
-            Fachada.getInstance().adicionar(gerente, gerente);
-            Fachada.getInstance().adicionar(gerente, a1);
-            Fachada.getInstance().adicionar(gerente, a2);
-            Fachada.getInstance().adicionar(gerente, a3);
-            Fachada.getInstance().adicionar(gerente, a4);
-            
-            Fachada.getInstance().adicionar(gerente, p1);
-            Fachada.getInstance().adicionar(gerente, p2);
-        } catch (ElementoJaExisteException e) {
-            System.out.println("\n-------------\nErro ao cadastrar\n\n");
-        }
+        Fachada.getInstance().adicionar(gerente, gerente);
+        Fachada.getInstance().adicionar(gerente, a1);
+        Fachada.getInstance().adicionar(gerente, a2);
+        Fachada.getInstance().adicionar(gerente, a3);
+        Fachada.getInstance().adicionar(gerente, a4);
+
+        Fachada.getInstance().adicionar(gerente, p1);
+        Fachada.getInstance().adicionar(gerente, p2);
+
         
         
         Exercicio e1 = new Exercicio("Musculacao", 10, 5);
@@ -72,22 +69,16 @@ public class ProgramaSistemaAcademia {
         treinos.add(t2);
         treinos.add(t1);
         
-        PlanoTreinoSemanal pt1 = new PlanoTreinoSemanal(LocalDate.now());
+        Fachada.getInstance().cadastrarPlanoTreino((Professor)p1, (Aluno)a1, treinos, LocalDate.now());
         
         PlanoPagamento pg1 = new PlanoPagamento(70.0, 3, LocalDate.now());
         
         Fachada.getInstance().cadastrarAlunoParaProfessor((Aluno)a1, (Professor)p1);
         Fachada.getInstance().cadastrarAlunoParaProfessor((Aluno)a2, (Professor)p1);
-        Fachada.getInstance().cadastrarPlanoTreino((Professor)p1, (Aluno)a1, treinos, LocalDate.now());
-        
-        for(Pessoa p: Fachada.getInstance().listarTodos()){
-            System.out.println(p.getNome());
-        }
         
         Fachada.getInstance().setUsuario(a1);
-        
-        System.out.println(Fachada.getInstance().getUsuario().getNome());
-        
+        ((Aluno)a1).setPlanoPagamento(pg1);
+      
         new TelaInicial().setVisible(true);
         
     } 

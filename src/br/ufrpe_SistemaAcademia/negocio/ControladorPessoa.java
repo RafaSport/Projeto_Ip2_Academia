@@ -4,11 +4,12 @@ import br.ufrpe_SistemaAcademia.dados.IRepositorioGenerico;
 import br.ufrpe_SistemaAcademia.dados.RepositorioGenerico;
 import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
 import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
-import br.ufrpe_SistemaAcademia.exception.LoginInvalidoException;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
 import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ControladorPessoa {
@@ -96,4 +97,20 @@ public class ControladorPessoa {
         }
         return usuario;
     }
+
+
+    public String dataParaString(LocalDate d){
+        LocalDate data = d;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String dataFim = data.format(formatter);  
+        
+        return dataFim;
+    }
+    
+    public LocalDate stringParaLocalDate (String s){
+        return null;
+    }
+
 }
+
+    
