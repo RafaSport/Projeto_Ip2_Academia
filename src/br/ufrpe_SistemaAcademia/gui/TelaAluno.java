@@ -1,41 +1,60 @@
 
 package br.ufrpe_SistemaAcademia.gui;
 
+import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
+import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
 import br.ufrpe_SistemaAcademia.negocio.Fachada;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Exercicio;
 import br.ufrpe_SistemaAcademia.negocio.bean.Treino;
+import br.ufrpe_SistemaAcademia.negocio.bean.TreinoExecutado;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TelaAluno extends javax.swing.JFrame {
+    
+    Aluno usuario = (Aluno)Fachada.getInstance().getUsuario();
+    TreinoExecutado treinoExecutado;
 
     public TelaAluno() {
         initComponents();
         
-        Aluno usuario = (Aluno)Fachada.getInstance().getUsuario();
+        
         lblNome.setText(usuario.getNome());
-       
-        LocalDate data = usuario.getPlanoPagamento().getDataFim();     
-        String dataFim = Fachada.getInstance().dateParaString(data);
         
-        lblMes.setText(dataFim);
+        if(usuario.getPlanoPagamento() != null){
+            LocalDate data = usuario.getPlanoPagamento().getDataFim();     
+            String dataFim = Fachada.getInstance().dateParaString(data);
         
-        LocalDate dtTreinoInicio = usuario.getPlanoTreino().getDataInicio();
-        LocalDate dtTreinoFim = usuario.getPlanoTreino().getDataFim();
+            lblMes.setText(dataFim);
+        }else{
+            lblMes.setText("------------");
+        }
         
-        String dataTreinoInicio = Fachada.getInstance().dateParaString(dtTreinoInicio);
-        String dataTreinoFim = Fachada.getInstance().dateParaString(dtTreinoFim);
-        
-        lblTreinoInicio.setText(dataTreinoInicio);
-        lblTreinoFim.setText(dataTreinoFim);
-        
-        List<Exercicio> lista = usuario.getPlanoTreino().getTreinos().get(1).getExercicios();
-        
-        for( int i = 0; i < lista.size(); i++){
-            tableExercicios.setValueAt(lista.get(i).getTipoExercicio(), i, 0);
-            tableExercicios.setValueAt(lista.get(i).getDuracao(), i, 1);
-            tableExercicios.setValueAt(lista.get(i).getSerie(), i, 2);
+        if(usuario.getPlanoTreino() != null){
+                  
+            LocalDate dtTreinoInicio = usuario.getPlanoTreino().getDataInicio();
+            LocalDate dtTreinoFim = usuario.getPlanoTreino().getDataFim();
+
+            String dataTreinoInicio = Fachada.getInstance().dateParaString(dtTreinoInicio);
+            String dataTreinoFim = Fachada.getInstance().dateParaString(dtTreinoFim);
+
+            lblTreinoInicio.setText(dataTreinoInicio);
+            lblTreinoFim.setText(dataTreinoFim);
+
+            List<Exercicio> lista = usuario.getPlanoTreino().getTreinos().get(1).getExercicios();
+
+            for( int i = 0; i < lista.size(); i++){
+                tableExercicios.setValueAt(lista.get(i).getTipoExercicio(), i, 0);
+                tableExercicios.setValueAt(lista.get(i).getDuracao(), i, 1);
+                tableExercicios.setValueAt(lista.get(i).getSerie(), i, 2);
+            }
+        }else{
+            lblTreinoInicio.setText("------------");
+            lblTreinoFim.setText("-------------");
         }
     }
 
@@ -65,18 +84,19 @@ public class TelaAluno extends javax.swing.JFrame {
         lblTreinoInicio = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableExercicios = new javax.swing.JTable();
+        btnTreinar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtDia = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        txtAno = new javax.swing.JTextField();
+        txtMes = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tableExercicios1 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        tableExerciciosExecutado = new javax.swing.JTable();
+        btnConsultar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tela do Aluno");
@@ -173,33 +193,45 @@ public class TelaAluno extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tableExercicios);
 
+        btnTreinar.setText("Treinar");
+        btnTreinar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTreinarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblNome, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 12, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblMes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblTreinoInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblNome, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 12, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
+                        .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblMes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTreinoInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTreinoFim, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblTreinoFim, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnTreinar)))
                 .addContainerGap())
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,8 +251,10 @@ public class TelaAluno extends javax.swing.JFrame {
                     .addComponent(lblTreinoFim)
                     .addComponent(lblTreinoInicio))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnTreinar)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Principal", jPanel2);
@@ -239,7 +273,7 @@ public class TelaAluno extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jLabel11.setText("Ano:");
 
-        tableExercicios1.setModel(new javax.swing.table.DefaultTableModel(
+        tableExerciciosExecutado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -250,9 +284,14 @@ public class TelaAluno extends javax.swing.JFrame {
                 "Exercio", "Duração (Min)", "Series (qtd)"
             }
         ));
-        jScrollPane2.setViewportView(tableExercicios1);
+        jScrollPane2.setViewportView(tableExerciciosExecutado);
 
-        jButton2.setText("Consultar");
+        btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -262,17 +301,17 @@ public class TelaAluno extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(20, Short.MAX_VALUE))
             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
         );
@@ -282,12 +321,12 @@ public class TelaAluno extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsultar))
                 .addGap(9, 9, 9)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
                 .addContainerGap())
@@ -344,6 +383,65 @@ public class TelaAluno extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnTreinarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTreinarActionPerformed
+        if(usuario.getPlanoTreino() != null){
+            LocalDate diaDoTreino = LocalDate.now();
+            Treino treino = usuario.getPlanoTreino().getTreinos().get(1);
+            treinoExecutado = new TreinoExecutado(usuario, treino, diaDoTreino);
+            
+            try {
+                Fachada.getInstance().salvarTreinoExecutado(treinoExecutado);
+                if(Fachada.getInstance().consultarTreinoExecutado(treinoExecutado) != null){
+                    System.out.println("salvou");
+                    System.out.println(treinoExecutado.getDiaDoTreinoRealizado());
+                }else{
+                    System.out.println("Nao salvou");
+                }
+                
+               
+            } catch (ElementoJaExisteException ex) {
+                ex.getElemento();
+            } catch (ElementoNaoExisteException ex) {
+                ex.getElemento();
+            }
+           
+            
+        }
+    }//GEN-LAST:event_btnTreinarActionPerformed
+
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        
+        Integer dia = Integer.parseInt(txtDia.getText());
+        Integer mes = Integer.parseInt(txtMes.getText());
+        Integer ano = Integer.parseInt(txtAno.getText());
+        
+        LocalDate diaDoTreino = LocalDate.of(ano, mes, dia);
+        
+        TreinoExecutado treinoPesquisado = new TreinoExecutado(usuario, diaDoTreino);
+        //colocando abaixo
+        List<Exercicio> lista = new ArrayList<>();
+        try {
+            TreinoExecutado te = Fachada.getInstance().consultarTreinoExecutado(treinoPesquisado);
+            lista.addAll(te.getTreino().getExercicios());
+        } catch (ElementoNaoExisteException ex) {
+            ex.getElemento();
+        }
+         
+        
+        
+
+        if(lista != null){
+            for( int i = 0; i < lista.size(); i++){
+            tableExerciciosExecutado.setValueAt(lista.get(i).getTipoExercicio(), i, 0);
+            tableExerciciosExecutado.setValueAt(lista.get(i).getDuracao(), i, 1);
+            tableExerciciosExecutado.setValueAt(lista.get(i).getSerie(), i, 2);
+            }
+        
+        }else{
+            System.out.println("Nao salvou");
+        }
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -383,8 +481,9 @@ public class TelaAluno extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnConsultar;
+    private javax.swing.JButton btnTreinar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -403,14 +502,14 @@ public class TelaAluno extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lblMes;
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblTreinoFim;
     private javax.swing.JLabel lblTreinoInicio;
     private javax.swing.JTable tableExercicios;
-    private javax.swing.JTable tableExercicios1;
+    private javax.swing.JTable tableExerciciosExecutado;
+    private javax.swing.JTextField txtAno;
+    private javax.swing.JTextField txtDia;
+    private javax.swing.JTextField txtMes;
     // End of variables declaration//GEN-END:variables
 }
