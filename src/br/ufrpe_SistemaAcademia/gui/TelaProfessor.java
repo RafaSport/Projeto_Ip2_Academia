@@ -168,10 +168,10 @@ public class TelaProfessor extends javax.swing.JFrame {
         jLabel8.setText("Nome do Aluno :");
 
         jLabel11.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        jLabel11.setText("Treino = ");
+        jLabel11.setText("Treino :");
 
         jLabel12.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
-        jLabel12.setText("Exercicios = ");
+        jLabel12.setText("Exercicios :");
 
         lblTreino.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         lblTreino.setText("...");

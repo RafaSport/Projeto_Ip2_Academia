@@ -13,6 +13,7 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import br.ufrpe_SistemaAcademia.negocio.bean.TipoTreino;
 import br.ufrpe_SistemaAcademia.negocio.bean.Treino;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class ProgramaSistemaAcademia {
     public static void main(String[] args) throws ElementoJaExisteException, ProfessorNaoContemAluno {
         
         testes();
-        /*
+       /*
         LocalDate data = LocalDate.of(2021, 9, 12);
         LocalDate hoje = LocalDate.now();
         
@@ -110,15 +111,15 @@ public class ProgramaSistemaAcademia {
         treinos.add(t5);//sexta
         treinos.add(t6);//sabado
         
-        Fachada.getInstance().cadastrarPlanoTreino((Professor)p1, (Aluno)a1, treinos, LocalDate.now());
+        Fachada.getInstance().cadastrarPlanoTreino((Professor)p1, (Aluno)a1, treinos, LocalDate.of(2022, 7, 5));
         
-        PlanoPagamento pg1 = new PlanoPagamento(70.0, 3, LocalDate.of(2022, 6, 13));
+        PlanoPagamento pg1 = new PlanoPagamento(70.0, 3, LocalDate.of(2022, 6, 14));
         
         Fachada.getInstance().cadastrarAlunoParaProfessor((Aluno)a1, (Professor)p1);
         Fachada.getInstance().cadastrarAlunoParaProfessor((Aluno)a2, (Professor)p1);
         
         Fachada.getInstance().setUsuario(a1);
-        ((Aluno)a1).setPlanoPagamento(pg1);
+        //((Aluno)a1).setPlanoPagamento(pg1);
       
         new TelaInicial().setVisible(true);
     }

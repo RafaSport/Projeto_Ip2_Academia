@@ -1,6 +1,7 @@
 package br.ufrpe_SistemaAcademia.negocio;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 public class ControladorSistema {
@@ -28,5 +29,12 @@ public class ControladorSistema {
     
     public LocalDate stringParaLocalDate (String s){
         return null;
+    }
+    
+    public boolean dataNaValidade(LocalDate dataLimite, LocalDate dataParaVerificar){
+        
+        Period periodo = Period.between(dataLimite, dataParaVerificar );
+        
+        return periodo.isNegative();
     }
 }

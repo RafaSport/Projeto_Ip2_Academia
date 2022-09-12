@@ -35,58 +35,66 @@ public class TelaAluno extends javax.swing.JFrame {
         
             lblMes.setText(dataFim);
             
+        
+
+            if(usuario.getPlanoTreino() != null){
+
+                LocalDate dtTreinoInicio = usuario.getPlanoTreino().getDataInicio();
+                LocalDate dtTreinoFim = usuario.getPlanoTreino().getDataFim();
+
+                String dataTreinoInicio = Fachada.getInstance().dateParaString(dtTreinoInicio);
+                String dataTreinoFim = Fachada.getInstance().dateParaString(dtTreinoFim);
+
+                lblTreinoInicio.setText(dataTreinoInicio);
+                lblTreinoFim.setText(dataTreinoFim);
+
+                boolean hojeEhDomingo = true;
+                List<Exercicio> lista = null;
+
+                try {
+
+                    lista = Fachada.getInstance().listaDeExerciciosDoDiaDaSemana(usuario, LocalDate.now().plusDays(0));
+
+                } catch (ArrayIndexOutOfBoundsException e) {
+
+                    JOptionPane.showMessageDialog(null, 
+                            "Lista Incompleta! Não possui treino para " + hoje.getDayOfWeek(), "ERRO", 0);
+                    hojeEhDomingo = false;
+                }
+
+                LocalDate dataLimiteDoTreino = usuario.getPlanoTreino().getDataFim();
+
+                if(lista != null){
+
+                    if(Fachada.getInstance().dataNaValidade(dataLimiteDoTreino, LocalDate.now())){
+                        for( int i = 0; i < lista.size(); i++){
+
+                            tableExercicios.setValueAt(lista.get(i).getTipoExercicio(), i, 0);
+                            tableExercicios.setValueAt(lista.get(i).getDuracao(), i, 1);
+                            tableExercicios.setValueAt(lista.get(i).getSerie(), i, 2);
+                        }
+
+                        podeSalvar = true;
+                        hojeEhDomingo = false;
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Treino fora da data procure seu Professor!", "ERRO", 0);
+                    }
+
+
+                }else{
+                    if(hojeEhDomingo){
+                        JOptionPane.showMessageDialog(null, "Não há treinos no domingo", "ERRO", 0);
+                    }
+
+                }
+
+            }else{
+                lblTreinoInicio.setText("------------");
+                lblTreinoFim.setText("-------------");
+            }
         }else{
             lblMes.setText("------------");
-        }
-        
-        if(usuario.getPlanoTreino() != null){
-                  
-            LocalDate dtTreinoInicio = usuario.getPlanoTreino().getDataInicio();
-            LocalDate dtTreinoFim = usuario.getPlanoTreino().getDataFim();
-
-            String dataTreinoInicio = Fachada.getInstance().dateParaString(dtTreinoInicio);
-            String dataTreinoFim = Fachada.getInstance().dateParaString(dtTreinoFim);
-
-            lblTreinoInicio.setText(dataTreinoInicio);
-            lblTreinoFim.setText(dataTreinoFim);
-
-            boolean hojeEhDomingo = true;
-            List<Exercicio> lista = null;
             
-            try {
-             
-                lista = Fachada.getInstance().listaDeExerciciosDoDiaDaSemana(usuario, LocalDate.now());
-                
-            } catch (ArrayIndexOutOfBoundsException e) {
-                
-                JOptionPane.showMessageDialog(null, 
-                        "Lista Incompleta! Não possui treino para " + hoje.getDayOfWeek(), "ERRO", 0);
-                hojeEhDomingo = false;
-            }
-            
-
-            if(lista != null){
-                
-                for( int i = 0; i < lista.size(); i++){
-                    
-                    tableExercicios.setValueAt(lista.get(i).getTipoExercicio(), i, 0);
-                    tableExercicios.setValueAt(lista.get(i).getDuracao(), i, 1);
-                    tableExercicios.setValueAt(lista.get(i).getSerie(), i, 2);
-                }
-                
-                podeSalvar = true;
-                hojeEhDomingo = false;
-                
-            }else{
-                if(hojeEhDomingo){
-                    JOptionPane.showMessageDialog(null, "Não há treinos no domingo", "ERRO", 0);
-                }
-                
-            }
-            
-        }else{
-            lblTreinoInicio.setText("------------");
-            lblTreinoFim.setText("-------------");
         }
     }
 
@@ -447,6 +455,7 @@ public class TelaAluno extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnTreinarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTreinarActionPerformed
+        
         if(usuario.getPlanoTreino() != null){
             
             LocalDate diaDoTreino = LocalDate.now();       
@@ -471,6 +480,8 @@ public class TelaAluno extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Não há treino para salvar", "ERRO", 0);
             }
                       
+        }else{
+            JOptionPane.showMessageDialog(null, "Treino não cadastrado!", "ERRO", 0);
         }
     }//GEN-LAST:event_btnTreinarActionPerformed
 

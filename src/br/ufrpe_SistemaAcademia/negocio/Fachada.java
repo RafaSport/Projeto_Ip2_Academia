@@ -150,8 +150,12 @@ public class Fachada {
         return this.controladorSistema.dataParaString(data);
     }
     
-    
+    public boolean dataNaValidade(LocalDate dataLimite, LocalDate dataParaVerificar){
+        return this.controladorSistema.dataNaValidade(dataLimite, dataParaVerificar);
+    }
 
+    
+    
     //---------------------Getters e Setters------------------------------------
     
     public Pessoa getUsuario() {

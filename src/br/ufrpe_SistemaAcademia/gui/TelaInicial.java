@@ -200,10 +200,15 @@ public class TelaInicial extends javax.swing.JFrame {
                 
                 Aluno usuario = (Aluno)Fachada.getInstance().getUsuario();
                 
-                if(!Fachada.getInstance().pagamentoEmDiaDoAluno(usuario)){
-                    new TelaAluno().setVisible(true);
+                if(usuario.getPlanoPagamento() != null){
+                    if(!Fachada.getInstance().pagamentoEmDiaDoAluno(usuario)){
+                        new TelaAluno().setVisible(true);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Pagamento atrasado, procurar o gerente!", "ATENÇÃO", 1);
+                    }
+                    
                 }else{
-                    JOptionPane.showMessageDialog(null, "Pagamento atrasado, procurar o gerente!", "ATENÇÃO", 1);
+                    JOptionPane.showMessageDialog(null, "Cadastre um plano de pagamento com o gerente!!", "ATENÇÃO", 1);                  
                 }
                 
             }
