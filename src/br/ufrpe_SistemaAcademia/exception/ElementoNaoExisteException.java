@@ -5,7 +5,7 @@ public class ElementoNaoExisteException extends Exception{
     private Object elemento;
 
     public ElementoNaoExisteException(Object elemento) {
-        super("Objeto ja esta cadastrado!");
+        super("Objeto nao esta cadastrado!");
         this.elemento = elemento;
     }
 

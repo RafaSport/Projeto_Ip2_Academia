@@ -2,6 +2,9 @@ package br.ufrpe_SistemaAcademia.dados;
 
 import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
 import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
+import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
+import br.ufrpe_SistemaAcademia.negocio.bean.TreinoExecutado;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,7 @@ public class RepositorioDeTreino <TreinoExecutado> {
     
     public TreinoExecutado consultarTreinoExecutado(TreinoExecutado treinoExecutado)
                             throws ElementoNaoExisteException{
+        
         
         if(this.lista.contains(treinoExecutado)){
             int x = this.lista.indexOf(treinoExecutado);

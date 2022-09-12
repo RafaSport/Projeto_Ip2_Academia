@@ -19,6 +19,11 @@ public class ProgramaSistemaAcademia {
     
     public static void main(String[] args) throws ElementoJaExisteException, ProfessorNaoContemAluno {
         
+        testes();
+      
+    } 
+    
+    public static void testes() throws ElementoJaExisteException, ProfessorNaoContemAluno{
         
         Pessoa gerente = new Gerente("999", "jose", "3030", 
                                   LocalDate.of(1989, 11, 17), "jose@gmail.com");
@@ -51,23 +56,52 @@ public class ProgramaSistemaAcademia {
 
         
         
-        Exercicio e1 = new Exercicio("Musculacao", 10, 5);
+        Exercicio e1 = new Exercicio("Musculacao pernas", 10, 5);
         Exercicio e2 = new Exercicio("barra", 15, 3);
         Exercicio e3 = new Exercicio("corrida", 30, 1);
         Exercicio e4 = new Exercicio("aerobica", 5, 3);
-        
+        Exercicio e5 = new Exercicio("Musculacao braços", 10, 3);
+        Exercicio e6 = new Exercicio("Bicicleta", 20, 2);
+        Exercicio e7 = new Exercicio("Musculacao peito", 10, 4);
+        Exercicio e8 = new Exercicio("Musculacao bunda", 15, 2);
+        //segunda
         Treino t1 = new Treino();
         t1.addExercicios(e1);
         t1.addExercicios(e2);
         t1.addExercicios(e3);
-        
+        //terça
         Treino t2 = new Treino();
         t2.addExercicios(e1);
         t2.addExercicios(e4);
+        t2.addExercicios(e8);
+        //quarta
+        Treino t3 = new Treino();
+        t3.addExercicios(e5);
+        t3.addExercicios(e6);
+        t3.addExercicios(e7);
+        //quinta
+        Treino t4 = new Treino();
+        t4.addExercicios(e2);
+        t4.addExercicios(e4);
+        t4.addExercicios(e6);
+        //sexta
+        Treino t5 = new Treino();
+        t5.addExercicios(e1);
+        t5.addExercicios(e3);
+        t5.addExercicios(e5);
+        //sabado
+        Treino t6 = new Treino();
+        t6.addExercicios(e6);
+        t6.addExercicios(e7);
+        t6.addExercicios(e8);
         
         List<Treino> treinos = new ArrayList<>();
-        treinos.add(t2);
-        treinos.add(t1);
+        treinos.add(t1);//seguda
+        treinos.add(t2);//terca
+        treinos.add(t3);//quarta
+        treinos.add(t4);//quinta
+        treinos.add(t5);//sexta
+        treinos.add(t6);//sabado
         
         Fachada.getInstance().cadastrarPlanoTreino((Professor)p1, (Aluno)a1, treinos, LocalDate.now());
         
@@ -80,7 +114,5 @@ public class ProgramaSistemaAcademia {
         ((Aluno)a1).setPlanoPagamento(pg1);
       
         new TelaInicial().setVisible(true);
-        
-    } 
-    
+    }
 }

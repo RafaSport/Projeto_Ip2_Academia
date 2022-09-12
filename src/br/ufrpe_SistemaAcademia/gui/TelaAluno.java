@@ -11,25 +11,30 @@ import br.ufrpe_SistemaAcademia.negocio.bean.TreinoExecutado;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class TelaAluno extends javax.swing.JFrame {
     
     Aluno usuario = (Aluno)Fachada.getInstance().getUsuario();
     TreinoExecutado treinoExecutado;
+    boolean podeSalvar = false;
 
     public TelaAluno() {
-        initComponents();
-        
+        initComponents();        
         
         lblNome.setText(usuario.getNome());
+        lblDiaDaSemana.setText(String.valueOf(LocalDate.now().getDayOfWeek()));
+        LocalDate hoje = LocalDate.now();
+        String hoje1 = Fachada.getInstance().dateParaString(hoje);
+        lblHoje.setText(hoje1);
         
         if(usuario.getPlanoPagamento() != null){
+            
             LocalDate data = usuario.getPlanoPagamento().getDataFim();     
             String dataFim = Fachada.getInstance().dateParaString(data);
         
             lblMes.setText(dataFim);
+            
         }else{
             lblMes.setText("------------");
         }
@@ -45,13 +50,40 @@ public class TelaAluno extends javax.swing.JFrame {
             lblTreinoInicio.setText(dataTreinoInicio);
             lblTreinoFim.setText(dataTreinoFim);
 
-            List<Exercicio> lista = usuario.getPlanoTreino().getTreinos().get(1).getExercicios();
-
-            for( int i = 0; i < lista.size(); i++){
-                tableExercicios.setValueAt(lista.get(i).getTipoExercicio(), i, 0);
-                tableExercicios.setValueAt(lista.get(i).getDuracao(), i, 1);
-                tableExercicios.setValueAt(lista.get(i).getSerie(), i, 2);
+            boolean hojeEhDomingo = true;
+            List<Exercicio> lista = null;
+            
+            try {
+             
+                lista = Fachada.getInstance().listaDeExerciciosDoDiaDaSemana(usuario, LocalDate.now());
+                
+            } catch (ArrayIndexOutOfBoundsException e) {
+                
+                JOptionPane.showMessageDialog(null, 
+                        "Lista Incompleta! Não possui treino para " + hoje.getDayOfWeek(), "ERRO", 0);
+                hojeEhDomingo = false;
             }
+            
+
+            if(lista != null){
+                
+                for( int i = 0; i < lista.size(); i++){
+                    
+                    tableExercicios.setValueAt(lista.get(i).getTipoExercicio(), i, 0);
+                    tableExercicios.setValueAt(lista.get(i).getDuracao(), i, 1);
+                    tableExercicios.setValueAt(lista.get(i).getSerie(), i, 2);
+                }
+                
+                podeSalvar = true;
+                hojeEhDomingo = false;
+                
+            }else{
+                if(hojeEhDomingo){
+                    JOptionPane.showMessageDialog(null, "Não há treinos no domingo", "ERRO", 0);
+                }
+                
+            }
+            
         }else{
             lblTreinoInicio.setText("------------");
             lblTreinoFim.setText("-------------");
@@ -85,6 +117,10 @@ public class TelaAluno extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableExercicios = new javax.swing.JTable();
         btnTreinar = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        lblHoje = new javax.swing.JLabel();
+        lblDiaDaSemana = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -146,6 +182,8 @@ public class TelaAluno extends javax.swing.JFrame {
                     .addContainerGap(8, Short.MAX_VALUE)))
         );
 
+        jButton1.setBackground(new java.awt.Color(153, 153, 153));
+        jButton1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jButton1.setText("Sair");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,7 +201,7 @@ public class TelaAluno extends javax.swing.JFrame {
         lblNome.setText("Vazio");
 
         jLabel4.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        jLabel4.setText("Plano até o mes :");
+        jLabel4.setText("Validade do Plano:");
 
         lblMes.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         lblMes.setText("Vazio");
@@ -193,6 +231,9 @@ public class TelaAluno extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(tableExercicios);
 
+        btnTreinar.setBackground(new java.awt.Color(0, 0, 204));
+        btnTreinar.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        btnTreinar.setForeground(new java.awt.Color(255, 255, 255));
         btnTreinar.setText("Treinar");
         btnTreinar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,34 +241,58 @@ public class TelaAluno extends javax.swing.JFrame {
             }
         });
 
+        jLabel12.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel12.setText("Data :");
+
+        jLabel13.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel13.setText("Dia:");
+
+        lblHoje.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        lblHoje.setText("Vazio");
+
+        lblDiaDaSemana.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        lblDiaDaSemana.setText("Vazio");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblNome, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 12, Short.MAX_VALUE))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(lblNome, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGap(23, 23, 23)
+                                                .addComponent(jLabel13)
+                                                .addGap(5, 5, 5))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                                .addComponent(jLabel12)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblDiaDaSemana, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lblHoje, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel4)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblMes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblTreinoInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel3)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTreinoFim, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblTreinoInicio, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                            .addComponent(lblMes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTreinoFim, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnTreinar)))
@@ -239,22 +304,26 @@ public class TelaAluno extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(lblNome))
+                    .addComponent(lblNome)
+                    .addComponent(jLabel4)
+                    .addComponent(lblMes))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblMes)
-                    .addComponent(jLabel4))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lblTreinoInicio)
+                    .addComponent(jLabel12)
+                    .addComponent(lblHoje))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel5)
                     .addComponent(lblTreinoFim)
-                    .addComponent(lblTreinoInicio))
+                    .addComponent(jLabel13)
+                    .addComponent(lblDiaDaSemana))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnTreinar)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Principal", jPanel2);
@@ -286,6 +355,9 @@ public class TelaAluno extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tableExerciciosExecutado);
 
+        btnConsultar.setBackground(new java.awt.Color(0, 0, 153));
+        btnConsultar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnConsultar.setForeground(new java.awt.Color(255, 255, 255));
         btnConsultar.setText("Consultar");
         btnConsultar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -312,23 +384,24 @@ public class TelaAluno extends javax.swing.JFrame {
                 .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10)
-                    .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11)
-                    .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnConsultar))
-                .addGap(9, 9, 9)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel9)
+                        .addComponent(txtDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel10)
+                        .addComponent(txtMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel11)
+                        .addComponent(txtAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -362,14 +435,14 @@ public class TelaAluno extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addContainerGap())
@@ -385,27 +458,29 @@ public class TelaAluno extends javax.swing.JFrame {
 
     private void btnTreinarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTreinarActionPerformed
         if(usuario.getPlanoTreino() != null){
-            LocalDate diaDoTreino = LocalDate.now();
-            Treino treino = usuario.getPlanoTreino().getTreinos().get(1);
-            treinoExecutado = new TreinoExecutado(usuario, treino, diaDoTreino);
             
-            try {
-                Fachada.getInstance().salvarTreinoExecutado(treinoExecutado);
-                if(Fachada.getInstance().consultarTreinoExecutado(treinoExecutado) != null){
-                    System.out.println("salvou");
-                    System.out.println(treinoExecutado.getDiaDoTreinoRealizado());
-                }else{
-                    System.out.println("Nao salvou");
-                }
+            LocalDate diaDoTreino = LocalDate.now();       
+            Treino treino = new Treino();
+            
+            if(podeSalvar){
                 
-               
-            } catch (ElementoJaExisteException ex) {
-                ex.getElemento();
-            } catch (ElementoNaoExisteException ex) {
-                ex.getElemento();
-            }
-           
+                treino.setExercicios(Fachada.getInstance().listaDeExerciciosDoDiaDaSemana(usuario, diaDoTreino));
+                
+                treinoExecutado = new TreinoExecutado(usuario, treino, diaDoTreino);
             
+                try {
+                    Fachada.getInstance().salvarTreinoExecutado(treinoExecutado);                   
+                        
+                    JOptionPane.showMessageDialog(null, "Treino salvo com sucesso", null, 1);
+                        
+                } catch (ElementoJaExisteException ex) {
+                    
+                    JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", 0);
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Não há treino para salvar", "ERRO", 0);
+            }
+                      
         }
     }//GEN-LAST:event_btnTreinarActionPerformed
 
@@ -424,11 +499,8 @@ public class TelaAluno extends javax.swing.JFrame {
             TreinoExecutado te = Fachada.getInstance().consultarTreinoExecutado(treinoPesquisado);
             lista.addAll(te.getTreino().getExercicios());
         } catch (ElementoNaoExisteException ex) {
-            ex.getElemento();
-        }
-         
-        
-        
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }   
 
         if(lista != null){
             for( int i = 0; i < lista.size(); i++){
@@ -487,6 +559,8 @@ public class TelaAluno extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -502,6 +576,8 @@ public class TelaAluno extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblDiaDaSemana;
+    private javax.swing.JLabel lblHoje;
     private javax.swing.JLabel lblMes;
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblTreinoFim;

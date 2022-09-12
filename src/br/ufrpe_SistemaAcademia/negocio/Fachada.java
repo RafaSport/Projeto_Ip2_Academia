@@ -2,7 +2,6 @@ package br.ufrpe_SistemaAcademia.negocio;
 
 import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
 import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
-import br.ufrpe_SistemaAcademia.exception.LoginInvalidoException;
 import br.ufrpe_SistemaAcademia.exception.ProfessorNaoContemAluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Exercicio;
@@ -115,6 +114,12 @@ public class Fachada {
         return this.controladorTreino.consultarTreino(p, a, treino);
     }
     
+    public List<Exercicio> listaDeExerciciosDoDiaDaSemana(Aluno a, LocalDate dia)
+            throws ArrayIndexOutOfBoundsException{
+        
+        return this.controladorTreino.listaDeExerciciosDoDiaDaSemana(a, dia);
+    }
+    
     //---------------Metodos Delegate ControladorTreinoExecutado----------------
 
     public void salvarTreinoExecutado(TreinoExecutado treinoExecutado)
@@ -126,7 +131,10 @@ public class Fachada {
                                     throws ElementoNaoExisteException{
         return this.controladorTreinoExecutado.consultarTreinoExecutado(treinoExecutado);
     }
+    
 
+    //---------------------Getters e Setters------------------------------------
+    
     public Pessoa getUsuario() {
         return usuario;
     }

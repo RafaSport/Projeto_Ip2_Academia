@@ -124,6 +124,60 @@ public class ControladorTreino {
         }else{
             throw new ProfessorNaoContemAluno(a.getProfessor());
         }
-    }   
+    }  
+    
+    
+    public List<Exercicio> listaDeExerciciosDoDiaDaSemana(Aluno a, LocalDate dia)
+                    throws ArrayIndexOutOfBoundsException{
+        
+        String diaDaSemana = String.valueOf(dia.getDayOfWeek());
+        
+        switch(diaDaSemana.toLowerCase()){
+            case "monday": {
+                if(a.getPlanoTreino().getTreinos() != null){
+                    return a.getPlanoTreino().getTreinos().get(0).getExercicios();
+                }else{
+                    throw new ArrayIndexOutOfBoundsException();
+                }
+            }
+            case "tuesday": {
+                if(a.getPlanoTreino().getTreinos().size() >= 2){
+                    return a.getPlanoTreino().getTreinos().get(1).getExercicios();
+                }else{
+                    throw new ArrayIndexOutOfBoundsException();
+                }
+            }
+            case "wednesday": {
+                if(a.getPlanoTreino().getTreinos().size() >= 3){
+                    return a.getPlanoTreino().getTreinos().get(2).getExercicios();
+                }else{
+                    throw new ArrayIndexOutOfBoundsException();
+                }
+            }
+            case "thursday": {
+                if(a.getPlanoTreino().getTreinos().size() >= 4){
+                    return a.getPlanoTreino().getTreinos().get(3).getExercicios();
+                }else{
+                    throw new ArrayIndexOutOfBoundsException();
+                }
+            }
+            case "friday": {
+                if(a.getPlanoTreino().getTreinos().size() >= 5){
+                    return a.getPlanoTreino().getTreinos().get(4).getExercicios();
+                }else{
+                    throw new ArrayIndexOutOfBoundsException();
+                }
+            }
+            case "Saturday": {
+                if(a.getPlanoTreino().getTreinos().size() >= 6){
+                    return a.getPlanoTreino().getTreinos().get(5).getExercicios();
+                }else{
+                    throw new ArrayIndexOutOfBoundsException();
+                }
+            }
+            default: return null;
+            
+        }
+    }
 
 }
