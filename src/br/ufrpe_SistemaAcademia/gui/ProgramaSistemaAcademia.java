@@ -13,7 +13,6 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import br.ufrpe_SistemaAcademia.negocio.bean.TipoTreino;
 import br.ufrpe_SistemaAcademia.negocio.bean.Treino;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
