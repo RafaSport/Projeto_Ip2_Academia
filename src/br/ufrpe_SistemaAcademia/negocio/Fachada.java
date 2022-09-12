@@ -20,12 +20,14 @@ public class Fachada {
     private ControladorPessoa controladorPessoa;
     private ControladorTreino controladorTreino;
     private ControladorTreinoExecutado controladorTreinoExecutado;
+    private ControladorSistema controladorSistema;
     private Pessoa usuario;
 
     private Fachada() {
         this.controladorPessoa = ControladorPessoa.getInstance();
         this.controladorTreino = ControladorTreino.getInstance();
         this.controladorTreinoExecutado = ControladorTreinoExecutado.getInstance();
+        this.controladorSistema = ControladorSistema.getInstance();
     }
     
     public static Fachada getInstance() {
@@ -35,7 +37,10 @@ public class Fachada {
         return instance;
     }
     
+    
+    
     //-----------------Metodos Delegate ControladorPessoa-----------------------
+    
     public void adicionar(Pessoa usuario, Pessoa p)throws ElementoJaExisteException{
        this.controladorPessoa.adicionar(usuario, p);
     }
@@ -78,11 +83,14 @@ public class Fachada {
         return controladorPessoa.login(email, senha);
     }
     
-    public String dateParaString(LocalDate data){
-        return this.controladorPessoa.dataParaString(data);
+    public boolean pagamentoEmDiaDoAluno(Aluno aluno){
+        return this.controladorPessoa.pagamentoEmDiaDoAluno(aluno);
     }
     
-    //--------------------Metodos Delegate ControladorTreino---------------------
+    
+    
+    //--------------------Metodos Delegate ControladorTreino--------------------
+    
     public void cadastrarPlanoTreino(Professor p, Aluno a, List<Treino> treinos, 
             LocalDate dataInicio) throws ProfessorNaoContemAluno, ElementoJaExisteException{
         
@@ -120,6 +128,8 @@ public class Fachada {
         return this.controladorTreino.listaDeExerciciosDoDiaDaSemana(a, dia);
     }
     
+    
+    
     //---------------Metodos Delegate ControladorTreinoExecutado----------------
 
     public void salvarTreinoExecutado(TreinoExecutado treinoExecutado)
@@ -131,6 +141,15 @@ public class Fachada {
                                     throws ElementoNaoExisteException{
         return this.controladorTreinoExecutado.consultarTreinoExecutado(treinoExecutado);
     }
+    
+    
+    
+    //------------------Metodos Delegate ControladorSistema---------------------
+    
+    public String dateParaString(LocalDate data){
+        return this.controladorSistema.dataParaString(data);
+    }
+    
     
 
     //---------------------Getters e Setters------------------------------------

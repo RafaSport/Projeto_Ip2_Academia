@@ -3,11 +3,11 @@ package br.ufrpe_SistemaAcademia.negocio.bean;
 
 public class Exercicio {
     
-    private String tipoExercicio;
+    private TipoTreino tipoExercicio;
     private Integer duracaoMinuto;
     private Integer serie;
 
-    public Exercicio(String tipoExercicio, Integer duracao, Integer serie) {
+    public Exercicio(TipoTreino tipoExercicio, Integer duracao, Integer serie) {
         this.tipoExercicio = tipoExercicio;
         this.duracaoMinuto = duracao;
         this.serie = serie;
@@ -16,11 +16,11 @@ public class Exercicio {
     public Exercicio() {
     }
 
-    public String getTipoExercicio() {
+    public TipoTreino getTipoExercicio() {
         return tipoExercicio;
     }
 
-    public void setTipoExercicio(String tipoExercicio) {
+    public void setTipoExercicio(TipoTreino tipoExercicio) {
         this.tipoExercicio = tipoExercicio;
     }
 

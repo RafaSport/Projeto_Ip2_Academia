@@ -9,6 +9,7 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
 import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -98,18 +99,19 @@ public class ControladorPessoa {
         return usuario;
     }
 
-
-    public String dataParaString(LocalDate d){
-        LocalDate data = d;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String dataFim = data.format(formatter);  
+    
+    public boolean pagamentoEmDiaDoAluno(Aluno aluno){
         
-        return dataFim;
+        LocalDate dataFinalPlano = aluno.getPlanoPagamento().getDataFim();
+        LocalDate hoje = LocalDate.now();
+        
+        Period periodo = Period.between(hoje, dataFinalPlano );
+        
+        return periodo.isNegative();
+        
     }
     
-    public LocalDate stringParaLocalDate (String s){
-        return null;
-    }
+   
 
 }
 

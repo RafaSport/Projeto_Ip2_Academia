@@ -10,8 +10,10 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
 import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.PlanoPagamento;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
+import br.ufrpe_SistemaAcademia.negocio.bean.TipoTreino;
 import br.ufrpe_SistemaAcademia.negocio.bean.Treino;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,14 @@ public class ProgramaSistemaAcademia {
     public static void main(String[] args) throws ElementoJaExisteException, ProfessorNaoContemAluno {
         
         testes();
-      
+        /*
+        LocalDate data = LocalDate.of(2021, 9, 12);
+        LocalDate hoje = LocalDate.now();
+        
+        Period periodo = Period.between(data, hoje);
+        
+        System.out.println(periodo.isNegative());
+        */
     } 
     
     public static void testes() throws ElementoJaExisteException, ProfessorNaoContemAluno{
@@ -53,17 +62,16 @@ public class ProgramaSistemaAcademia {
 
         Fachada.getInstance().adicionar(gerente, p1);
         Fachada.getInstance().adicionar(gerente, p2);
-
         
-        
-        Exercicio e1 = new Exercicio("Musculacao pernas", 10, 5);
-        Exercicio e2 = new Exercicio("barra", 15, 3);
-        Exercicio e3 = new Exercicio("corrida", 30, 1);
-        Exercicio e4 = new Exercicio("aerobica", 5, 3);
-        Exercicio e5 = new Exercicio("Musculacao braços", 10, 3);
-        Exercicio e6 = new Exercicio("Bicicleta", 20, 2);
-        Exercicio e7 = new Exercicio("Musculacao peito", 10, 4);
-        Exercicio e8 = new Exercicio("Musculacao bunda", 15, 2);
+        Exercicio e1 = new Exercicio(TipoTreino.MUSCULAÇÃO_BRAÇO, 10, 5);
+        Exercicio e2 = new Exercicio(TipoTreino.BICICLETA, 15, 3);
+        Exercicio e3 = new Exercicio(TipoTreino.ESTEIRA, 30, 1);
+        Exercicio e4 = new Exercicio(TipoTreino.AERÓBICA, 5, 3);
+        Exercicio e5 = new Exercicio(TipoTreino.MUSCULAÇÃO_COSTA, 10, 3);
+        Exercicio e6 = new Exercicio(TipoTreino.MUSCULAÇÃO_GLUTEO, 20, 2);
+        Exercicio e7 = new Exercicio(TipoTreino.MUSCULAÇÃO_PEITO, 10, 4);
+        Exercicio e8 = new Exercicio(TipoTreino.MUSCULAÇÃO_PERNA, 15, 2);
+        Exercicio e9 = new Exercicio(TipoTreino.BARRAS, 5, 4);
         //segunda
         Treino t1 = new Treino();
         t1.addExercicios(e1);
@@ -73,7 +81,7 @@ public class ProgramaSistemaAcademia {
         Treino t2 = new Treino();
         t2.addExercicios(e1);
         t2.addExercicios(e4);
-        t2.addExercicios(e8);
+        t2.addExercicios(e9);
         //quarta
         Treino t3 = new Treino();
         t3.addExercicios(e5);
@@ -105,7 +113,7 @@ public class ProgramaSistemaAcademia {
         
         Fachada.getInstance().cadastrarPlanoTreino((Professor)p1, (Aluno)a1, treinos, LocalDate.now());
         
-        PlanoPagamento pg1 = new PlanoPagamento(70.0, 3, LocalDate.now());
+        PlanoPagamento pg1 = new PlanoPagamento(70.0, 3, LocalDate.of(2022, 6, 13));
         
         Fachada.getInstance().cadastrarAlunoParaProfessor((Aluno)a1, (Professor)p1);
         Fachada.getInstance().cadastrarAlunoParaProfessor((Aluno)a2, (Professor)p1);
