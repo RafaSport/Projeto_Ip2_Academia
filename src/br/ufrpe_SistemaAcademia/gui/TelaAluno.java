@@ -23,79 +23,86 @@ public class TelaAluno extends javax.swing.JFrame {
         initComponents();        
         
         lblNome.setText(usuario.getNome());
-        lblDiaDaSemana.setText(" -    " + String.valueOf(LocalDate.now().getDayOfWeek()));
+       
         LocalDate hoje = LocalDate.now();
         String hoje1 = Fachada.getInstance().dateParaString(hoje);
-        lblHoje.setText(hoje1);
         
-        if(usuario.getPlanoPagamento() != null){
+        lblHoje.setText(hoje1 + " - " + String.valueOf(LocalDate.now().getDayOfWeek()));
             
-            LocalDate data = usuario.getPlanoPagamento().getDataFim();     
-            String dataFim = Fachada.getInstance().dateParaString(data);
-        
-            lblMes.setText(dataFim);
+        LocalDate data = usuario.getPlanoPagamento().getDataFim();     
+        String dataFim = Fachada.getInstance().dateParaString(data);
+
+        lblMes.setText(dataFim);//Data de validade do plano
+
+        //Primeira condição para listar o treino do dia na tela
+        //e tambem para setar as datas de validade do treino
+        if(usuario.getPlanoTreino() != null){
+
+            LocalDate dtTreinoInicio = usuario.getPlanoTreino().getDataInicio();
+            LocalDate dtTreinoFim = usuario.getPlanoTreino().getDataFim();
+
+            String dataTreinoInicio = Fachada.getInstance().dateParaString(dtTreinoInicio);
+            String dataTreinoFim = Fachada.getInstance().dateParaString(dtTreinoFim);
+
+            lblTreinoInicio.setText(dataTreinoInicio);
+            lblTreinoFim.setText(dataTreinoFim);
             
-        
+            List<Exercicio> lista = null;
 
-            if(usuario.getPlanoTreino() != null){
+            try {
+                //Este metodo retorna a lista de exercicio programada para o dia logado que sempre será "hoje"
+                //ele verifica que dia da semana é "hoje" e retorna a lista correspondente, já que cada aluno
+                //tem 6 lista de exercicios para cada dia da semana de segunda a sabado, caso o professor não
+                //preencha as lista para todos os dia dará exception tratada abaixo
+                lista = Fachada.getInstance().listaDeExerciciosDoDiaDaSemana(usuario, LocalDate.now());
 
-                LocalDate dtTreinoInicio = usuario.getPlanoTreino().getDataInicio();
-                LocalDate dtTreinoFim = usuario.getPlanoTreino().getDataFim();
+            } catch (ArrayIndexOutOfBoundsException e) {
 
-                String dataTreinoInicio = Fachada.getInstance().dateParaString(dtTreinoInicio);
-                String dataTreinoFim = Fachada.getInstance().dateParaString(dtTreinoFim);
+                JOptionPane.showMessageDialog(null, 
+                        "Lista Incompleta! Não possui treino para " + hoje.getDayOfWeek(), "ERRO", 0);
+              
+            }
 
-                lblTreinoInicio.setText(dataTreinoInicio);
-                lblTreinoFim.setText(dataTreinoFim);
+            LocalDate dataLimiteDoTreino = usuario.getPlanoTreino().getDataFim();
 
-                boolean hojeEhDomingo = true;
-                List<Exercicio> lista = null;
+            //Caso a lista tenha sido preenchida com os exercicios programado para o dia
+            if(lista != null){
 
-                try {
+                //Este metodo verifica se "hoje" esta dentro da data de validade do treino 
+                //se sim preenche a tabela com os exercicios
+                if(Fachada.getInstance().dataNaValidade(dataLimiteDoTreino, LocalDate.now())){
+                    for( int i = 0; i < lista.size(); i++){
 
-                    lista = Fachada.getInstance().listaDeExerciciosDoDiaDaSemana(usuario, LocalDate.now().plusDays(0));
-
-                } catch (ArrayIndexOutOfBoundsException e) {
-
-                    JOptionPane.showMessageDialog(null, 
-                            "Lista Incompleta! Não possui treino para " + hoje.getDayOfWeek(), "ERRO", 0);
-                    hojeEhDomingo = false;
-                }
-
-                LocalDate dataLimiteDoTreino = usuario.getPlanoTreino().getDataFim();
-
-                if(lista != null){
-
-                    if(Fachada.getInstance().dataNaValidade(dataLimiteDoTreino, LocalDate.now())){
-                        for( int i = 0; i < lista.size(); i++){
-
-                            tableExercicios.setValueAt(lista.get(i).getTipoExercicio(), i, 0);
-                            tableExercicios.setValueAt(lista.get(i).getDuracao(), i, 1);
-                            tableExercicios.setValueAt(lista.get(i).getSerie(), i, 2);
-                        }
-
-                        podeSalvar = true;
-                        hojeEhDomingo = false;
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Treino fora da data procure seu Professor!", "ERRO", 0);
+                        tableExercicios.setValueAt(lista.get(i).getTipoExercicio(), i, 0);
+                        tableExercicios.setValueAt(lista.get(i).getDuracao(), i, 1);
+                        tableExercicios.setValueAt(lista.get(i).getSerie(), i, 2);
+                        
                     }
 
-
+                    podeSalvar = true;//Como ocorreu tudo certo esta variavel auxiliar valida o buttonTreinar salvar
+                    
                 }else{
-                    if(hojeEhDomingo){
-                        JOptionPane.showMessageDialog(null, "Não há treinos no domingo", "ERRO", 0);
-                    }
-
+                    JOptionPane.showMessageDialog(null, "Treino fora da data procure seu Professor!", "ERRO", 0);
                 }
+
 
             }else{
-                lblTreinoInicio.setText("------------");
-                lblTreinoFim.setText("-------------");
+                //Caso a lista esteja vazia esta condição verifica se é domingo para retornar uma menssagem
+                if(String.valueOf( LocalDate.now().getDayOfWeek() ).equalsIgnoreCase("SUNDAY")){
+                    
+                    JOptionPane.showMessageDialog(null, "Não há treinos no domingo", "ERRO", 0);
+                }
+
             }
-        }else{
-            lblMes.setText("------------");
+
+        }else{//Caso o aluno não tenha treino cadastrado
             
+            JOptionPane.showMessageDialog(null, "Não há treino cadastrado fale com seu professor!", "ERRO", 0);
+            
+            lblTreinoInicio.setText("------------");
+            lblTreinoFim.setText("-------------");
         }
+       
     }
 
     /**
@@ -127,7 +134,6 @@ public class TelaAluno extends javax.swing.JFrame {
         btnTreinar = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         lblHoje = new javax.swing.JLabel();
-        lblDiaDaSemana = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -235,7 +241,15 @@ public class TelaAluno extends javax.swing.JFrame {
             new String [] {
                 "Exercio", "Duração (Min)", "Series (qtd)"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tableExercicios);
 
         btnTreinar.setBackground(new java.awt.Color(0, 0, 204));
@@ -254,9 +268,6 @@ public class TelaAluno extends javax.swing.JFrame {
         lblHoje.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         lblHoje.setText("Vazio");
 
-        lblDiaDaSemana.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        lblDiaDaSemana.setText("Vazio");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -266,27 +277,18 @@ public class TelaAluno extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblHoje, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(lblNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel12)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(lblNome, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel4)))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(lblHoje, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblDiaDaSemana, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel3)))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lblTreinoInicio, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
@@ -315,8 +317,7 @@ public class TelaAluno extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(lblTreinoFim)
                     .addComponent(jLabel12)
-                    .addComponent(lblHoje)
-                    .addComponent(lblDiaDaSemana))
+                    .addComponent(lblHoje))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -456,13 +457,16 @@ public class TelaAluno extends javax.swing.JFrame {
 
     private void btnTreinarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTreinarActionPerformed
         
+        
         if(usuario.getPlanoTreino() != null){
             
             LocalDate diaDoTreino = LocalDate.now();       
             Treino treino = new Treino();
             
+            //Variavel auxiliar recebe true quando tudo dar certo na inicialização e a tabela é preenchida
             if(podeSalvar){
                 
+                //A lista de exercicio de "hoje" é setada no treino para ser instaciado o TreinoExecutado
                 treino.setExercicios(Fachada.getInstance().listaDeExerciciosDoDiaDaSemana(usuario, diaDoTreino));
                 
                 treinoExecutado = new TreinoExecutado(usuario, treino, diaDoTreino);
@@ -493,26 +497,32 @@ public class TelaAluno extends javax.swing.JFrame {
         
         LocalDate diaDoTreino = LocalDate.of(ano, mes, dia);
         
+        //Objeto instaciado apenas para ser comparado com um existente caso exista
+        //já que o equals desse objeto se dá pelo aluno e diaDoTreino
         TreinoExecutado treinoPesquisado = new TreinoExecutado(usuario, diaDoTreino);
-        //colocando abaixo
+        
         List<Exercicio> lista = new ArrayList<>();
+        
         try {
+            //Metodo consulta o treino pesquisado e caso exista retorna o treino salvo
             TreinoExecutado te = Fachada.getInstance().consultarTreinoExecutado(treinoPesquisado);
+            
+            //Preenche a lista com a lista de exercicio do treinoexecutado pesquisado
             lista.addAll(te.getTreino().getExercicios());
+            
+            for( int i = 0; i < lista.size(); i++){
+                
+                tableExerciciosExecutado.setValueAt(lista.get(i).getTipoExercicio(), i, 0);
+                tableExerciciosExecutado.setValueAt(lista.get(i).getDuracao(), i, 1);
+                tableExerciciosExecutado.setValueAt(lista.get(i).getSerie(), i, 2);
+                
+            }
+            
         } catch (ElementoNaoExisteException ex) {
+            
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }   
 
-        if(lista != null){
-            for( int i = 0; i < lista.size(); i++){
-            tableExerciciosExecutado.setValueAt(lista.get(i).getTipoExercicio(), i, 0);
-            tableExerciciosExecutado.setValueAt(lista.get(i).getDuracao(), i, 1);
-            tableExerciciosExecutado.setValueAt(lista.get(i).getSerie(), i, 2);
-            }
-        
-        }else{
-            System.out.println("Nao salvou");
-        }
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     /**
@@ -576,7 +586,6 @@ public class TelaAluno extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JLabel lblDiaDaSemana;
     private javax.swing.JLabel lblHoje;
     private javax.swing.JLabel lblMes;
     private javax.swing.JLabel lblNome;

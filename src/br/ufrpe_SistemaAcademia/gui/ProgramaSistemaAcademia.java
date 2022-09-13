@@ -111,7 +111,7 @@ public class ProgramaSistemaAcademia {
         treinos.add(t5);//sexta
         treinos.add(t6);//sabado
         
-        Fachada.getInstance().cadastrarPlanoTreino((Professor)p1, (Aluno)a1, treinos, LocalDate.of(2022, 7, 5));
+        Fachada.getInstance().cadastrarPlanoTreino((Professor)p1, (Aluno)a1, treinos, LocalDate.of(2022, 9, 5));
         
         PlanoPagamento pg1 = new PlanoPagamento(70.0, 3, LocalDate.of(2022, 6, 14));
         
@@ -119,7 +119,7 @@ public class ProgramaSistemaAcademia {
         Fachada.getInstance().cadastrarAlunoParaProfessor((Aluno)a2, (Professor)p1);
         
         Fachada.getInstance().setUsuario(a1);
-        //((Aluno)a1).setPlanoPagamento(pg1);
+        ((Aluno)a1).setPlanoPagamento(pg1);
       
         new TelaInicial().setVisible(true);
     }

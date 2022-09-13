@@ -3,7 +3,6 @@ package br.ufrpe_SistemaAcademia.gui;
 import br.ufrpe_SistemaAcademia.negocio.Fachada;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
-import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import javax.swing.JOptionPane;
 
@@ -185,11 +184,13 @@ public class TelaInicial extends javax.swing.JFrame {
         String email = txtLogin.getText();
         String senha = String.valueOf(txtSenha.getPassword());
                 
-        Fachada.getInstance().setUsuario(Fachada.getInstance().login(email, senha));
+        //O metodo login retorna a pessoa que fez o login
+        Fachada.getInstance().setUsuario( Fachada.getInstance().login(email, senha));
 
         txtLogin.setText("");
         txtSenha.setText("");
         
+        //condição para abrir a tela do tipo de pessoa correspondente
         if(Fachada.getInstance().getUsuario() != null){
             
             if(Fachada.getInstance().getUsuario() instanceof Gerente){
@@ -200,9 +201,13 @@ public class TelaInicial extends javax.swing.JFrame {
                 
                 Aluno usuario = (Aluno)Fachada.getInstance().getUsuario();
                 
+                //Para o aluno ter acesso a sua tela deve ter um plano de pagamento
+                //Assim como esta com o pagamento em dia
                 if(usuario.getPlanoPagamento() != null){
+                    
                     if(!Fachada.getInstance().pagamentoEmDiaDoAluno(usuario)){
                         new TelaAluno().setVisible(true);
+                        
                     }else{
                         JOptionPane.showMessageDialog(null, "Pagamento atrasado, procurar o gerente!", "ATENÇÃO", 1);
                     }
@@ -215,14 +220,7 @@ public class TelaInicial extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "Email ou senha incorretos", "ERRO", 0);
         }
-
-        /*
-        if(usuario != null){
-            new TelaAluno().setVisible(true);
-        }else{
-            JOptionPane.showMessageDialog(rootPane, "Login ou senha incorretos");
-        }        
-        */
+    
     }//GEN-LAST:event_btnEntrarActionPerformed
 
     /**
@@ -274,19 +272,4 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 
-    public javax.swing.JTextField getTxtLogin() {
-        return txtLogin;
-    }
-
-    public void setTxtLogin(javax.swing.JTextField txtLogin) {
-        this.txtLogin = txtLogin;
-    }
-
-    public javax.swing.JPasswordField getTxtSenha() {
-        return txtSenha;
-    }
-
-    public void setTxtSenha(javax.swing.JPasswordField txtSenha) {
-        this.txtSenha = txtSenha;
-    }
 }
