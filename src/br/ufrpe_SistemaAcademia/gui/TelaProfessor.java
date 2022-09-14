@@ -1,10 +1,11 @@
 package br.ufrpe_SistemaAcademia.gui;
 
+import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
+import br.ufrpe_SistemaAcademia.exception.ProfessorNaoContemAluno;
 import br.ufrpe_SistemaAcademia.negocio.Fachada;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
-import br.ufrpe_SistemaAcademia.negocio.bean.Treino;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -19,6 +20,23 @@ public class TelaProfessor extends javax.swing.JFrame {
         initComponents();
         
         lblNomeProfessor.setText(usuario.getNome());
+        
+        for(int i = 0; i < listaDeAlunosDoProfessor.size(); i++){
+            
+            try {
+                tableAlunos.setValueAt(listaDeAlunosDoProfessor.get(i).getNome(), i, 0);               
+                tableAlunos.setValueAt(Fachada.getInstance().treinosCadastrado((Aluno)listaDeAlunosDoProfessor.get(i), usuario), i, 1);
+                tableAlunos.setValueAt(Fachada.getInstance().exerciciosCadastrado((Aluno)listaDeAlunosDoProfessor.get(i), usuario), i, 2);
+                
+            } catch (ProfessorNaoContemAluno ex) {
+                
+                
+            } catch (ElementoNaoExisteException ex) {
+                tableAlunos.setValueAt("Plano de treino não cadastrado!", i, 1);
+                tableAlunos.setValueAt("Exercicios não cadastrados!", i, 2);
+                
+            }
+        }
         
     }
 
@@ -419,7 +437,6 @@ public class TelaProfessor extends javax.swing.JFrame {
         
         String matricula = txtMatriculaCadastro.getText();
         Aluno alunoConsultado = null;
-        int cont = 0;
         
         for(Pessoa p : listaDeAlunosDoProfessor){
             
@@ -428,50 +445,25 @@ public class TelaProfessor extends javax.swing.JFrame {
             }
                 
         }
-        
-        if( alunoConsultado != null){
             
-            lblNomeAluno.setText(alunoConsultado.getNome());
-            lblTreino.setText("...");
-            lblExercicios.setText("...");
-            
-            if( alunoConsultado.getPlanoTreino() != null){
-            
-                if(alunoConsultado.getPlanoTreino().getTreinos().size() == 6){
-                    lblTreino.setText("Todos os treinos cadastrados!");
-                }else if(alunoConsultado.getPlanoTreino().getTreinos().size() > 0){
-                    lblTreino.setText("Treinos cadastrados parcialmente!");
-                }else if(alunoConsultado.getPlanoTreino().getTreinos().size() == 0){
-                    lblTreino.setText("Nenhum treino cadastrados!");
-                }
+        lblNomeAluno.setText(alunoConsultado.getNome());
+        lblTreino.setText("...");
+        lblExercicios.setText("...");
 
-                for(Treino t : alunoConsultado.getPlanoTreino().getTreinos()){
+        try {
 
-                    if(t.getExercicios().size() > 0){
-                        cont+=1;
-                    }
-                }
+            lblTreino.setText(Fachada.getInstance().treinosCadastrado(alunoConsultado, usuario));
+            lblExercicios.setText(Fachada.getInstance().exerciciosCadastrado(alunoConsultado, usuario));
 
-                if(cont == 6){
-                    lblExercicios.setText("Todos exercicios cadastrado!");
-                }else if(cont > 0){
-                    lblExercicios.setText("Exercicios cadastrado parcialmente!");
-                }else if(cont == 0){
-                    lblExercicios.setText("Nenhum exercicio cadastrado!");
-                }
-                
-            }else{
-                lblTreino.setText("...");
-                lblExercicios.setText("...");
-                JOptionPane.showMessageDialog(null, "Aluno não tem plano de treino cadastrado!", "ERRO", 0);
-            }         
-            
-        }else{
-            lblNomeAluno.setText("...");
-            lblTreino.setText("...");
-            lblExercicios.setText("...");
-            JOptionPane.showMessageDialog(null, "Aluno não cadastrado para o professor " + usuario.getNome(), "ERRO", 0);
+        } catch (ProfessorNaoContemAluno ex) {
+
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", 0);
+
+        } catch (ElementoNaoExisteException ex) {
+
+            JOptionPane.showMessageDialog(null, "Plano de treino não cadastrado!", "ERRO", 0);
         }
+
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     /**

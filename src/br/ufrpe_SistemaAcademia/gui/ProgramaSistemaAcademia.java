@@ -99,9 +99,9 @@ public class ProgramaSistemaAcademia {
         t5.addExercicios(e5);
         //sabado
         Treino t6 = new Treino();
-        /*t6.addExercicios(e6);
+        t6.addExercicios(e6);
         t6.addExercicios(e7);
-        t6.addExercicios(e8);*/
+        t6.addExercicios(e8);
         
         if(t6.getExercicios() == null){
             System.out.println("nulo");

@@ -180,4 +180,68 @@ public class ControladorTreino {
         }
     }
 
+
+
+    public String treinosCadastrado(Aluno a, Professor p)
+            throws ProfessorNaoContemAluno, ElementoNaoExisteException{
+        
+        String s = null;
+        
+        if(a.getProfessor().equals(p)){
+            
+            if(a.getPlanoTreino() != null){
+                
+                if(a.getPlanoTreino().getTreinos().size() == 6){
+                    s = "Treinos cadastrados!";
+                }else if(a.getPlanoTreino().getTreinos().size() > 0){
+                    s = "Treinos cadastrados Parcialmente!";
+                }else if(a.getPlanoTreino().getTreinos().size() == 0){
+                    s =  "Treinos não cadastrados!";
+                }
+                
+            }else{
+                throw new ElementoNaoExisteException(a.getPlanoTreino());
+            }
+                      
+        }else{
+            throw new ProfessorNaoContemAluno(a.getProfessor());
+        } 
+        return s;
+    }
+    
+    public String exerciciosCadastrado(Aluno a, Professor p)
+            throws ProfessorNaoContemAluno, ElementoNaoExisteException{
+        
+        String s = null;
+        int cont = 0;
+        
+        if(a.getProfessor().equals(p)){
+            
+            if(a.getPlanoTreino() != null){
+                
+                for(Treino t : a.getPlanoTreino().getTreinos()){
+
+                    if(t.getExercicios().size() > 0){
+                        cont+=1;
+                    }
+                }
+
+                if(cont == 6){
+                    s = "Todos exercicios cadastrado!";
+                }else if(cont > 0){
+                    s = "Exercicios cadastrado parcialmente!";
+                }else if(cont == 0){
+                    s = "Nenhum exercicio cadastrado!";
+                }
+                
+            }else{
+                throw new ElementoNaoExisteException(a.getPlanoTreino());
+            }
+                      
+        }else{
+            throw new ProfessorNaoContemAluno(a.getProfessor());
+        } 
+        return s;
+    }
+
 }

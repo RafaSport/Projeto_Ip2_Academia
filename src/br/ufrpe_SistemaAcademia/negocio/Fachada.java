@@ -128,6 +128,17 @@ public class Fachada {
         return this.controladorTreino.listaDeExerciciosDoDiaDaSemana(a, dia);
     }
     
+    public String treinosCadastrado(Aluno a, Professor p)
+            throws ProfessorNaoContemAluno, ElementoNaoExisteException{
+        
+        return this.controladorTreino.treinosCadastrado(a, p);
+    }
+    
+    public String exerciciosCadastrado(Aluno a, Professor p)
+            throws ProfessorNaoContemAluno, ElementoNaoExisteException{
+        
+        return this.controladorTreino.exerciciosCadastrado(a, p);
+    }
     
     
     //---------------Metodos Delegate ControladorTreinoExecutado----------------
