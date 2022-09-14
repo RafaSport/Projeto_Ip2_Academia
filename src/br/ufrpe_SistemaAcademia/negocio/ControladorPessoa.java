@@ -48,15 +48,15 @@ public class ControladorPessoa {
     }
     
     public List<Pessoa> listarProfessor(Pessoa usuario){
-        return (List<Pessoa>)(Professor)this.repositorioPessoa.listarProfessor(usuario);
+        return (List<Pessoa>)this.repositorioPessoa.listarProfessor(usuario);
     }
 
     public List<Pessoa> listarAlunos(Pessoa usuario) {
-        return (List<Pessoa>)(Aluno)this.repositorioPessoa.listarAlunos(usuario);
+        return (List<Pessoa>)this.repositorioPessoa.listarAlunos(usuario);
     }
 
     public List<Pessoa> listarAlunosDoProfessor(Pessoa usuario) {
-        return (List<Pessoa>)(Aluno)this.repositorioPessoa.listarAlunosDoProfessor(usuario);
+        return (List<Pessoa>)this.repositorioPessoa.listarAlunosDoProfessor(usuario);
     }
     
     public List<Pessoa> listarTodos(){

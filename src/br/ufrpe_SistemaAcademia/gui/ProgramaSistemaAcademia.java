@@ -99,9 +99,15 @@ public class ProgramaSistemaAcademia {
         t5.addExercicios(e5);
         //sabado
         Treino t6 = new Treino();
-        t6.addExercicios(e6);
+        /*t6.addExercicios(e6);
         t6.addExercicios(e7);
-        t6.addExercicios(e8);
+        t6.addExercicios(e8);*/
+        
+        if(t6.getExercicios() == null){
+            System.out.println("nulo");
+        }else{
+            System.out.println("nao nulo");
+        }
         
         List<Treino> treinos = new ArrayList<>();
         treinos.add(t1);//seguda
@@ -117,7 +123,13 @@ public class ProgramaSistemaAcademia {
         
         Fachada.getInstance().cadastrarAlunoParaProfessor((Aluno)a1, (Professor)p1);
         Fachada.getInstance().cadastrarAlunoParaProfessor((Aluno)a2, (Professor)p1);
+        /*
+        List<Pessoa> lista = Fachada.getInstance().listarAlunosDoProfessor((Professor)p1);
         
+        for(Pessoa p : lista){
+            System.out.println(p);
+        }
+        */
         Fachada.getInstance().setUsuario(a1);
         ((Aluno)a1).setPlanoPagamento(pg1);
       

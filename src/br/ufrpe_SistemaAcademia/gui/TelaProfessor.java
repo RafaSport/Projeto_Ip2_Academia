@@ -1,11 +1,19 @@
 package br.ufrpe_SistemaAcademia.gui;
 
 import br.ufrpe_SistemaAcademia.negocio.Fachada;
+import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
+import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
+import br.ufrpe_SistemaAcademia.negocio.bean.Treino;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 public class TelaProfessor extends javax.swing.JFrame {
 
     Professor usuario = (Professor) Fachada.getInstance().getUsuario();
+    
+    List<Pessoa> listaDeAlunosDoProfessor = Fachada.getInstance().listarAlunosDoProfessor(usuario);
+            
     
     public TelaProfessor() {
         initComponents();
@@ -188,6 +196,11 @@ public class TelaProfessor extends javax.swing.JFrame {
         btnConsultar.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         btnConsultar.setForeground(new java.awt.Color(255, 255, 255));
         btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         lblNomeAluno.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         lblNomeAluno.setText("...");
@@ -198,14 +211,13 @@ public class TelaProfessor extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtMatriculaCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtMatriculaCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                        .addGap(89, 89, 89))
+                        .addComponent(btnConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -216,15 +228,16 @@ public class TelaProfessor extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(lblExercicios, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnCadastrarExercicios))
+                                .addComponent(lblNomeAluno, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 269, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(lblTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addComponent(lblTreino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(20, 20, 20)
                                 .addComponent(btnCadastrarTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblNomeAluno, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(lblExercicios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCadastrarExercicios)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -401,6 +414,65 @@ public class TelaProfessor extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        
+        String matricula = txtMatriculaCadastro.getText();
+        Aluno alunoConsultado = null;
+        int cont = 0;
+        
+        for(Pessoa p : listaDeAlunosDoProfessor){
+            
+            if( ((Aluno)p).getMatricula().equals(matricula)) {
+                alunoConsultado = (Aluno)p;
+            }
+                
+        }
+        
+        if( alunoConsultado != null){
+            
+            lblNomeAluno.setText(alunoConsultado.getNome());
+            lblTreino.setText("...");
+            lblExercicios.setText("...");
+            
+            if( alunoConsultado.getPlanoTreino() != null){
+            
+                if(alunoConsultado.getPlanoTreino().getTreinos().size() == 6){
+                    lblTreino.setText("Todos os treinos cadastrados!");
+                }else if(alunoConsultado.getPlanoTreino().getTreinos().size() > 0){
+                    lblTreino.setText("Treinos cadastrados parcialmente!");
+                }else if(alunoConsultado.getPlanoTreino().getTreinos().size() == 0){
+                    lblTreino.setText("Nenhum treino cadastrados!");
+                }
+
+                for(Treino t : alunoConsultado.getPlanoTreino().getTreinos()){
+
+                    if(t.getExercicios().size() > 0){
+                        cont+=1;
+                    }
+                }
+
+                if(cont == 6){
+                    lblExercicios.setText("Todos exercicios cadastrado!");
+                }else if(cont > 0){
+                    lblExercicios.setText("Exercicios cadastrado parcialmente!");
+                }else if(cont == 0){
+                    lblExercicios.setText("Nenhum exercicio cadastrado!");
+                }
+                
+            }else{
+                lblTreino.setText("...");
+                lblExercicios.setText("...");
+                JOptionPane.showMessageDialog(null, "Aluno não tem plano de treino cadastrado!", "ERRO", 0);
+            }         
+            
+        }else{
+            lblNomeAluno.setText("...");
+            lblTreino.setText("...");
+            lblExercicios.setText("...");
+            JOptionPane.showMessageDialog(null, "Aluno não cadastrado para o professor " + usuario.getNome(), "ERRO", 0);
+        }
+    }//GEN-LAST:event_btnConsultarActionPerformed
 
     /**
      * @param args the command line arguments

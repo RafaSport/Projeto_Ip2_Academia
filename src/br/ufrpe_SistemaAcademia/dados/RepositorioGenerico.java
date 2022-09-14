@@ -3,9 +3,9 @@ package br.ufrpe_SistemaAcademia.dados;
 
 import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
 import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
-import br.ufrpe_SistemaAcademia.negocio.Fachada;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
+import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -86,39 +86,48 @@ public class RepositorioGenerico <T> implements IRepositorioGenerico<T>{
 
     @Override
     public List<T> listarProfessor(T usuario) {
+        
+        List<T> listaDeProfessor = new ArrayList<>();
+        
         if(usuario instanceof Gerente){
             for (T t : lista) {
                 if(t instanceof Professor){
-                    this.lista.add(t);
+                    listaDeProfessor.add(t);
                 }
             }
         }
-        return Collections.unmodifiableList(this.lista);
+        return Collections.unmodifiableList(listaDeProfessor);
     }
 
     @Override
     public List<T> listarAlunos(T usuario) {
+        
+        List<T> listaDeAluno = new ArrayList<>();
+        
         if(usuario instanceof Gerente){
             for (T t : lista) {
                 if(t instanceof Aluno){
-                    this.lista.add(t);
+                    listaDeAluno.add(t);
                 }
             }
         }
-        return Collections.unmodifiableList(this.lista);
+        return Collections.unmodifiableList(listaDeAluno);
     }
 
     @Override
     public List<T> listarAlunosDoProfessor(T usuario) {
+        
+        List<T> listaDeAluno = new ArrayList<>();
+        
         if(usuario instanceof Professor){
             for (T t : lista) {
                 if(t instanceof Aluno && ((Aluno)t).getProfessor().equals( (Professor)usuario ) ){
-                    this.lista.add(t);
+                    listaDeAluno.add( t );
                 } else {
                 }
             }
         }
-        return Collections.unmodifiableList(this.lista);
+        return Collections.unmodifiableList(listaDeAluno);
     }
 
     @Override
