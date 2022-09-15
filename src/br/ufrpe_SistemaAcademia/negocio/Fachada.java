@@ -12,6 +12,7 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Treino;
 import br.ufrpe_SistemaAcademia.negocio.bean.TreinoExecutado;
 import java.time.LocalDate;
 import java.util.List;
+import javax.swing.JTable;
 
 public class Fachada {
     
@@ -163,6 +164,10 @@ public class Fachada {
     
     public boolean dataNaValidade(LocalDate dataLimite, LocalDate dataParaVerificar){
         return this.controladorSistema.dataNaValidade(dataLimite, dataParaVerificar);
+    }
+    
+    public void apagarTabela(JTable tabela, int qtdColuna){
+        this.controladorSistema.apagarTabela(tabela, qtdColuna);
     }
 
     

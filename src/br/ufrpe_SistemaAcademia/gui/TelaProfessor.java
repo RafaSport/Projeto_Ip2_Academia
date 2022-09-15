@@ -4,14 +4,19 @@ import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
 import br.ufrpe_SistemaAcademia.exception.ProfessorNaoContemAluno;
 import br.ufrpe_SistemaAcademia.negocio.Fachada;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
+import br.ufrpe_SistemaAcademia.negocio.bean.Exercicio;
 import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class TelaProfessor extends javax.swing.JFrame {
 
     Professor usuario = (Professor) Fachada.getInstance().getUsuario();
+    
+    String diaDaSemana;
+    int dia = 0;
     
     List<Pessoa> listaDeAlunosDoProfessor = Fachada.getInstance().listarAlunosDoProfessor(usuario);
             
@@ -75,7 +80,6 @@ public class TelaProfessor extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         lblTreino = new javax.swing.JLabel();
         lblExercicios = new javax.swing.JLabel();
-        btnCadastrarExercicios = new javax.swing.JButton();
         btnConsultar = new javax.swing.JButton();
         lblNomeAluno = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -87,6 +91,9 @@ public class TelaProfessor extends javax.swing.JFrame {
         btnBuscar = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         tableExercicios = new javax.swing.JTable();
+        cmbDiaDaSemana = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        lblNomeAlunoConsultar = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lblNomeProfessor = new javax.swing.JLabel();
 
@@ -188,7 +195,7 @@ public class TelaProfessor extends javax.swing.JFrame {
         btnCadastrarTreino.setBackground(new java.awt.Color(0, 0, 204));
         btnCadastrarTreino.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         btnCadastrarTreino.setForeground(new java.awt.Color(255, 255, 255));
-        btnCadastrarTreino.setText("Cadastrar Treino");
+        btnCadastrarTreino.setText("Cadastrar Treino ou Exercicios");
 
         jLabel8.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel8.setText("Nome do Aluno :");
@@ -204,11 +211,6 @@ public class TelaProfessor extends javax.swing.JFrame {
 
         lblExercicios.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         lblExercicios.setText("...");
-
-        btnCadastrarExercicios.setBackground(new java.awt.Color(0, 0, 204));
-        btnCadastrarExercicios.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        btnCadastrarExercicios.setForeground(new java.awt.Color(255, 255, 255));
-        btnCadastrarExercicios.setText("Cadastrar Exercicios");
 
         btnConsultar.setBackground(new java.awt.Color(0, 0, 204));
         btnConsultar.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
@@ -250,12 +252,14 @@ public class TelaProfessor extends javax.swing.JFrame {
                                 .addGap(0, 269, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(lblTreino, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(20, 20, 20)
-                                .addComponent(btnCadastrarTreino, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(lblExercicios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnCadastrarExercicios)))))
+                                .addGap(186, 186, 186))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(btnCadastrarTreino))
+                                    .addComponent(lblExercicios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(184, 184, 184)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -273,20 +277,36 @@ public class TelaProfessor extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(lblTreino)
-                    .addComponent(btnCadastrarTreino))
+                    .addComponent(lblTreino))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(lblExercicios)
-                    .addComponent(btnCadastrarExercicios))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblExercicios))
+                .addGap(18, 18, 18)
+                .addComponent(btnCadastrarTreino)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Cadastro", jPanel2);
 
         tableAlunos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
@@ -326,9 +346,21 @@ public class TelaProfessor extends javax.swing.JFrame {
         btnBuscar.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         tableExercicios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
@@ -348,30 +380,54 @@ public class TelaProfessor extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(tableExercicios);
 
+        cmbDiaDaSemana.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabado" }));
+        cmbDiaDaSemana.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbDiaDaSemanaActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel5.setText("Nome do Aluno:");
+
+        lblNomeAlunoConsultar.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        lblNomeAlunoConsultar.setText("...");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel4)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtMatriculaConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtMatriculaConsulta)
+                    .addComponent(lblNomeAlunoConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                .addComponent(cmbDiaDaSemana, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(jScrollPane4)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(12, 12, 12)
+                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtMatriculaConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBuscar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+                    .addComponent(btnBuscar)
+                    .addComponent(cmbDiaDaSemana, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lblNomeAlunoConsultar))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -436,35 +492,134 @@ public class TelaProfessor extends javax.swing.JFrame {
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
         
         String matricula = txtMatriculaCadastro.getText();
-        Aluno alunoConsultado = null;
         
-        for(Pessoa p : listaDeAlunosDoProfessor){
-            
-            if( ((Aluno)p).getMatricula().equals(matricula)) {
-                alunoConsultado = (Aluno)p;
-            }
-                
-        }
-            
-        lblNomeAluno.setText(alunoConsultado.getNome());
-        lblTreino.setText("...");
-        lblExercicios.setText("...");
-
+        Aluno a = new Aluno();
+        
+        a.setMatricula(matricula);
+        
+        Aluno alunoConsultado;
+        
         try {
-
-            lblTreino.setText(Fachada.getInstance().treinosCadastrado(alunoConsultado, usuario));
-            lblExercicios.setText(Fachada.getInstance().exerciciosCadastrado(alunoConsultado, usuario));
-
-        } catch (ProfessorNaoContemAluno ex) {
-
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", 0);
-
+            alunoConsultado = (Aluno)Fachada.getInstance().consultar(usuario, a);
+            
+            if(alunoConsultado != null){
+                
+                lblNomeAluno.setText(alunoConsultado.getNome());
+                
+                try {
+                    lblTreino.setText(Fachada.getInstance().treinosCadastrado(alunoConsultado, usuario));
+                    lblExercicios.setText(Fachada.getInstance().exerciciosCadastrado(alunoConsultado, usuario));
+                    
+                }catch(ElementoNaoExisteException ex){
+                    
+                    lblTreino.setText("...");
+                    lblExercicios.setText("...");
+                    JOptionPane.showMessageDialog(null, "Plano de treino não cadastrado!", "ERRO", 0);
+                }
+                            
+            }else{
+                
+                lblNomeAluno.setText("...");
+                lblTreino.setText("...");
+                lblExercicios.setText("...");
+                JOptionPane.showMessageDialog(null, "Aluno não cadastrado para este professor", "ERRO", 0);
+            }
+            
+            
         } catch (ElementoNaoExisteException ex) {
-
-            JOptionPane.showMessageDialog(null, "Plano de treino não cadastrado!", "ERRO", 0);
+            
+            lblNomeAluno.setText("...");
+            lblTreino.setText("...");
+            lblExercicios.setText("...");
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", 0);
+            
+        } catch (ProfessorNaoContemAluno ex) {
+  
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", 0);
         }
-
+        
     }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+      
+        String matricula = txtMatriculaConsulta.getText();
+        
+        Aluno a = new Aluno();
+        
+        a.setMatricula(matricula);
+        
+        Aluno alunoConsultado;
+        
+        List<Exercicio> listaExercicios;
+        
+        try {
+            alunoConsultado = (Aluno)Fachada.getInstance().consultar(usuario, a);
+            
+            if(alunoConsultado != null){
+                
+                lblNomeAlunoConsultar.setText(alunoConsultado.getNome());
+                
+                if(alunoConsultado.getPlanoTreino() != null){
+                    
+                    if(alunoConsultado.getPlanoTreino().getTreinos().get(dia).getExercicios().size() > 0){
+                        
+                        listaExercicios = alunoConsultado.getPlanoTreino().getTreinos().get(dia).getExercicios();
+
+                        for(int i = 0; i < listaExercicios.size(); i++ ){
+
+                            tableExercicios.setValueAt(listaExercicios.get(i).getTipoExercicio(), i, 0);
+                            tableExercicios.setValueAt(listaExercicios.get(i).getDuracao(), i, 1);
+                            tableExercicios.setValueAt(listaExercicios.get(i).getSerie(), i, 2);
+                        }
+                        
+                    }else{
+                                             
+                        Fachada.getInstance().apagarTabela(tableExercicios, tableExercicios.getRowCount());
+                        JOptionPane.showMessageDialog(null, "Não há exercicios cadastrado!", "ERRO", 0);
+                    }
+                    
+                }else{
+                   
+                    Fachada.getInstance().apagarTabela(tableExercicios, tableExercicios.getRowCount());
+                    JOptionPane.showMessageDialog(null, "Plano de treino não cadastrado!", "ERRO", 0);
+                }
+                
+            }else{
+                lblNomeAlunoConsultar.setText("");
+                Fachada.getInstance().apagarTabela(tableExercicios, tableExercicios.getRowCount());
+                JOptionPane.showMessageDialog(null, "Aluno cadastrado para outro professor!", "ERRO", 0);
+            }
+            
+        } catch (ElementoNaoExisteException ex) {
+            lblNomeAlunoConsultar.setText("");
+            Fachada.getInstance().apagarTabela(tableExercicios, tableExercicios.getRowCount());
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", 0);
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void cmbDiaDaSemanaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDiaDaSemanaActionPerformed
+        
+        diaDaSemana = cmbDiaDaSemana.getSelectedItem().toString();
+        
+        switch (diaDaSemana) {
+            case "Segunda": dia = 0;
+                break;                
+            case "Terça": dia = 1;               
+                break;                
+            case "Quarta": dia = 2;               
+                break;               
+            case "Quinta": dia = 3;               
+                break;
+            case "Sexta": dia = 4;               
+                break;
+            case "Sabado": dia = 5;               
+                break;      
+            default:
+                throw new AssertionError();
+        }
+        
+        System.out.println(diaDaSemana + " - " + dia);
+    }//GEN-LAST:event_cmbDiaDaSemanaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -506,9 +661,9 @@ public class TelaProfessor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnCadastrarExercicios;
     private javax.swing.JButton btnCadastrarTreino;
     private javax.swing.JButton btnConsultar;
+    private javax.swing.JComboBox<String> cmbDiaDaSemana;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -517,6 +672,7 @@ public class TelaProfessor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -533,6 +689,7 @@ public class TelaProfessor extends javax.swing.JFrame {
     private javax.swing.JTable jTable3;
     private javax.swing.JLabel lblExercicios;
     private javax.swing.JLabel lblNomeAluno;
+    private javax.swing.JLabel lblNomeAlunoConsultar;
     private javax.swing.JLabel lblNomeProfessor;
     private javax.swing.JLabel lblTreino;
     private java.awt.Menu menu1;

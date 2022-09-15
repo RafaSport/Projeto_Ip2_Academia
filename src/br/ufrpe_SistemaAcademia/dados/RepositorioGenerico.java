@@ -5,7 +5,6 @@ import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
 import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
-import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,9 +73,14 @@ public class RepositorioGenerico <T> implements IRepositorioGenerico<T>{
             
         }else if(usuario instanceof Professor){
             
-            if(obj instanceof Aluno && this.lista.contains(obj)){
+            if(obj instanceof Aluno && this.lista.contains(obj) ){
                 int x = this.lista.indexOf(obj);
-                return this.lista.get(x);
+                Aluno aluno = (Aluno)this.lista.get(x);
+                
+                if( aluno.getProfessor().equals(usuario) ){
+                    return this.lista.get(x);
+                }
+                
             }else{
                 throw new ElementoNaoExisteException(obj);
             }

@@ -77,6 +77,8 @@ public class ProgramaSistemaAcademia {
         t1.addExercicios(e1);
         t1.addExercicios(e2);
         t1.addExercicios(e3);
+        t1.addExercicios(e9);
+        
         //terça
         Treino t2 = new Treino();
         t2.addExercicios(e1);

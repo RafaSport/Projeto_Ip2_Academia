@@ -3,6 +3,7 @@ package br.ufrpe_SistemaAcademia.negocio;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JTable;
 
 public class ControladorSistema {
     
@@ -36,5 +37,16 @@ public class ControladorSistema {
         Period periodo = Period.between(dataLimite, dataParaVerificar );
         
         return periodo.isNegative();
+    }
+    
+    public void apagarTabela(JTable tabela, int qtdColuna){
+        
+        for(int i = 0; i < qtdColuna; i++ ){
+
+            tabela.setValueAt("", i, 0);
+            tabela.setValueAt("", i, 1);
+            tabela.setValueAt("", i, 2);
+        }
+        
     }
 }

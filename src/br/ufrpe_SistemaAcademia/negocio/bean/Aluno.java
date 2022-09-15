@@ -38,6 +38,10 @@ public class Aluno extends Pessoa{
         return planoTreino;
     }
 
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+    
     public void setPlanoTreino(PlanoTreinoSemanal planoTreino) {
         this.planoTreino = planoTreino;
     }
