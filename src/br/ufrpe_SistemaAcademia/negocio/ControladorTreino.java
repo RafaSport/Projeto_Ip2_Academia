@@ -34,12 +34,34 @@ public class ControladorTreino {
             if(a.getPlanoTreino() == null){
                 
                 a.setPlanoTreino(new PlanoTreinoSemanal(dataInicio));
-                a.getPlanoTreino().getTreinos().addAll(treinos);
+                
+                if(treinos != null){
+                    a.getPlanoTreino().getTreinos().addAll(treinos);
+                }
+                
 
             }else{
                 throw new ElementoJaExisteException(a.getPlanoTreino());
             }
             
+        }else{
+            throw new ProfessorNaoContemAluno(a.getProfessor());
+        }
+    }
+    
+    public void inserirTreinos(Professor p, Aluno a, List<Treino> treinos)
+            throws ProfessorNaoContemAluno, ElementoNaoExisteException{
+        
+        if(a.getProfessor().equals(p)){
+            
+            if(a.getPlanoTreino() != null && a.getPlanoTreino().getTreinos() == null){
+
+                a.getPlanoTreino().getTreinos().addAll(treinos);
+
+            }else{
+                throw new ElementoNaoExisteException(a.getPlanoTreino());
+            }
+           
         }else{
             throw new ProfessorNaoContemAluno(a.getProfessor());
         }

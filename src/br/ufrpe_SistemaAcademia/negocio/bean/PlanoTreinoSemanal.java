@@ -30,6 +30,7 @@ public class PlanoTreinoSemanal {
 
     public void setDataInicio(LocalDate dataInicio) {
         this.dataInicio = dataInicio;
+        this.dataFim = this.dataInicio.plusDays(15);
     }
 
     public LocalDate getDataFim() {

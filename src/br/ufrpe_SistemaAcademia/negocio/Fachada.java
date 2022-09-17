@@ -11,6 +11,7 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import br.ufrpe_SistemaAcademia.negocio.bean.Treino;
 import br.ufrpe_SistemaAcademia.negocio.bean.TreinoExecutado;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import javax.swing.JTable;
 
@@ -23,6 +24,7 @@ public class Fachada {
     private ControladorTreinoExecutado controladorTreinoExecutado;
     private ControladorSistema controladorSistema;
     private Pessoa usuario;
+    private Pessoa pessoaManipulada;
 
     private Fachada() {
         this.controladorPessoa = ControladorPessoa.getInstance();
@@ -170,6 +172,9 @@ public class Fachada {
         this.controladorSistema.apagarTabela(tabela, qtdColuna);
     }
 
+    public LocalDate stringParaLocalDate (String s)throws DateTimeParseException{
+        return this.controladorSistema.stringParaLocalDate(s);
+    }
     
     
     //---------------------Getters e Setters------------------------------------
@@ -180,6 +185,14 @@ public class Fachada {
 
     public void setUsuario(Pessoa usuario) {
         this.usuario = usuario;
+    }
+
+    public Pessoa getPessoaManipulada() {
+        return pessoaManipulada;
+    }
+
+    public void setPessoaManipulada(Pessoa pessoaManipulada) {
+        this.pessoaManipulada = pessoaManipulada;
     }
 
 }

@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/rafao/OneDrive/Documentos/NetBeansProjects/Projeto_Ip2_Academia/src/br/ufrpe_SistemaAcademia/negocio/ControladorSistema.java</file>
+            <file>file:/C:/Users/rafao/OneDrive/Documentos/NetBeansProjects/Projeto_Ip2_Academia/src/br/ufrpe_SistemaAcademia/gui/TelaProfCadastros.java</file>
             <file>file:/C:/Users/rafao/OneDrive/Documentos/NetBeansProjects/Projeto_Ip2_Academia/src/br/ufrpe_SistemaAcademia/gui/TelaProfessor.java</file>
+            <file>file:/C:/Users/rafao/OneDrive/Documentos/NetBeansProjects/Projeto_Ip2_Academia/src/br/ufrpe_SistemaAcademia/negocio/bean/PlanoTreinoSemanal.java</file>
             <file>file:/C:/Users/rafao/OneDrive/Documentos/NetBeansProjects/Projeto_Ip2_Academia/src/br/ufrpe_SistemaAcademia/gui/ProgramaSistemaAcademia.java</file>
-            <file>file:/C:/Users/rafao/OneDrive/Documentos/NetBeansProjects/Projeto_Ip2_Academia/src/br/ufrpe_SistemaAcademia/negocio/Fachada.java</file>
+            <file>file:/C:/Users/rafao/OneDrive/Documentos/NetBeansProjects/Projeto_Ip2_Academia/src/br/ufrpe_SistemaAcademia/negocio/ControladorTreino.java</file>
         </group>
     </open-files>
 </project-private>

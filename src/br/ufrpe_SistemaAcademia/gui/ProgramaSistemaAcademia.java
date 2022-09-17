@@ -13,7 +13,6 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import br.ufrpe_SistemaAcademia.negocio.bean.TipoTreino;
 import br.ufrpe_SistemaAcademia.negocio.bean.Treino;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,9 +118,9 @@ public class ProgramaSistemaAcademia {
         treinos.add(t5);//sexta
         treinos.add(t6);//sabado
         
-        Fachada.getInstance().cadastrarPlanoTreino((Professor)p1, (Aluno)a1, treinos, LocalDate.of(2022, 9, 5));
+        Fachada.getInstance().cadastrarPlanoTreino((Professor)p1, (Aluno)a1, treinos, LocalDate.of(2022, 9, 10));
         
-        PlanoPagamento pg1 = new PlanoPagamento(70.0, 3, LocalDate.of(2022, 6, 14));
+        PlanoPagamento pg1 = new PlanoPagamento(70.0, 3, LocalDate.of(2022, 9, 14));
         
         Fachada.getInstance().cadastrarAlunoParaProfessor((Aluno)a1, (Professor)p1);
         Fachada.getInstance().cadastrarAlunoParaProfessor((Aluno)a2, (Professor)p1);

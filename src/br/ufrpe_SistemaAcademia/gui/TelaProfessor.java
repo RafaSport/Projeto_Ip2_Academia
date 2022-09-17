@@ -9,11 +9,11 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
 
 public class TelaProfessor extends javax.swing.JFrame {
 
     Professor usuario = (Professor) Fachada.getInstance().getUsuario();
+    Aluno alunoConsultado;
     
     String diaDaSemana;
     int dia = 0;
@@ -35,6 +35,7 @@ public class TelaProfessor extends javax.swing.JFrame {
                 
             } catch (ProfessorNaoContemAluno ex) {
                 
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", 0);
                 
             } catch (ElementoNaoExisteException ex) {
                 tableAlunos.setValueAt("Plano de treino não cadastrado!", i, 1);
@@ -74,7 +75,7 @@ public class TelaProfessor extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtMatriculaCadastro = new javax.swing.JTextField();
-        btnCadastrarTreino = new javax.swing.JButton();
+        btnCadastrarTreinoExercicio = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -192,10 +193,15 @@ public class TelaProfessor extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel3.setText("Matricula do Aluno :");
 
-        btnCadastrarTreino.setBackground(new java.awt.Color(0, 0, 204));
-        btnCadastrarTreino.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        btnCadastrarTreino.setForeground(new java.awt.Color(255, 255, 255));
-        btnCadastrarTreino.setText("Cadastrar Treino ou Exercicios");
+        btnCadastrarTreinoExercicio.setBackground(new java.awt.Color(0, 0, 204));
+        btnCadastrarTreinoExercicio.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        btnCadastrarTreinoExercicio.setForeground(new java.awt.Color(255, 255, 255));
+        btnCadastrarTreinoExercicio.setText("Cadastrar Treino ou Exercicios");
+        btnCadastrarTreinoExercicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarTreinoExercicioActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel8.setText("Nome do Aluno :");
@@ -257,7 +263,7 @@ public class TelaProfessor extends javax.swing.JFrame {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(btnCadastrarTreino))
+                                        .addComponent(btnCadastrarTreinoExercicio))
                                     .addComponent(lblExercicios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(184, 184, 184)))))
                 .addContainerGap())
@@ -283,7 +289,7 @@ public class TelaProfessor extends javax.swing.JFrame {
                     .addComponent(jLabel12)
                     .addComponent(lblExercicios))
                 .addGap(18, 18, 18)
-                .addComponent(btnCadastrarTreino)
+                .addComponent(btnCadastrarTreinoExercicio)
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
@@ -497,10 +503,11 @@ public class TelaProfessor extends javax.swing.JFrame {
         
         a.setMatricula(matricula);
         
-        Aluno alunoConsultado;
+        //Aluno alunoConsultado;
         
         try {
             alunoConsultado = (Aluno)Fachada.getInstance().consultar(usuario, a);
+            Fachada.getInstance().setPessoaManipulada(alunoConsultado);
             
             if(alunoConsultado != null){
                 
@@ -614,12 +621,22 @@ public class TelaProfessor extends javax.swing.JFrame {
                 break;
             case "Sabado": dia = 5;               
                 break;      
-            default:
-                throw new AssertionError();
+            
         }
         
         System.out.println(diaDaSemana + " - " + dia);
     }//GEN-LAST:event_cmbDiaDaSemanaActionPerformed
+
+    private void btnCadastrarTreinoExercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarTreinoExercicioActionPerformed
+        
+        if(txtMatriculaCadastro.getText().equals(Fachada.getInstance().getPessoaManipulada())){
+            
+            new TelaProfCadastros().setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Matricula invalida!", "ERRO", 0);
+        }
+        
+    }//GEN-LAST:event_btnCadastrarTreinoExercicioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -661,7 +678,7 @@ public class TelaProfessor extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnCadastrarTreino;
+    private javax.swing.JButton btnCadastrarTreinoExercicio;
     private javax.swing.JButton btnConsultar;
     private javax.swing.JComboBox<String> cmbDiaDaSemana;
     private javax.swing.JButton jButton3;

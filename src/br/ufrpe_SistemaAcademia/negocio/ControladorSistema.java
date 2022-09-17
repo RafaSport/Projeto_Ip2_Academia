@@ -3,6 +3,7 @@ package br.ufrpe_SistemaAcademia.negocio;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import javax.swing.JTable;
 
 public class ControladorSistema {
@@ -28,8 +29,12 @@ public class ControladorSistema {
         return dataFim;
     }
     
-    public LocalDate stringParaLocalDate (String s){
-        return null;
+    public LocalDate stringParaLocalDate (String s)throws DateTimeParseException{
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate data = LocalDate.parse(s, formatter);
+        
+        return data;
     }
     
     public boolean dataNaValidade(LocalDate dataLimite, LocalDate dataParaVerificar){
