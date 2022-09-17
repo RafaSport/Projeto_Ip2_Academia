@@ -55,7 +55,7 @@ public class TelaAluno extends javax.swing.JFrame {
                 //tem 6 lista de exercicios para cada dia da semana de segunda a sabado, caso o professor não
                 //preencha as lista para todos os dia dará exception tratada abaixo
                 lista = Fachada.getInstance().listaDeExerciciosDoDiaDaSemana(usuario, LocalDate.now());
-
+                
             } catch (ArrayIndexOutOfBoundsException e) {
 
                 JOptionPane.showMessageDialog(null, 
@@ -67,10 +67,11 @@ public class TelaAluno extends javax.swing.JFrame {
 
             //Caso a lista tenha sido preenchida com os exercicios programado para o dia
             if(lista != null){
-
+                
                 //Este metodo verifica se "hoje" esta dentro da data de validade do treino 
                 //se sim preenche a tabela com os exercicios
                 if(Fachada.getInstance().dataNaValidade(dataLimiteDoTreino, LocalDate.now())){
+                    
                     for( int i = 0; i < lista.size(); i++){
 
                         tableExercicios.setValueAt(lista.get(i).getTipoExercicio(), i, 0);
@@ -92,7 +93,7 @@ public class TelaAluno extends javax.swing.JFrame {
                     
                     JOptionPane.showMessageDialog(null, "Não há treinos no domingo", "ERRO", 0);
                 }
-
+                
             }
 
         }else{//Caso o aluno não tenha treino cadastrado

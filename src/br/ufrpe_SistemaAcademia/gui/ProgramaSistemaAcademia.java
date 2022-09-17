@@ -120,7 +120,7 @@ public class ProgramaSistemaAcademia {
         
         Fachada.getInstance().cadastrarPlanoTreino((Professor)p1, (Aluno)a1, treinos, LocalDate.of(2022, 9, 10));
         
-        PlanoPagamento pg1 = new PlanoPagamento(70.0, 3, LocalDate.of(2022, 9, 14));
+        PlanoPagamento pg1 = new PlanoPagamento(70.0, 3, LocalDate.of(2022, 7, 14));
         
         Fachada.getInstance().cadastrarAlunoParaProfessor((Aluno)a1, (Professor)p1);
         Fachada.getInstance().cadastrarAlunoParaProfessor((Aluno)a2, (Professor)p1);

@@ -8,6 +8,8 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Exercicio;
 import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class TelaProfessor extends javax.swing.JFrame {
@@ -568,7 +570,8 @@ public class TelaProfessor extends javax.swing.JFrame {
                 
                 if(alunoConsultado.getPlanoTreino() != null){
                     
-                    if(alunoConsultado.getPlanoTreino().getTreinos().get(dia).getExercicios().size() > 0){
+                    if(alunoConsultado.getPlanoTreino().getTreinos().size() > dia &&
+                            alunoConsultado.getPlanoTreino().getTreinos().get(dia).getExercicios() != null){
                         
                         listaExercicios = alunoConsultado.getPlanoTreino().getTreinos().get(dia).getExercicios();
 
@@ -629,9 +632,34 @@ public class TelaProfessor extends javax.swing.JFrame {
 
     private void btnCadastrarTreinoExercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarTreinoExercicioActionPerformed
         
-        if(txtMatriculaCadastro.getText().equals(Fachada.getInstance().getPessoaManipulada())){
+        if( txtMatriculaCadastro.getText() != null){
             
-            new TelaProfCadastros().setVisible(true);
+            String matricula = txtMatriculaCadastro.getText();
+        
+            Aluno a = new Aluno();
+
+            a.setMatricula(matricula);
+            
+            try {
+                
+                alunoConsultado = (Aluno)Fachada.getInstance().consultar(usuario, a);
+                Fachada.getInstance().setPessoaManipulada(alunoConsultado);
+                
+                if(alunoConsultado != null){
+                    
+                    new TelaProfCadastros().setVisible(true);
+                
+                }else{
+                    
+                    JOptionPane.showMessageDialog(null, "Aluno não cadastrado para este professor", "ERRO", 0);
+                }
+                
+                
+            } catch (ElementoNaoExisteException ex) {
+                
+                JOptionPane.showMessageDialog(null, "Matricula invalida!", "ERRO", 0);
+            }
+            
         }else{
             JOptionPane.showMessageDialog(null, "Matricula invalida!", "ERRO", 0);
         }

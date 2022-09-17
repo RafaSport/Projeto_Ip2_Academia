@@ -190,7 +190,7 @@ public class ControladorTreino {
                     throw new ArrayIndexOutOfBoundsException();
                 }
             }
-            case "Saturday": {
+            case "saturday": {
                 if(a.getPlanoTreino().getTreinos().size() >= 6){
                     return a.getPlanoTreino().getTreinos().get(5).getExercicios();
                 }else{
@@ -200,6 +200,7 @@ public class ControladorTreino {
             default: return null;
             
         }
+        
     }
 
 
