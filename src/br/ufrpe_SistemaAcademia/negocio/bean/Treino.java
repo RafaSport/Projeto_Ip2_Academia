@@ -18,7 +18,7 @@ public class Treino {
     }
 
     public void setExercicios(List<Exercicio> exercicios) {
-        this.exercicios = exercicios;
+        this.exercicios.addAll(exercicios);
     }
 
     public void addExercicios(Exercicio e) {

@@ -8,8 +8,6 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Exercicio;
 import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class TelaProfessor extends javax.swing.JFrame {
@@ -31,6 +29,7 @@ public class TelaProfessor extends javax.swing.JFrame {
         for(int i = 0; i < listaDeAlunosDoProfessor.size(); i++){
             
             try {
+                
                 tableAlunos.setValueAt(listaDeAlunosDoProfessor.get(i).getNome(), i, 0);               
                 tableAlunos.setValueAt(Fachada.getInstance().treinosCadastrado((Aluno)listaDeAlunosDoProfessor.get(i), usuario), i, 1);
                 tableAlunos.setValueAt(Fachada.getInstance().exerciciosCadastrado((Aluno)listaDeAlunosDoProfessor.get(i), usuario), i, 2);
@@ -40,6 +39,7 @@ public class TelaProfessor extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", 0);
                 
             } catch (ElementoNaoExisteException ex) {
+                
                 tableAlunos.setValueAt("Plano de treino não cadastrado!", i, 1);
                 tableAlunos.setValueAt("Exercicios não cadastrados!", i, 2);
                 
@@ -570,10 +570,11 @@ public class TelaProfessor extends javax.swing.JFrame {
                 
                 if(alunoConsultado.getPlanoTreino() != null){
                     
-                    if(alunoConsultado.getPlanoTreino().getTreinos().size() > dia &&
-                            alunoConsultado.getPlanoTreino().getTreinos().get(dia).getExercicios() != null){
+                    try{
                         
                         listaExercicios = alunoConsultado.getPlanoTreino().getTreinos().get(dia).getExercicios();
+                        
+                        Fachada.getInstance().apagarTabela(tableExercicios, tableExercicios.getRowCount());
 
                         for(int i = 0; i < listaExercicios.size(); i++ ){
 
@@ -582,8 +583,8 @@ public class TelaProfessor extends javax.swing.JFrame {
                             tableExercicios.setValueAt(listaExercicios.get(i).getSerie(), i, 2);
                         }
                         
-                    }else{
-                                             
+                    }catch(IndexOutOfBoundsException ex){
+                        
                         Fachada.getInstance().apagarTabela(tableExercicios, tableExercicios.getRowCount());
                         JOptionPane.showMessageDialog(null, "Não há exercicios cadastrado!", "ERRO", 0);
                     }
@@ -648,6 +649,7 @@ public class TelaProfessor extends javax.swing.JFrame {
                 if(alunoConsultado != null){
                     
                     new TelaProfCadastros().setVisible(true);
+                    this.dispose();
                 
                 }else{
                     

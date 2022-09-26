@@ -4,11 +4,14 @@ import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
 import br.ufrpe_SistemaAcademia.exception.ProfessorNaoContemAluno;
 import br.ufrpe_SistemaAcademia.negocio.Fachada;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
+import br.ufrpe_SistemaAcademia.negocio.bean.Exercicio;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
+import br.ufrpe_SistemaAcademia.negocio.bean.TipoTreino;
+import br.ufrpe_SistemaAcademia.negocio.bean.Treino;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class TelaProfCadastros extends javax.swing.JFrame {
@@ -16,9 +19,14 @@ public class TelaProfCadastros extends javax.swing.JFrame {
     Aluno alunoManipulado = new Aluno();
     Professor usuario = new Professor();
     
+    List<Exercicio> listaDeExercicio = new ArrayList<>();
+    List<Treino> listaTreinos = new ArrayList<>();
+    
+    int qtdExercicios = 1;
 
     public TelaProfCadastros() {
         initComponents();
+        
         
         alunoManipulado = (Aluno)Fachada.getInstance().getPessoaManipulada();
         usuario = (Professor)Fachada.getInstance().getUsuario();
@@ -27,6 +35,15 @@ public class TelaProfCadastros extends javax.swing.JFrame {
         String hoje = Fachada.getInstance().dateParaString(LocalDate.now());
         
         fTxtDataInicio.setText(hoje);
+        
+        lblNomeAlunoExercicio.setText(alunoManipulado.getNome());
+        lblDiaDaSemanaExercicio.setText(Fachada.getInstance().inteiroParaDiaDaSemana(qtdExercicios));
+        
+        lblQtdExercicio.setText(Integer.toString(qtdExercicios));
+        
+        if(alunoManipulado.getPlanoTreino() == null){
+            lblAtencao.setText("Cadastre primeiro o plano de treino!");
+        }
                 
     }
 
@@ -52,6 +69,20 @@ public class TelaProfCadastros extends javax.swing.JFrame {
         lblDataFim = new javax.swing.JLabel();
         btnCadastrarPlanoTreino = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        lblNomeAlunoExercicio = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        lblDiaDaSemanaExercicio = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        lblQtdExercicio = new javax.swing.JLabel();
+        cbbTipoTreino = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        btnAdicionarExercicio = new javax.swing.JButton();
+        btnCadastrarExercicios = new javax.swing.JButton();
+        lblAtencao = new javax.swing.JLabel();
+        spnDuracao = new javax.swing.JSpinner();
+        spnSeries = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Treino");
@@ -83,6 +114,11 @@ public class TelaProfCadastros extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(204, 204, 204));
         jButton1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jButton1.setText("Sair");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jLabel3.setText("Cadastrar Plano de Treino do Aluno:");
@@ -161,15 +197,128 @@ public class TelaProfCadastros extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Plano de Treino", jPanel2);
 
+        jLabel5.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel5.setText("Cadastrar Exercício do Aluno:");
+
+        lblNomeAlunoExercicio.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        lblNomeAlunoExercicio.setText("Vazio");
+
+        jLabel6.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel6.setText("Dia do Exercício:");
+
+        lblDiaDaSemanaExercicio.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        lblDiaDaSemanaExercicio.setText("Vazio");
+
+        jLabel7.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel7.setText("Exercicio N.");
+
+        lblQtdExercicio.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        lblQtdExercicio.setText("...");
+
+        cbbTipoTreino.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "MUSCULAÇÃO_PERNA", "MUSCULAÇÃO_BRAÇO", "MUSCULAÇÃO_PEITO", "MUSCULAÇÃO_COSTA", "MUSCULAÇÃO_GLUTEO", "BARRAS", "ESTEIRA", "BICICLETA", "AERÓBICA" }));
+
+        jLabel8.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel8.setText("Duração:");
+
+        jLabel9.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel9.setText("Series(Qtd):");
+
+        btnAdicionarExercicio.setBackground(new java.awt.Color(0, 0, 204));
+        btnAdicionarExercicio.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        btnAdicionarExercicio.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdicionarExercicio.setText("Adicionar Exercício");
+        btnAdicionarExercicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarExercicioActionPerformed(evt);
+            }
+        });
+
+        btnCadastrarExercicios.setBackground(new java.awt.Color(0, 0, 204));
+        btnCadastrarExercicios.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        btnCadastrarExercicios.setForeground(new java.awt.Color(255, 255, 255));
+        btnCadastrarExercicios.setText("Cadastrar Todos os Exercícios para Este Dia");
+        btnCadastrarExercicios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarExerciciosActionPerformed(evt);
+            }
+        });
+
+        lblAtencao.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        spnDuracao.setModel(new javax.swing.SpinnerNumberModel(1, 1, 40, 1));
+
+        spnSeries.setModel(new javax.swing.SpinnerNumberModel(1, 1, 20, 1));
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCadastrarExercicios, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spnDuracao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spnSeries, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnAdicionarExercicio, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(176, 176, 176)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblNomeAlunoExercicio, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 84, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblQtdExercicio)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblAtencao, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDiaDaSemanaExercicio, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbbTipoTreino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 233, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lblNomeAlunoExercicio))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblAtencao, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                .addGap(24, 24, 24)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(lblDiaDaSemanaExercicio))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(lblQtdExercicio)
+                    .addComponent(cbbTipoTreino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9)
+                    .addComponent(btnAdicionarExercicio)
+                    .addComponent(spnDuracao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spnSeries, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnCadastrarExercicios)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Cadastrar Treinos", jPanel3);
@@ -191,7 +340,7 @@ public class TelaProfCadastros extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
                 .addContainerGap())
@@ -221,6 +370,7 @@ public class TelaProfCadastros extends javax.swing.JFrame {
                     
                     lblDataFim.setText(dataFim);
                     JOptionPane.showMessageDialog(null, "Data " + data + " inserida com sucesso!", "ATENÇÃO", 1);
+                    lblAtencao.setText("");
                     
                     try {
                         
@@ -232,13 +382,14 @@ public class TelaProfCadastros extends javax.swing.JFrame {
                         
                     }
                 }else{
-                    int i = JOptionPane.showConfirmDialog(null, "Deseja alterar a data?");
+                    
+                    int i = JOptionPane.showConfirmDialog(null, "Deseja alterar a data?", "Alterar Data", 1);
                     
                     if(i == 0){
                         
                         alunoManipulado.getPlanoTreino().setDataInicio(dataInicio);
                         lblDataFim.setText(dataFim);
-                        
+                        JOptionPane.showMessageDialog(null, "Data " + data + " inserida com sucesso!", "ATENÇÃO", 1);
                     }
                 }
                 
@@ -256,6 +407,108 @@ public class TelaProfCadastros extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_btnCadastrarPlanoTreinoActionPerformed
+
+    private void btnAdicionarExercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarExercicioActionPerformed
+        
+        if(alunoManipulado.getPlanoTreino() != null){
+            
+            String s = cbbTipoTreino.getSelectedItem().toString();
+            TipoTreino tipoTreino= Fachada.getInstance().stringParaTipoTreino(s);
+            int duracao = (int)spnDuracao.getValue();
+            int series = (int)spnSeries.getValue();
+            
+            Exercicio e = new Exercicio(tipoTreino, duracao, series);
+            Treino t = new Treino();
+            /*
+            if(!alunoManipulado.getPlanoTreino().getTreinos().get(qtdExercicios-1).getExercicios().contains(e)){
+                
+                alunoManipulado.getPlanoTreino().getTreinos().get(qtdExercicios).addExercicios(e);
+                
+                JOptionPane.showMessageDialog(null, "Exercicio cadastrado com sucesso!", "CONFIRMAÇÃO", 1);
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "Exercicio já cadastrado para este dia!", "ERRO", 0);
+            }
+            */
+            if(!listaDeExercicio.contains(e)){
+                listaDeExercicio.add(e);
+                t.addExercicios(e);
+                
+                JOptionPane.showMessageDialog(null, "Exercicio cadastrado com sucesso!", "CONFIRMAÇÃO", 1);
+                
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "Exercicio já cadastrado para este dia!", "ERRO", 0);
+            }
+            
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Cadastre primeiro o plano de treino!", "ERRO", 0);
+        }
+    }//GEN-LAST:event_btnAdicionarExercicioActionPerformed
+
+    private void btnCadastrarExerciciosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarExerciciosActionPerformed
+               
+        if(alunoManipulado.getPlanoTreino() != null ){
+            
+            if(alunoManipulado.getPlanoTreino().getTreinos().size() == 6){
+                
+                int i = JOptionPane.showConfirmDialog(null, "Deseja RECADASTRAR treinos", "Recadastro", 1);
+                
+                if(i == 0){
+                    
+                    alunoManipulado.getPlanoTreino().getTreinos().clear();
+                    
+                }
+            }
+            
+            if(!listaDeExercicio.isEmpty()){
+                
+                if(qtdExercicios<7){
+                    
+                    Treino t = new Treino();
+                    
+                    /*
+                    for(Exercicio e: listaDeExercicio){
+                        t.addExercicios(e);
+                    }
+                    */
+                    
+                    t.setExercicios(listaDeExercicio);
+                   
+                    alunoManipulado.getPlanoTreino().getTreinos().add(t);
+                    
+                    if(qtdExercicios == 6){
+                        JOptionPane.showMessageDialog(null, "Plano de treino concluido com sucesso!", "CONFIRMAÇÃO", 1);
+                        lblDiaDaSemanaExercicio.setText("Concluido!");
+                        
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Exercicios cadastrado com sucesso!", "CONFIRMAÇÃO", 1);
+                    }               
+
+                    listaDeExercicio.clear();
+
+                    qtdExercicios +=1;
+
+                    lblDiaDaSemanaExercicio.setText(Fachada.getInstance().inteiroParaDiaDaSemana(qtdExercicios));
+                }else{
+                    JOptionPane.showMessageDialog(null, "O plano já foi cadastrado completamente!", "ERRO", 0);
+                }
+                               
+            }else{
+                JOptionPane.showMessageDialog(null, "Cadastre pelo menos um exercicio para este dia!", "ERRO", 0);
+            }
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Cadastre primeiro o plano de treino", "ERRO", 0);
+        }
+    }//GEN-LAST:event_btnCadastrarExerciciosActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+        
+        new TelaProfessor().setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -300,18 +553,32 @@ public class TelaProfCadastros extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdicionarExercicio;
+    private javax.swing.JButton btnCadastrarExercicios;
     private javax.swing.JButton btnCadastrarPlanoTreino;
+    private javax.swing.JComboBox<String> cbbTipoTreino;
     private javax.swing.JFormattedTextField fTxtDataInicio;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblAtencao;
     private javax.swing.JLabel lblDataFim;
+    private javax.swing.JLabel lblDiaDaSemanaExercicio;
     private javax.swing.JLabel lblNomeAluno;
+    private javax.swing.JLabel lblNomeAlunoExercicio;
+    private javax.swing.JLabel lblQtdExercicio;
+    private javax.swing.JSpinner spnDuracao;
+    private javax.swing.JSpinner spnSeries;
     // End of variables declaration//GEN-END:variables
 }

@@ -37,6 +37,10 @@ public class PlanoTreinoSemanal {
         return dataFim;
     }
 
+    public void setTreinos(List<Treino> treinos) {
+        this.treinos = treinos;
+    }
+    
     @Override
     public String toString() {
         return "PlanoTreinoSemanal{" + "treinos=" + treinos + ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + '}';

@@ -8,6 +8,7 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Exercicio;
 import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.PlanoTreinoSemanal;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
+import br.ufrpe_SistemaAcademia.negocio.bean.TipoTreino;
 import br.ufrpe_SistemaAcademia.negocio.bean.Treino;
 import br.ufrpe_SistemaAcademia.negocio.bean.TreinoExecutado;
 import java.time.LocalDate;
@@ -174,6 +175,14 @@ public class Fachada {
 
     public LocalDate stringParaLocalDate (String s)throws DateTimeParseException{
         return this.controladorSistema.stringParaLocalDate(s);
+    }
+    
+    public TipoTreino stringParaTipoTreino (String s){
+        return this.controladorSistema.stringParaTipoTreino(s);
+    }
+    
+    public String inteiroParaDiaDaSemana(int i){
+        return this.controladorSistema.inteiroParaDiaDaSemana(i);
     }
     
     

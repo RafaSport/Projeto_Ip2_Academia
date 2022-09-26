@@ -41,6 +41,29 @@ public class Exercicio {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Exercicio other = (Exercicio) obj;
+        return this.tipoExercicio == other.tipoExercicio;
+    }
+
+    
+    
+    @Override
     public String toString() {
         return "Exercicio{" + "tipoExercicio=" + tipoExercicio + ", duracao=" + duracaoMinuto + ", serie=" + serie + '}';
     }
