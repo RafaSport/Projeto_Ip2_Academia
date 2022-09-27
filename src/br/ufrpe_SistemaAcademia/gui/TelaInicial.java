@@ -195,8 +195,12 @@ public class TelaInicial extends javax.swing.JFrame {
             
             if(Fachada.getInstance().getUsuario() instanceof Gerente){
                 new TelaGerente().setVisible(true);
+                this.dispose();
+                
             }else if(Fachada.getInstance().getUsuario() instanceof Professor){
                 new TelaProfessor().setVisible(true);
+                this.dispose();
+                
             }else if(Fachada.getInstance().getUsuario() instanceof Aluno){
                 
                 Aluno usuario = (Aluno)Fachada.getInstance().getUsuario();
@@ -207,6 +211,7 @@ public class TelaInicial extends javax.swing.JFrame {
                     
                     if(!Fachada.getInstance().pagamentoEmDiaDoAluno(usuario)){
                         new TelaAluno().setVisible(true);
+                        this.dispose();
                         
                     }else{
                         JOptionPane.showMessageDialog(null, "Pagamento atrasado, procurar o gerente!", "ATENÇÃO", 1);

@@ -6,12 +6,9 @@ import br.ufrpe_SistemaAcademia.negocio.Fachada;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
 import br.ufrpe_SistemaAcademia.negocio.bean.PlanoPagamento;
-import br.ufrpe_SistemaAcademia.negocio.bean.PlanoTreinoSemanal;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class TelaGerenteCadastro extends javax.swing.JFrame {
@@ -41,6 +38,20 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel3 = new javax.swing.JPanel();
+        fTxtCpfProfessor = new javax.swing.JFormattedTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        txtEmailProfessor = new javax.swing.JTextField();
+        fTxtDtNascProfessor = new javax.swing.JFormattedTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        txtNomeProfessor = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        txtSenhaProfessor = new javax.swing.JTextField();
+        txtIDProfessor = new javax.swing.JTextField();
+        btnCadastrarProfessor = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -57,8 +68,7 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
         fTxtCpfAluno = new javax.swing.JFormattedTextField();
         btnCadastrarAluno = new javax.swing.JButton();
         txtEmailAluno = new javax.swing.JTextField();
-        jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tela do Aluno");
@@ -105,6 +115,115 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
                         .addComponent(jLabel2)))
                 .addContainerGap(9, Short.MAX_VALUE))
         );
+
+        try {
+            fTxtCpfProfessor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        jLabel11.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel11.setText("E-mail:");
+
+        jLabel12.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel12.setText("CPF:");
+
+        try {
+            fTxtDtNascProfessor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        jLabel13.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel13.setText("Data de Nascimento:");
+
+        jLabel15.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel15.setText("Nome:");
+
+        jLabel16.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel16.setText("Senha:");
+
+        jLabel17.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        jLabel17.setText("ID:");
+
+        btnCadastrarProfessor.setBackground(new java.awt.Color(0, 0, 204));
+        btnCadastrarProfessor.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        btnCadastrarProfessor.setForeground(new java.awt.Color(255, 255, 255));
+        btnCadastrarProfessor.setText("Cadastrar Professor");
+        btnCadastrarProfessor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarProfessorActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(27, 27, 27)
+                                .addComponent(jLabel15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtNomeProfessor))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel16)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtSenhaProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel12)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel17)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtIDProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel11)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fTxtCpfProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtEmailProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(23, 319, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnCadastrarProfessor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fTxtDtNascProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(txtNomeProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12)
+                    .addComponent(fTxtCpfProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(txtEmailProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtIDProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17)
+                    .addComponent(txtSenhaProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(fTxtDtNascProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addGap(33, 33, 33)
+                .addComponent(btnCadastrarProfessor)
+                .addContainerGap(55, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Cadastro de Professores", jPanel3);
 
         jLabel4.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jLabel4.setText("Nome:");
@@ -228,20 +347,12 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Cadastro de Alunos", jPanel2);
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 604, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 235, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Cadastro de Professores", jPanel3);
-
-        jButton1.setText("Sair");
+        btnSair.setText("Sair");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -251,7 +362,7 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
             .addComponent(jTabbedPane1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnSair)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -261,7 +372,7 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(btnSair)
                 .addContainerGap())
         );
 
@@ -301,7 +412,67 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
                 
                 Fachada.getInstance().adicionar(usuario, aluno);
                 
+                Fachada.getInstance().cadastrarAlunoParaProfessor(aluno, professorDoAluno);
+                
                 JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "ATENÇÃO", 1);
+                
+                txtEmailAluno.setText("");
+                txtMatriculaAluno.setText("");
+                txtNomeAluno.setText("");
+                
+                fTxtCpfAluno.setText("");
+                fTxtDataNascimentoAluno.setText("");
+                
+            }else{
+                
+                JOptionPane.showMessageDialog(null, "Atenção! Aluno com 60 anos ou mais!", "ATENÇÃO", 1);
+            }            
+            
+        }catch(DateTimeParseException ex){
+            
+            fTxtDataNascimentoAluno.setText("");
+            JOptionPane.showMessageDialog(null, "Data invalida!", "ERRO", 0);
+            
+        } catch (ElementoJaExisteException | ProfessorNaoContemAluno ex) {
+            
+            JOptionPane.showMessageDialog(null, ex.getMessage() , "ERRO", 0);          
+        }
+    }//GEN-LAST:event_btnCadastrarAlunoActionPerformed
+
+    private void btnCadastrarProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarProfessorActionPerformed
+        
+        String nome = txtNomeProfessor.getText();
+        String email = txtEmailProfessor.getText();
+        String senha = txtSenhaProfessor.getText();
+        String idProfessor = txtIDProfessor.getText();
+        
+        String cpf = String.valueOf(fTxtCpfProfessor.getText());
+        String dtNasc = String.valueOf(fTxtDtNascProfessor.getText());
+        
+        try{
+            LocalDate dataNascimento = Fachada.getInstance().stringParaLocalDate(dtNasc);
+            
+            if(nome != null && email != null && cpf != null && senha != null && idProfessor != null){
+                
+                if(LocalDate.now().getYear() - dataNascimento.getYear()>=60){
+                
+                    JOptionPane.showMessageDialog(null, "Atenção! Professor com 60 anos ou mais!", "ATENÇÃO", 1);
+                }
+                
+                double salario = Fachada.getInstance().getSalario();
+                Professor professor = new Professor(idProfessor, senha, salario, nome, cpf, dataNascimento, email);
+                
+                Fachada.getInstance().adicionar(usuario, professor);
+                
+                JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "ATENÇÃO", 1);
+                
+                txtEmailProfessor.setText("");
+                txtIDProfessor.setText("");
+                txtNomeProfessor.setText("");
+                txtSenhaProfessor.setText("");
+                
+                fTxtCpfProfessor.setText("");
+                fTxtDtNascProfessor.setText("");
                 
             }else{
                 
@@ -317,13 +488,15 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
             
         } catch (ElementoJaExisteException ex) {
             
-            JOptionPane.showMessageDialog(null,ex.getMessage() , "ERRO", 0);
-            
-        } catch (ProfessorNaoContemAluno ex) {
-            
-            JOptionPane.showMessageDialog(null,ex.getMessage() , "ERRO", 0);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", 0);
         }
-    }//GEN-LAST:event_btnCadastrarAlunoActionPerformed
+        
+    }//GEN-LAST:event_btnCadastrarProfessorActionPerformed
+
+    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        this.dispose();
+        new TelaGerente().setVisible(true);
+    }//GEN-LAST:event_btnSairActionPerformed
 
     
     public static void main(String args[]) {
@@ -363,11 +536,20 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrarAluno;
+    private javax.swing.JButton btnCadastrarProfessor;
+    private javax.swing.JButton btnSair;
     private javax.swing.JFormattedTextField fTxtCpfAluno;
+    private javax.swing.JFormattedTextField fTxtCpfProfessor;
     private javax.swing.JFormattedTextField fTxtDataNascimentoAluno;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JFormattedTextField fTxtDtNascProfessor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -383,7 +565,11 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
     private javax.swing.JLabel lblProfessorParaAluno;
     private javax.swing.JSpinner spnMesesPagos;
     private javax.swing.JTextField txtEmailAluno;
+    private javax.swing.JTextField txtEmailProfessor;
+    private javax.swing.JTextField txtIDProfessor;
     private javax.swing.JTextField txtMatriculaAluno;
     private javax.swing.JTextField txtNomeAluno;
+    private javax.swing.JTextField txtNomeProfessor;
+    private javax.swing.JTextField txtSenhaProfessor;
     // End of variables declaration//GEN-END:variables
 }

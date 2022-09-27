@@ -2,7 +2,6 @@ package br.ufrpe_SistemaAcademia.gui;
 
 import br.ufrpe_SistemaAcademia.negocio.Fachada;
 import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
-import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 
 public class TelaGerente extends javax.swing.JFrame {
 
@@ -81,6 +80,11 @@ public class TelaGerente extends javax.swing.JFrame {
         );
 
         btnSair.setText("Sair");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairActionPerformed(evt);
+            }
+        });
 
         jPanel4.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -169,6 +173,11 @@ public class TelaGerente extends javax.swing.JFrame {
 
         btnListar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         btnListar.setText("Listar");
+        btnListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarActionPerformed(evt);
+            }
+        });
 
         btnAlterar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         btnAlterar.setText("Alterar");
@@ -247,7 +256,18 @@ public class TelaGerente extends javax.swing.JFrame {
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         new TelaGerenteCadastro().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
+        new TelaInicial().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnSairActionPerformed
+
+    private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
+        new TelaGerenteListar().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnListarActionPerformed
 
     /**
      * @param args the command line arguments

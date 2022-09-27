@@ -134,6 +134,38 @@ public class ControladorPessoa {
         return prof;
     }
 
+
+    public boolean equals(Pessoa pessoa, Pessoa usuario){
+        
+        if( pessoa instanceof Aluno){
+            
+            for( Pessoa p : Fachada.getInstance().listarAlunos(usuario)){
+                
+                if( p.getCpf().equals(pessoa.getCpf()) || p.getEmail().equals(pessoa.getEmail())
+                            || ((Aluno)p).getMatricula().equals( ((Aluno)pessoa).getMatricula() ) ){
+                    
+                    return true;
+                }
+            }
+        }
+        
+        if( pessoa instanceof Professor){
+            
+            for( Pessoa p : Fachada.getInstance().listarProfessor(usuario)){
+                
+                if( p.getCpf().equals(pessoa.getCpf()) || p.getEmail().equals(pessoa.getEmail())
+                   || ((Professor)p).getId_Professor().equals(((Professor)pessoa).getId_Professor() ) 
+                   || ((Professor)p).getSenha().equals(((Professor)pessoa).getSenha() ) ){
+                    
+                    return true;
+                }
+            }
+        }
+        
+        
+        return false;
+    }
+    
 }
 
     

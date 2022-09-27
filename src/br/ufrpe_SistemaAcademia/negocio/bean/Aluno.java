@@ -56,13 +56,15 @@ public class Aluno extends Pessoa{
 
     @Override
     public int hashCode() {
+        
         int hash = 5;
         hash = 29 * hash + Objects.hashCode(this.matricula);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj) {   
+        
         if (this == obj) {
             return true;
         }

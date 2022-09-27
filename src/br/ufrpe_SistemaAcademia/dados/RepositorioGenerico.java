@@ -3,8 +3,10 @@ package br.ufrpe_SistemaAcademia.dados;
 
 import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
 import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
+import br.ufrpe_SistemaAcademia.negocio.Fachada;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
+import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,7 +25,7 @@ public class RepositorioGenerico <T> implements IRepositorioGenerico<T>{
     public void adicionar(T usuario, T obj) throws ElementoJaExisteException{
         
         if(usuario instanceof Gerente){
-            if(!this.lista.contains(obj)){
+            if(!Fachada.getInstance().equals( (Pessoa)obj, (Pessoa)usuario )){
                 
                 this.lista.add(obj);
             }else{               

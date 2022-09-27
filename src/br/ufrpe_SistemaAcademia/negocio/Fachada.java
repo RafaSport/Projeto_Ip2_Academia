@@ -5,7 +5,6 @@ import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
 import br.ufrpe_SistemaAcademia.exception.ProfessorNaoContemAluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Exercicio;
-import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
 import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.PlanoTreinoSemanal;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
@@ -99,6 +98,10 @@ public class Fachada {
     public Professor escolheProfessorParaAluno(Pessoa p){
         return this.controladorPessoa.escolheProfessorParaAluno(p);
     }
+    
+     public boolean equals(Pessoa p, Pessoa usuario){
+         return this.controladorPessoa.equals(p, usuario);
+     }
     
     
     //--------------------Metodos Delegate ControladorTreino--------------------
