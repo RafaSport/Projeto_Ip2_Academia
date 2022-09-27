@@ -47,53 +47,63 @@ public class TelaAluno extends javax.swing.JFrame {
             lblTreinoInicio.setText(dataTreinoInicio);
             lblTreinoFim.setText(dataTreinoFim);
             
-            List<Exercicio> lista = null;
-
-            try {
-                //Este metodo retorna a lista de exercicio programada para o dia logado que sempre será "hoje"
-                //ele verifica que dia da semana é "hoje" e retorna a lista correspondente, já que cada aluno
-                //tem 6 lista de exercicios para cada dia da semana de segunda a sabado, caso o professor não
-                //preencha as lista para todos os dia dará exception tratada abaixo
-                lista = Fachada.getInstance().listaDeExerciciosDoDiaDaSemana(usuario, LocalDate.now());
+            if(usuario.getPlanoTreino().getTreinos().size() == 6){
                 
-            } catch (ArrayIndexOutOfBoundsException e) {
+                List<Exercicio> lista = null;
 
-                JOptionPane.showMessageDialog(null, 
-                        "Lista Incompleta! Não possui treino para " + hoje.getDayOfWeek(), "ERRO", 0);
-              
-            }
+            
+                try {
 
-            LocalDate dataLimiteDoTreino = usuario.getPlanoTreino().getDataFim();
+                    //Este metodo retorna a lista de exercicio programada para o dia logado que sempre será "hoje"
+                    //ele verifica que dia da semana é "hoje" e retorna a lista correspondente, já que cada aluno
+                    //tem 6 lista de exercicios para cada dia da semana de segunda a sabado, caso o professor não
+                    //preencha as lista para todos os dia dará exception tratada abaixo
+                    lista = Fachada.getInstance().listaDeExerciciosDoDiaDaSemana(usuario, LocalDate.now());
 
-            //Caso a lista tenha sido preenchida com os exercicios programado para o dia
-            if(lista != null){
-                
-                //Este metodo verifica se "hoje" esta dentro da data de validade do treino 
-                //se sim preenche a tabela com os exercicios
-                if(Fachada.getInstance().dataNaValidade(dataLimiteDoTreino, LocalDate.now())){
-                    
-                    for( int i = 0; i < lista.size(); i++){
 
-                        tableExercicios.setValueAt(lista.get(i).getTipoExercicio(), i, 0);
-                        tableExercicios.setValueAt(lista.get(i).getDuracao(), i, 1);
-                        tableExercicios.setValueAt(lista.get(i).getSerie(), i, 2);
-                        
+                } catch (ArrayIndexOutOfBoundsException e) {
+
+                    JOptionPane.showMessageDialog(null, 
+                            "Lista Incompleta! Não possui treino para " + hoje.getDayOfWeek(), "ERRO", 0);
+
+                }
+
+                LocalDate dataLimiteDoTreino = usuario.getPlanoTreino().getDataFim();
+
+                //Caso a lista tenha sido preenchida com os exercicios programado para o dia
+                if(lista != null){
+
+                    //Este metodo verifica se "hoje" esta dentro da data de validade do treino 
+                    //se sim preenche a tabela com os exercicios
+                    if(Fachada.getInstance().dataNaValidade(dataLimiteDoTreino, LocalDate.now())){
+
+                        for( int i = 0; i < lista.size(); i++){
+
+                            tableExercicios.setValueAt(lista.get(i).getTipoExercicio(), i, 0);
+                            tableExercicios.setValueAt(lista.get(i).getDuracao(), i, 1);
+                            tableExercicios.setValueAt(lista.get(i).getSerie(), i, 2);
+
+                        }
+
+                        podeSalvar = true;//Como ocorreu tudo certo esta variavel auxiliar valida o buttonTreinar salvar
+
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Treino fora da data procure seu Professor!", "ERRO", 0);
                     }
 
-                    podeSalvar = true;//Como ocorreu tudo certo esta variavel auxiliar valida o buttonTreinar salvar
-                    
+
                 }else{
-                    JOptionPane.showMessageDialog(null, "Treino fora da data procure seu Professor!", "ERRO", 0);
-                }
+                    //Caso a lista esteja vazia esta condição verifica se é domingo para retornar uma menssagem
+                    if(String.valueOf( LocalDate.now().getDayOfWeek() ).equalsIgnoreCase("SUNDAY")){
 
+                        JOptionPane.showMessageDialog(null, "Não há treinos no domingo", "ERRO", 0);
+                    }
 
-            }else{
-                //Caso a lista esteja vazia esta condição verifica se é domingo para retornar uma menssagem
-                if(String.valueOf( LocalDate.now().getDayOfWeek() ).equalsIgnoreCase("SUNDAY")){
-                    
-                    JOptionPane.showMessageDialog(null, "Não há treinos no domingo", "ERRO", 0);
                 }
                 
+            }else{
+                
+                JOptionPane.showMessageDialog(null, "Não há treino cadastrado fale com seu professor!", "ERRO", 0);
             }
 
         }else{//Caso o aluno não tenha treino cadastrado

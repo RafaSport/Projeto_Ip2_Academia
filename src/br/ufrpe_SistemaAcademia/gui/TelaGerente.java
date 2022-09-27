@@ -1,9 +1,27 @@
 package br.ufrpe_SistemaAcademia.gui;
 
+import br.ufrpe_SistemaAcademia.negocio.Fachada;
+import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
+import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
+
 public class TelaGerente extends javax.swing.JFrame {
 
     public TelaGerente() {
         initComponents();
+        
+        Gerente usuario = (Gerente) Fachada.getInstance().getUsuario();
+        
+        int qtdAlunos = Fachada.getInstance().listarAlunos(usuario).size();
+        int qtdProfessor = Fachada.getInstance().listarProfessor(usuario).size();
+        
+        double receita = qtdAlunos*Fachada.getInstance().getValorMensalidade();
+        double folhaSalarial = qtdProfessor*Fachada.getInstance().getSalario();
+        
+        lblAlunos.setText(Integer.toString(qtdAlunos));
+        lblProfessores.setText(Integer.toString(qtdProfessor));
+        
+        lblReceita.setText(Double.toString(receita));
+        lblSalarios.setText(Double.toString(folhaSalarial));
     }
 
     /**
@@ -143,6 +161,11 @@ public class TelaGerente extends javax.swing.JFrame {
 
         btnCadastrar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         btnCadastrar.setText("Cadastrar");
+        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarActionPerformed(evt);
+            }
+        });
 
         btnListar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         btnListar.setText("Listar");
@@ -221,6 +244,10 @@ public class TelaGerente extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        new TelaGerenteCadastro().setVisible(true);
+    }//GEN-LAST:event_btnCadastrarActionPerformed
 
     /**
      * @param args the command line arguments

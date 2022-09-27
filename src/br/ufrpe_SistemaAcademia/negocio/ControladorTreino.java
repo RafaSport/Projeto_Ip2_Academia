@@ -26,6 +26,7 @@ public class ControladorTreino {
         return instance;
     }
      
+    
     public void cadastrarPlanoTreino(Professor p, Aluno a, List<Treino> treinos, 
             LocalDate dataInicio)throws ProfessorNaoContemAluno, ElementoJaExisteException{
                                   
@@ -49,6 +50,7 @@ public class ControladorTreino {
         }
     }
     
+    
     public void inserirTreinos(Professor p, Aluno a, List<Treino> treinos)
             throws ProfessorNaoContemAluno, ElementoNaoExisteException{
         
@@ -66,6 +68,7 @@ public class ControladorTreino {
             throw new ProfessorNaoContemAluno(a.getProfessor());
         }
     }
+    
     
     public void alterarPlanoTreino(Professor p, Aluno a, List<Treino> treinos, 
         LocalDate dataInicio)throws ProfessorNaoContemAluno, ElementoNaoExisteException{
@@ -87,6 +90,7 @@ public class ControladorTreino {
         }
     }
     
+    
     public PlanoTreinoSemanal consultarPlanoTreino(Professor p, Aluno a)
         throws ProfessorNaoContemAluno, ElementoNaoExisteException{
         
@@ -105,6 +109,7 @@ public class ControladorTreino {
         }        
         
     }
+    
     
     public void alterarTreino(Professor p, Aluno a, List<Exercicio> exercicios, 
             Treino treino)throws ProfessorNaoContemAluno, ElementoNaoExisteException{
@@ -127,6 +132,7 @@ public class ControladorTreino {
             throw new ProfessorNaoContemAluno(a.getProfessor());
         }
     }
+    
     
     public Treino consultarTreino(Professor p, Aluno a, Treino treino)
                     throws ProfessorNaoContemAluno, ElementoNaoExisteException{
@@ -156,7 +162,7 @@ public class ControladorTreino {
         
         switch(diaDaSemana.toLowerCase()){
             case "monday": {
-                if(a.getPlanoTreino().getTreinos() != null){
+                if(a.getPlanoTreino().getTreinos() != null){                   
                     return a.getPlanoTreino().getTreinos().get(0).getExercicios();
                 }else{
                     throw new ArrayIndexOutOfBoundsException();
@@ -204,7 +210,6 @@ public class ControladorTreino {
     }
 
 
-
     public String treinosCadastrado(Aluno a, Professor p)
             throws ProfessorNaoContemAluno, ElementoNaoExisteException{
         
@@ -231,6 +236,7 @@ public class ControladorTreino {
         } 
         return s;
     }
+    
     
     public String exerciciosCadastrado(Aluno a, Professor p)
             throws ProfessorNaoContemAluno, ElementoNaoExisteException{

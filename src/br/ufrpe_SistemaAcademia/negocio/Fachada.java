@@ -5,6 +5,7 @@ import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
 import br.ufrpe_SistemaAcademia.exception.ProfessorNaoContemAluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Exercicio;
+import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
 import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.PlanoTreinoSemanal;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
@@ -24,8 +25,12 @@ public class Fachada {
     private ControladorTreino controladorTreino;
     private ControladorTreinoExecutado controladorTreinoExecutado;
     private ControladorSistema controladorSistema;
+    
     private Pessoa usuario;
     private Pessoa pessoaManipulada;
+    
+    private double valorMensalidade = 70;
+    private double salario = 3000;
 
     private Fachada() {
         this.controladorPessoa = ControladorPessoa.getInstance();
@@ -91,6 +96,9 @@ public class Fachada {
         return this.controladorPessoa.pagamentoEmDiaDoAluno(aluno);
     }
     
+    public Professor escolheProfessorParaAluno(Pessoa p){
+        return this.controladorPessoa.escolheProfessorParaAluno(p);
+    }
     
     
     //--------------------Metodos Delegate ControladorTreino--------------------
@@ -203,5 +211,22 @@ public class Fachada {
     public void setPessoaManipulada(Pessoa pessoaManipulada) {
         this.pessoaManipulada = pessoaManipulada;
     }
+
+    public double getValorMensalidade() {
+        return valorMensalidade;
+    }
+
+    public void setValorMensalidade(double valorMensalidade) {
+        this.valorMensalidade = valorMensalidade;
+    }
+
+    public double getSalario() {
+        return salario;
+    }
+
+    public void setSalario(double salario) {
+        this.salario = salario;
+    }
+
 
 }

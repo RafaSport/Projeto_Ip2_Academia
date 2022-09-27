@@ -21,6 +21,7 @@ public class ProgramaSistemaAcademia {
     public static void main(String[] args) throws ElementoJaExisteException, ProfessorNaoContemAluno {
         
         testes();
+        
        /*
         LocalDate data = LocalDate.of(2021, 9, 12);
         LocalDate hoje = LocalDate.now();
@@ -131,8 +132,9 @@ public class ProgramaSistemaAcademia {
             System.out.println(p);
         }
         */
-        Fachada.getInstance().setUsuario(a1);
+        //Fachada.getInstance().setUsuario(a1);
         ((Aluno)a1).setPlanoPagamento(pg1);
+        ((Aluno)a2).setPlanoPagamento(pg1);
       
         new TelaInicial().setVisible(true);
     }

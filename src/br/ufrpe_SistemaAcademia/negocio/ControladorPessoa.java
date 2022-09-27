@@ -10,6 +10,7 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ControladorPessoa {
@@ -111,6 +112,27 @@ public class ControladorPessoa {
     }
     
    
+    public Professor escolheProfessorParaAluno(Pessoa p){
+        
+        List<Pessoa> lista = new ArrayList<>();
+        int qtdAlunos = Integer.MAX_VALUE;
+        
+        if(p instanceof Gerente){
+            
+            lista = Fachada.getInstance().listarProfessor(p);
+        }
+        
+        Professor prof = (Professor)lista.get(0);
+        
+        for(Pessoa pessoa: lista){
+            
+            if( ((Professor)pessoa).getAlunos().size() <= qtdAlunos ){
+                prof = (Professor)pessoa;
+            }
+        }
+        
+        return prof;
+    }
 
 }
 
