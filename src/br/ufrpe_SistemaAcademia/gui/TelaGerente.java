@@ -48,9 +48,7 @@ public class TelaGerente extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         btnCadastrar = new javax.swing.JButton();
         btnListar = new javax.swing.JButton();
-        btnAlterar = new javax.swing.JButton();
         btnConsultar = new javax.swing.JButton();
-        btnRemover = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tela do Gerente");
@@ -179,14 +177,13 @@ public class TelaGerente extends javax.swing.JFrame {
             }
         });
 
-        btnAlterar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        btnAlterar.setText("Alterar");
-
         btnConsultar.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        btnConsultar.setText("Consultar");
-
-        btnRemover.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        btnRemover.setText("Remover");
+        btnConsultar.setText("Consultar, Remover e Editar Dados");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -196,19 +193,16 @@ public class TelaGerente extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(266, 266, 266)
-                        .addComponent(jLabel6))
+                        .addComponent(jLabel6)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(btnCadastrar)
+                        .addContainerGap()
+                        .addComponent(btnCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnListar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnListar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnConsultar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnRemover, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,11 +211,9 @@ public class TelaGerente extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addGap(29, 29, 29)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCadastrar)
                     .addComponent(btnConsultar)
-                    .addComponent(btnRemover)
                     .addComponent(btnListar)
-                    .addComponent(btnAlterar))
+                    .addComponent(btnCadastrar))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
 
@@ -269,6 +261,11 @@ public class TelaGerente extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnListarActionPerformed
 
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        new TelaGerenteConsultar().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -308,11 +305,9 @@ public class TelaGerente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnListar;
-    private javax.swing.JButton btnRemover;
     private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

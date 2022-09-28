@@ -57,16 +57,13 @@ public class Professor extends Pessoa{
 
     @Override
     public int hashCode() {
-    
-        int hash = 7;
-        hash = 67 * hash + Objects.hashCode(this.id_Professor);
-        hash = 67 * hash + Objects.hashCode(this.senha);
+        int hash = 5;
+        hash = 17 * hash + Objects.hashCode(this.id_Professor);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-        
         if (this == obj) {
             return true;
         }
@@ -77,13 +74,8 @@ public class Professor extends Pessoa{
             return false;
         }
         final Professor other = (Professor) obj;
-        if (!Objects.equals(this.id_Professor, other.id_Professor)) {
-            return false;
-        }
-        return Objects.equals(this.senha, other.senha);
+        return Objects.equals(this.id_Professor, other.id_Professor);
     }
-
-    
 
     @Override
     public String toString() {
