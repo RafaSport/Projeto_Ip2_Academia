@@ -2,6 +2,7 @@
 package br.ufrpe_SistemaAcademia.gui;
 
 import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
+import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
 import br.ufrpe_SistemaAcademia.exception.ProfessorNaoContemAluno;
 import br.ufrpe_SistemaAcademia.negocio.Fachada;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
@@ -15,6 +16,8 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Treino;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ProgramaSistemaAcademia {
     
@@ -135,7 +138,26 @@ public class ProgramaSistemaAcademia {
         //Fachada.getInstance().setUsuario(a1);
         ((Aluno)a1).setPlanoPagamento(pg1);
         ((Aluno)a2).setPlanoPagamento(pg1);
-      
+        
         new TelaInicial().setVisible(true);
-    }
+        
+        /*
+        Professor p = new Professor();
+        p.setId_Professor("222");
+             
+        try {
+            Professor professorDoAluno = (Professor)Fachada.getInstance().consultar(gerente, p);
+                       
+            ((Aluno)a1).setProfessor((Professor)Fachada.getInstance().consultar(gerente, p));
+
+            Fachada.getInstance().cadastrarAlunoParaProfessor((Aluno)a1, (Professor)Fachada.getInstance().consultar(gerente, p));
+            
+            System.out.println(((Aluno)a1).getProfessor().getNome());
+            
+        } catch (ElementoNaoExisteException ex) {
+            System.out.println("elemento nao existe");
+        }
+        */
+    }   
+        
 }
