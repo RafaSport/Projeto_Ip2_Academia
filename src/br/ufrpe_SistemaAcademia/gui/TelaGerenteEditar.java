@@ -5,12 +5,9 @@ import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
 import br.ufrpe_SistemaAcademia.negocio.Fachada;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
-import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class TelaGerenteEditar extends javax.swing.JFrame {
@@ -27,6 +24,17 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
             
             professorManipulado = (Professor)Fachada.getInstance().getPessoaManipulada();
             
+            lblNomeProfessorPainel.setText(professorManipulado.getNome());
+            
+            lblCpfProfessor.setText(professorManipulado.getCpf());
+            lblEmailProfessor.setText(professorManipulado.getEmail());
+            lblNomeProfessor.setText(professorManipulado.getNome());
+            lblSenhaProfessor.setText(professorManipulado.getSenha());
+            lbl_IDProfessor.setText(professorManipulado.getId_Professor());
+            
+            LocalDate dt = professorManipulado.getDt_Nasc();
+            String data = Fachada.getInstance().dateParaString(dt);
+            lblDtNascProfessor.setText(data);
             
         }else{
             alunoManipulado = (Aluno)Fachada.getInstance().getPessoaManipulada();
@@ -83,42 +91,42 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
         txtNomeAluno = new javax.swing.JTextField();
-        txtCPFAluno = new javax.swing.JTextField();
         txtEmailAluno = new javax.swing.JTextField();
         txtMatriculaAluno = new javax.swing.JTextField();
         txtProfIDAluno = new javax.swing.JTextField();
         btnSairAluno = new javax.swing.JButton();
         btnEditarAluno = new javax.swing.JButton();
         fTxtDtNascAluno = new javax.swing.JFormattedTextField();
+        fTxtCpfAluno = new javax.swing.JFormattedTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         lblNomeProfessorPainel = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
+        lblNomeProfessor = new javax.swing.JLabel();
+        lblCpfProfessor = new javax.swing.JLabel();
+        lblEmailProfessor = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
-        jTextField9 = new javax.swing.JTextField();
+        txtEmailProfessor = new javax.swing.JTextField();
+        txtNomeProfessor = new javax.swing.JTextField();
         jLabel33 = new javax.swing.JLabel();
-        jLabel34 = new javax.swing.JLabel();
+        lblDtNascProfessor = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
         jLabel36 = new javax.swing.JLabel();
-        jLabel37 = new javax.swing.JLabel();
+        lblSenhaProfessor = new javax.swing.JLabel();
         jLabel38 = new javax.swing.JLabel();
-        jLabel39 = new javax.swing.JLabel();
+        lbl_IDProfessor = new javax.swing.JLabel();
         jLabel40 = new javax.swing.JLabel();
         jLabel41 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField12 = new javax.swing.JTextField();
+        txtSenhaProfessor = new javax.swing.JTextField();
+        txt_IDProfessor = new javax.swing.JTextField();
         btnEditarProfessor = new javax.swing.JButton();
         btnSairProfessor = new javax.swing.JButton();
         fTxtDtNascProfessor = new javax.swing.JFormattedTextField();
+        fTxtCpfProfessor = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tela do Aluno");
@@ -249,6 +257,12 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
             ex.printStackTrace();
         }
 
+        try {
+            fTxtCpfAluno.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -291,7 +305,7 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel19)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtCPFAluno, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE))
+                                .addComponent(fTxtCpfAluno))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel20)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -328,7 +342,7 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(lblCPFAluno)
                     .addComponent(jLabel19)
-                    .addComponent(txtCPFAluno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fTxtCpfAluno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -378,14 +392,14 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
         jLabel26.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jLabel26.setText("Email:");
 
-        jLabel27.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jLabel27.setText(".........");
+        lblNomeProfessor.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        lblNomeProfessor.setText(".........");
 
-        jLabel28.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jLabel28.setText(".........");
+        lblCpfProfessor.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        lblCpfProfessor.setText(".........");
 
-        jLabel29.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jLabel29.setText(".........");
+        lblEmailProfessor.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        lblEmailProfessor.setText(".........");
 
         jLabel30.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel30.setText("Mudar para ->");
@@ -399,8 +413,8 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
         jLabel33.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jLabel33.setText("Nascimento:");
 
-        jLabel34.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jLabel34.setText(".........");
+        lblDtNascProfessor.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        lblDtNascProfessor.setText(".........");
 
         jLabel35.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel35.setText("Mudar para ->");
@@ -408,14 +422,14 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
         jLabel36.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jLabel36.setText("Senha:");
 
-        jLabel37.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jLabel37.setText(".........");
+        lblSenhaProfessor.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        lblSenhaProfessor.setText(".........");
 
         jLabel38.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jLabel38.setText("ID:");
 
-        jLabel39.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jLabel39.setText(".........");
+        lbl_IDProfessor.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        lbl_IDProfessor.setText(".........");
 
         jLabel40.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel40.setText("Mudar para ->");
@@ -434,9 +448,20 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
         });
 
         btnSairProfessor.setText("Sair");
+        btnSairProfessor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairProfessorActionPerformed(evt);
+            }
+        });
 
         try {
             fTxtDtNascProfessor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            fTxtCpfProfessor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -457,16 +482,16 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel34, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblDtNascProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel35)
                                 .addGap(18, 18, 18)
                                 .addComponent(fTxtDtNascProfessor))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel29, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                                    .addComponent(jLabel28, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblEmailProfessor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                                    .addComponent(lblCpfProfessor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblNomeProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel31)
@@ -474,9 +499,9 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
                                     .addComponent(jLabel32))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField9)
-                                    .addComponent(jTextField8)
-                                    .addComponent(jTextField7)))))
+                                    .addComponent(txtNomeProfessor)
+                                    .addComponent(txtEmailProfessor)
+                                    .addComponent(fTxtCpfProfessor)))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnEditarProfessor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -488,18 +513,18 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel39, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lbl_IDProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel41))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel37, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblSenhaProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel40)))))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField12, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                                .addComponent(jTextField11))
+                                .addComponent(txt_IDProfessor, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
+                                .addComponent(txtSenhaProfessor))
                             .addComponent(btnSairProfessor, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -519,40 +544,40 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel24)
-                    .addComponent(jLabel27)
+                    .addComponent(lblNomeProfessor)
                     .addComponent(jLabel30)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNomeProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
-                    .addComponent(jLabel28)
+                    .addComponent(lblCpfProfessor)
                     .addComponent(jLabel31)
-                    .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(fTxtCpfProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel26)
-                    .addComponent(jLabel29)
+                    .addComponent(lblEmailProfessor)
                     .addComponent(jLabel32)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEmailProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel33)
-                        .addComponent(jLabel34)
+                        .addComponent(lblDtNascProfessor)
                         .addComponent(jLabel35))
                     .addComponent(fTxtDtNascProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel36)
-                    .addComponent(jLabel37)
+                    .addComponent(lblSenhaProfessor)
                     .addComponent(jLabel40)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSenhaProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel38)
                     .addComponent(jLabel41)
-                    .addComponent(jLabel39)
-                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbl_IDProfessor)
+                    .addComponent(txt_IDProfessor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEditarProfessor)
@@ -583,17 +608,33 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
 
     private void btnEditarProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarProfessorActionPerformed
         
+        if( fTxtCpfProfessor.getText().equals("   .   .   -  ") && txtEmailProfessor.getText().equals("") 
+                && txtSenhaProfessor.getText().equals("") && txtNomeProfessor.getText().equals("") 
+                && txt_IDProfessor.getText().equals("") && fTxtDtNascProfessor.getText().equals("  /  /    ")){
+            
+            JOptionPane.showMessageDialog(null, "Preencha ao menos um dos campos!", "ATENÇÃO", 1);
+            
+        }else{
+            
+            int i = editaItemDeProfessor();
+            
+            if(i == 0){
+                JOptionPane.showMessageDialog(null, "Não foi possivel alterar os itens", "ERRO!", 0);
+            }else if(i == 1){
+                JOptionPane.showMessageDialog(null, "Item alterado com sucesso!", "ATENÇÃO", 1);
+            }else{
+                JOptionPane.showMessageDialog(null, "Itens alterado com sucesso!", "ATENÇÃO", 1);
+            }
+            this.dispose();
+            new TelaGerenteEditar().setVisible(true);
+            
+        }
         
     }//GEN-LAST:event_btnEditarProfessorActionPerformed
 
     private void btnEditarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarAlunoActionPerformed
         
-        System.out.println("Apertou para editar");
-        /*
-        if( txtCPFAluno == null && txtEmailAluno == null && txtMatriculaAluno == null && 
-                txtNomeAluno == null && txtProfIDAluno == null && fTxtDtNascAluno.getText().equals("  /  /    ")){*/
-        
-        if( txtCPFAluno.getText().equals("") && txtEmailAluno.getText().equals("") 
+        if( fTxtCpfAluno.getText().equals("   .   .   -  ") && txtEmailAluno.getText().equals("") 
                 && txtMatriculaAluno.getText().equals("") && txtNomeAluno.getText().equals("") 
                 && txtProfIDAluno.getText().equals("") && fTxtDtNascAluno.getText().equals("  /  /    ")){
             
@@ -602,6 +643,7 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
         }else{
             
             int i = editaItemDeAluno();
+            
             if(i == 0){
                 JOptionPane.showMessageDialog(null, "Não foi possivel alterar os itens", "ERRO!", 0);
             }else if(i == 1){
@@ -616,9 +658,16 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarAlunoActionPerformed
 
     private void btnSairAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairAlunoActionPerformed
+        
         new TelaGerenteConsultar().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnSairAlunoActionPerformed
+
+    private void btnSairProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairProfessorActionPerformed
+        
+        new TelaGerenteConsultar().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnSairProfessorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -663,6 +712,8 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
     private javax.swing.JButton btnEditarProfessor;
     private javax.swing.JButton btnSairAluno;
     private javax.swing.JButton btnSairProfessor;
+    private javax.swing.JFormattedTextField fTxtCpfAluno;
+    private javax.swing.JFormattedTextField fTxtCpfProfessor;
     private javax.swing.JFormattedTextField fTxtDtNascAluno;
     private javax.swing.JFormattedTextField fTxtDtNascProfessor;
     private javax.swing.JLabel jLabel1;
@@ -678,20 +729,14 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
-    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel41;
@@ -704,32 +749,36 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JLabel lblCPFAluno;
+    private javax.swing.JLabel lblCpfProfessor;
     private javax.swing.JLabel lblDtNascAluno;
+    private javax.swing.JLabel lblDtNascProfessor;
     private javax.swing.JLabel lblEmailAluno;
+    private javax.swing.JLabel lblEmailProfessor;
     private javax.swing.JLabel lblMatriculaAluno;
     private javax.swing.JLabel lblNomeAluno;
     private javax.swing.JLabel lblNomeAlunoPainel;
+    private javax.swing.JLabel lblNomeProfessor;
     private javax.swing.JLabel lblNomeProfessorPainel;
     private javax.swing.JLabel lblProfIDAluno;
-    private javax.swing.JTextField txtCPFAluno;
+    private javax.swing.JLabel lblSenhaProfessor;
+    private javax.swing.JLabel lbl_IDProfessor;
     private javax.swing.JTextField txtEmailAluno;
+    private javax.swing.JTextField txtEmailProfessor;
     private javax.swing.JTextField txtMatriculaAluno;
     private javax.swing.JTextField txtNomeAluno;
+    private javax.swing.JTextField txtNomeProfessor;
     private javax.swing.JTextField txtProfIDAluno;
+    private javax.swing.JTextField txtSenhaProfessor;
+    private javax.swing.JTextField txt_IDProfessor;
     // End of variables declaration//GEN-END:variables
 
     public int editaItemDeAluno(){
         
         int i = 0;
         
-         if(!txtCPFAluno.getText().equals("")){
-                alunoManipulado.setCpf(txtCPFAluno.getText());
+         if(!fTxtCpfAluno.getText().equals("   .   .   -  ")){
+                alunoManipulado.setCpf(fTxtCpfAluno.getText());
                 i+=1;
             }
          if(!txtEmailAluno.getText().equals("")){
@@ -779,6 +828,50 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO!", 0);
             }
          }
+         return i;
+    }
+
+
+    public int editaItemDeProfessor(){
+        
+        int i = 0;
+        
+         if(!fTxtCpfProfessor.getText().equals("   .   .   -  ")){
+                professorManipulado.setCpf(fTxtCpfProfessor.getText());
+                i+=1;
+            }
+         if(!txtEmailProfessor.getText().equals("")){
+             professorManipulado.setEmail(txtEmailProfessor.getText());
+             i+=1;
+         }
+         if(!txtSenhaProfessor.getText().equals("")){
+             professorManipulado.setSenha(txtSenhaProfessor.getText());
+             i+=1;
+         }
+         if(!txtNomeProfessor.getText().equals("")){
+             professorManipulado.setNome(txtNomeProfessor.getText());
+             i+=1;
+         }
+         
+         if(!txt_IDProfessor.getText().equals("")){
+             professorManipulado.setId_Professor(txt_IDProfessor.getText());
+         }
+         
+         if(!fTxtDtNascProfessor.getText().equals("  /  /    ")){
+             
+             String dt = fTxtDtNascProfessor.getText();
+             
+             try{
+                LocalDate data = Fachada.getInstance().stringParaLocalDate(dt);
+                professorManipulado.setDt_Nasc(data);
+                i+=1;
+                
+             }catch(DateTimeParseException ex){
+            
+                JOptionPane.showMessageDialog(null, "Data invalida!", "ERRO", 0);           
+            }
+         }
+         
          return i;
     }
 
