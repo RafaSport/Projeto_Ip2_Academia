@@ -132,6 +132,7 @@ public class ControladorPessoa {
             
             if( ((Professor)pessoa).getAlunos().size() <= qtdAlunos ){
                 prof = (Professor)pessoa;
+                qtdAlunos = ((Professor)pessoa).getAlunos().size();
             }
         }
         
@@ -141,33 +142,36 @@ public class ControladorPessoa {
 
     public boolean equals(Pessoa pessoa, Pessoa usuario){
         
-        if( pessoa instanceof Aluno){
-            
-            for( Pessoa p : Fachada.getInstance().listarAlunos(usuario)){
+        for( Pessoa p : Fachada.getInstance().listarTodos()){
                 
-                if( p.getCpf().equals(pessoa.getCpf()) || p.getEmail().equals(pessoa.getEmail())
-                            || ((Aluno)p).getMatricula().equals( ((Aluno)pessoa).getMatricula() ) ){
+            if( p.getCpf().equals(pessoa.getCpf()) || p.getEmail().equals(pessoa.getEmail()) ){
+
+                return true;
+            }
+            
+            if( pessoa instanceof Aluno && p instanceof Aluno){
+                
+                if( ((Aluno)p).getMatricula().equals( ((Aluno)pessoa).getMatricula() ) ){
                     
                     return true;
                 }
-            }
-        }
-        
-        if( pessoa instanceof Professor){
-            
-            for( Pessoa p : Fachada.getInstance().listarProfessor(usuario)){
-                
-                if( p.getCpf().equals(pessoa.getCpf()) || p.getEmail().equals(pessoa.getEmail())
-                   || ((Professor)p).getId_Professor().equals(((Professor)pessoa).getId_Professor() ) 
+            }else if( pessoa instanceof Professor  && p instanceof Professor){
+                               
+                if( ((Professor)p).getId_Professor().equals(((Professor)pessoa).getId_Professor() ) 
                    || ((Professor)p).getSenha().equals(((Professor)pessoa).getSenha() ) ){
                     
                     return true;
                 }
+                
+            }else if(pessoa instanceof Professor  && p instanceof Gerente){
+                
+                if( ((Gerente)p).getSenha().equals( ((Professor)pessoa).getSenha() ) ){
+                    return true;
+                }
             }
         }
-        
-        
         return false;
+        
     }
     
 }

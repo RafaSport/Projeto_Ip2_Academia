@@ -4,8 +4,11 @@ import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
 import br.ufrpe_SistemaAcademia.negocio.Fachada;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
+import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class TelaGerenteConsultar extends javax.swing.JFrame {
@@ -592,11 +595,16 @@ public class TelaGerenteConsultar extends javax.swing.JFrame {
                 
                 if(i == 0){
                     
+                    
+                    alunoAchado.getProfessor().getAlunos().remove(alunoAchado);
+                    
+                    
                     Fachada.getInstance().remover(usuario, alunoAchado);
                     
                     Fachada.getInstance().salvarPessoasNoArquivo("pessoas.dat");
                     
                     JOptionPane.showMessageDialog(null, "Aluno excluido com sucesso!", "ATENÇÃO", 1);
+                    
                     limparCamposAluno();
                     
                 }else{
@@ -681,6 +689,20 @@ public class TelaGerenteConsultar extends javax.swing.JFrame {
                         + professorAchado.getNome() + "?", "CONFIRMAÇÃO", 1);
                 
                 if(i == 0){
+                    
+                    List<Pessoa> lista = Fachada.getInstance().listarProfessor(usuario);
+                    
+                    for(Pessoa p: lista){
+                        if(! ((Professor)p).equals(professorAchado)){
+                            
+                            for(Aluno a: professorAchado.getAlunos()){
+                                a.setProfessor(((Professor)p));
+                            }
+                            
+                            ((Professor)p).getAlunos().addAll(professorAchado.getAlunos());
+                            
+                        }
+                    }
                     
                     Fachada.getInstance().remover(usuario, professorAchado);
                     

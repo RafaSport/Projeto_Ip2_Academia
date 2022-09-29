@@ -509,9 +509,7 @@ public class TelaProfessor extends javax.swing.JFrame {
         Aluno a = new Aluno();
         
         a.setMatricula(matricula);
-        
-        //Aluno alunoConsultado;
-        
+      
         try {
             alunoConsultado = (Aluno)Fachada.getInstance().consultar(usuario, a);
             Fachada.getInstance().setPessoaManipulada(alunoConsultado);
@@ -632,8 +630,7 @@ public class TelaProfessor extends javax.swing.JFrame {
                 break;      
             
         }
-        
-        System.out.println(diaDaSemana + " - " + dia);
+
     }//GEN-LAST:event_cmbDiaDaSemanaActionPerformed
 
     private void btnCadastrarTreinoExercicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarTreinoExercicioActionPerformed

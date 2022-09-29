@@ -14,10 +14,13 @@ public class TelaInicial extends javax.swing.JFrame {
     
     public TelaInicial() {
         initComponents();
-        
+        /*
         List<Pessoa> lista = (List<Pessoa>) RepositorioArquivo.carregarArquivoDePessoas("pessoas.dat");
         if(lista != null && !lista.isEmpty()){
             Fachada.getInstance().salvarPessoasNaMemoria(lista);
+        }else{
+            new TelaDePrimeiroAcesso().setVisible(true);
+            this.dispose();
         }
         
         
@@ -26,7 +29,7 @@ public class TelaInicial extends javax.swing.JFrame {
         if(lista1 != null && !lista1.isEmpty()){
             Fachada.getInstance().salvarTreinoExecutadoNaMemoria(lista1);
         }
-        
+        */
     }
     
     

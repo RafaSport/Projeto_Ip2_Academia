@@ -379,7 +379,7 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
 
     private void btnCadastrarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarAlunoActionPerformed
         
-        if(Fachada.getInstance().listarProfessor(usuario).size() > 0){
+        if(!Fachada.getInstance().listarProfessor(usuario).isEmpty()){
             
             professorDoAluno = Fachada.getInstance().escolheProfessorParaAluno(usuario);       
             lblProfessorParaAluno.setText(professorDoAluno.getNome());
@@ -392,11 +392,16 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
 
             String cpf = String.valueOf(fTxtCpfAluno.getText());
             String dtNasc = String.valueOf(fTxtDataNascimentoAluno.getText());
-
-            try{
-                LocalDate dataNascimento = Fachada.getInstance().stringParaLocalDate(dtNasc);
-
-                if(nome != null && matricula != null && email != null && cpf != null){
+            
+            if( nome.equals("") || matricula.equals("") || email.equals("") 
+                    || cpf.equals("   .   .   -  ") || dtNasc.equals("  /  /    ") ){
+            
+                JOptionPane.showMessageDialog(null, "Todos os itens devem ser preenchidos!" , "ERRO", 0);
+            
+            }else{
+                 
+                try{
+                    LocalDate dataNascimento = Fachada.getInstance().stringParaLocalDate(dtNasc);
 
                     if(LocalDate.now().getYear() - dataNascimento.getYear()>=60){
 
@@ -412,35 +417,41 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
 
                     Fachada.getInstance().cadastrarPlanoTreino(professorDoAluno, aluno, null, LocalDate.now());
 
-                    Fachada.getInstance().adicionar(usuario, aluno);
+                    if(Fachada.getInstance().equals(aluno, usuario)){
+                        
+                        JOptionPane.showMessageDialog(null, "Algum item pertence a outra pessoa cadastrada!", "ERRO", 0);
+                    }else{
+                        
+                        Fachada.getInstance().adicionar(usuario, aluno);
 
-                    Fachada.getInstance().cadastrarAlunoParaProfessor(aluno, professorDoAluno);
+                        Fachada.getInstance().cadastrarAlunoParaProfessor(aluno, professorDoAluno);
 
-                    Fachada.getInstance().salvarPessoasNoArquivo("pessoas.dat");
-                    
-                    JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "ATENÇÃO", 1);
+                        Fachada.getInstance().salvarPessoasNoArquivo("pessoas.dat");
 
-                    txtEmailAluno.setText("");
-                    txtMatriculaAluno.setText("");
-                    txtNomeAluno.setText("");
+                        JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "ATENÇÃO", 1);
 
-                    fTxtCpfAluno.setText("");
+                        txtEmailAluno.setText("");
+                        txtMatriculaAluno.setText("");
+                        txtNomeAluno.setText("");
+
+                        fTxtCpfAluno.setText("");
+                        fTxtDataNascimentoAluno.setText("");
+                        
+                    }
+
+                }catch(DateTimeParseException ex){
+
                     fTxtDataNascimentoAluno.setText("");
+                    JOptionPane.showMessageDialog(null, "Data invalida!", "ERRO", 0);
 
-                }else{
+                } catch (ElementoJaExisteException | ProfessorNaoContemAluno ex) {
 
-                    JOptionPane.showMessageDialog(null, "Atenção! Aluno com 60 anos ou mais!", "ATENÇÃO", 1);
-                }            
-
-            }catch(DateTimeParseException ex){
-
-                fTxtDataNascimentoAluno.setText("");
-                JOptionPane.showMessageDialog(null, "Data invalida!", "ERRO", 0);
-
-            } catch (ElementoJaExisteException | ProfessorNaoContemAluno ex) {
-
-                JOptionPane.showMessageDialog(null, ex.getMessage() , "ERRO", 0);          
+                    JOptionPane.showMessageDialog(null, ex.getMessage() , "ERRO", 0);          
+                }
+                    
             }
+
+           
         }else{
             
             JOptionPane.showMessageDialog(null, "Cadastre primeiro professores!" , "ERRO", 0);
@@ -458,48 +469,54 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
         String cpf = String.valueOf(fTxtCpfProfessor.getText());
         String dtNasc = String.valueOf(fTxtDtNascProfessor.getText());
         
-        try{
-            LocalDate dataNascimento = Fachada.getInstance().stringParaLocalDate(dtNasc);
+        if( nome.equals("") || senha.equals("") || email.equals("") || cpf.equals("   .   .   -  ") 
+                    || dtNasc.equals("  /  /    ") || idProfessor.equals("") ){
             
-            if(nome != null && email != null && cpf != null && senha != null && idProfessor != null){
+                JOptionPane.showMessageDialog(null, "Todos os itens devem ser preenchidos!" , "ERRO", 0);
                 
+        }else{
+        
+            try{
+                LocalDate dataNascimento = Fachada.getInstance().stringParaLocalDate(dtNasc);
+
                 if(LocalDate.now().getYear() - dataNascimento.getYear()>=60){
-                
+
                     JOptionPane.showMessageDialog(null, "Atenção! Professor com 60 anos ou mais!", "ATENÇÃO", 1);
                 }
-                
+
                 double salario = Fachada.getInstance().getSalario();
                 Professor professor = new Professor(idProfessor, senha, salario, nome, cpf, dataNascimento, email);
+
+                if(Fachada.getInstance().equals(professor, usuario)){
+                    
+                    JOptionPane.showMessageDialog(null, "Algum item pertence a outra pessoa cadastrada!", "ERRO", 0);
+                }else{
                 
-                Fachada.getInstance().adicionar(usuario, professor);
+                    Fachada.getInstance().adicionar(usuario, professor);
+
+                    Fachada.getInstance().salvarPessoasNoArquivo("pessoas.dat");
+
+                    JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "ATENÇÃO", 1);
+
+                    txtEmailProfessor.setText("");
+                    txtIDProfessor.setText("");
+                    txtNomeProfessor.setText("");
+                    txtSenhaProfessor.setText("");
+
+                    fTxtCpfProfessor.setText("");
+                    fTxtDtNascProfessor.setText("");
+
+                }
                 
-                Fachada.getInstance().salvarPessoasNoArquivo("pessoas.dat");
-                
-                JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "ATENÇÃO", 1);
-                
-                txtEmailProfessor.setText("");
-                txtIDProfessor.setText("");
-                txtNomeProfessor.setText("");
-                txtSenhaProfessor.setText("");
-                
-                fTxtCpfProfessor.setText("");
-                fTxtDtNascProfessor.setText("");
-                
-            }else{
-                
-                JOptionPane.showMessageDialog(null, "Atenção! Aluno com 60 anos ou mais!", "ATENÇÃO", 1);
+            }catch(DateTimeParseException ex){
+
+                fTxtDataNascimentoAluno.setText("");
+                JOptionPane.showMessageDialog(null, "Data invalida!", "ERRO", 0);
+
+            } catch (ElementoJaExisteException ex) {
+
+                JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", 0);
             }
-            
-            
-            
-        }catch(DateTimeParseException ex){
-            
-            fTxtDataNascimentoAluno.setText("");
-            JOptionPane.showMessageDialog(null, "Data invalida!", "ERRO", 0);
-            
-        } catch (ElementoJaExisteException ex) {
-            
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "ERRO", 0);
         }
         
     }//GEN-LAST:event_btnCadastrarProfessorActionPerformed

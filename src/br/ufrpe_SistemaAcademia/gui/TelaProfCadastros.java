@@ -419,17 +419,7 @@ public class TelaProfCadastros extends javax.swing.JFrame {
             
             Exercicio e = new Exercicio(tipoTreino, duracao, series);
             Treino t = new Treino();
-            /*
-            if(!alunoManipulado.getPlanoTreino().getTreinos().get(qtdExercicios-1).getExercicios().contains(e)){
-                
-                alunoManipulado.getPlanoTreino().getTreinos().get(qtdExercicios).addExercicios(e);
-                
-                JOptionPane.showMessageDialog(null, "Exercicio cadastrado com sucesso!", "CONFIRMAÇÃO", 1);
-                
-            }else{
-                JOptionPane.showMessageDialog(null, "Exercicio já cadastrado para este dia!", "ERRO", 0);
-            }
-            */
+            
             if(!listaDeExercicio.contains(e)){
                 listaDeExercicio.add(e);
                 t.addExercicios(e);
@@ -467,12 +457,6 @@ public class TelaProfCadastros extends javax.swing.JFrame {
                 if(qtdExercicios<7){
                     
                     Treino t = new Treino();
-                    
-                    /*
-                    for(Exercicio e: listaDeExercicio){
-                        t.addExercicios(e);
-                    }
-                    */
                     
                     t.setExercicios(listaDeExercicio);
                    

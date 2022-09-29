@@ -30,7 +30,7 @@ public class RepositorioArquivo {
             
             listaPessoa = (List<Pessoa>)instanciaLocal;
         } catch (Exception e) {
-            System.out.println("Não há arquivo com o nome '" + filename + "' para ser processado. Um novo arquivo será criado");
+            
         } finally {
             if (ois != null) {
                 try {
@@ -66,7 +66,7 @@ public class RepositorioArquivo {
                 try {
                     oos.close();
                 } catch (IOException e) {
-                    //e.printStackTrace();
+                    
                 }
             }
         }
@@ -90,7 +90,7 @@ public class RepositorioArquivo {
             
             listaTreinos = (List<TreinoExecutado>)instanciaLocal;
         } catch (Exception e) {
-            System.out.println("Não há arquivo com o nome '" + filename + "' para ser processado. Um novo arquivo será criado");
+            
         } finally {
             if (ois != null) {
                 try {
@@ -126,7 +126,7 @@ public class RepositorioArquivo {
                 try {
                     oos.close();
                 } catch (IOException e) {
-                    //e.printStackTrace();
+                   
                 }
             }
         }
