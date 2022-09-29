@@ -1,15 +1,32 @@
 package br.ufrpe_SistemaAcademia.gui;
 
+import br.ufrpe_SistemaAcademia.dados.RepositorioArquivo;
 import br.ufrpe_SistemaAcademia.negocio.Fachada;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
+import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
+import br.ufrpe_SistemaAcademia.negocio.bean.TreinoExecutado;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class TelaInicial extends javax.swing.JFrame {
     
     public TelaInicial() {
         initComponents();
+        
+        List<Pessoa> lista = (List<Pessoa>) RepositorioArquivo.carregarArquivoDePessoas("pessoas.dat");
+        if(lista != null && !lista.isEmpty()){
+            Fachada.getInstance().salvarPessoasNaMemoria(lista);
+        }
+        
+        
+        List<TreinoExecutado> lista1 = (List<TreinoExecutado>) 
+                RepositorioArquivo.carregarArquivoDeTreinosExecutados("treinosExecutados.dat");
+        if(lista1 != null && !lista1.isEmpty()){
+            Fachada.getInstance().salvarTreinoExecutadoNaMemoria(lista1);
+        }
+        
     }
     
     

@@ -15,5 +15,6 @@ public interface IRepositorioGenerico <T>{
     List<T> listarAlunos(T usuario);
     List<T> listarAlunosDoProfessor(T usuario);
     List<T> listarTodos();
+    void salvarPessoasNaMemoria(List<T> lista) ;
     
 }

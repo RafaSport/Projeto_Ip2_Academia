@@ -4,6 +4,7 @@ import br.ufrpe_SistemaAcademia.dados.RepositorioDeTreino;
 import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
 import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
 import br.ufrpe_SistemaAcademia.negocio.bean.TreinoExecutado;
+import java.util.List;
 
 public class ControladorTreinoExecutado {
     
@@ -33,5 +34,11 @@ public class ControladorTreinoExecutado {
         return this.repositorioDeTreinos.consultarTreinoExecutado(treinoExecutado);
     }
     
+    public List<TreinoExecutado> listarTodosOsTreinosExecutados(){
+        return this.repositorioDeTreinos.listarTodosOsTreinosExecutados();
+    }
     
+    public void salvarTreinoExecutadoNaMemoria(List<TreinoExecutado> dadosArquivo){
+        this.repositorioDeTreinos.salvarTreinoExecutadoNaMemoria(dadosArquivo);
+    }
 }

@@ -1,10 +1,11 @@
 package br.ufrpe_SistemaAcademia.negocio.bean;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlanoTreinoSemanal {
+public class PlanoTreinoSemanal implements Serializable{
     
     private List<Treino> treinos;
     private LocalDate dataInicio;

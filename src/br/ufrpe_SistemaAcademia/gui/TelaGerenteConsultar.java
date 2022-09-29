@@ -593,6 +593,9 @@ public class TelaGerenteConsultar extends javax.swing.JFrame {
                 if(i == 0){
                     
                     Fachada.getInstance().remover(usuario, alunoAchado);
+                    
+                    Fachada.getInstance().salvarPessoasNoArquivo("pessoas.dat");
+                    
                     JOptionPane.showMessageDialog(null, "Aluno excluido com sucesso!", "ATENÇÃO", 1);
                     limparCamposAluno();
                     
@@ -680,7 +683,11 @@ public class TelaGerenteConsultar extends javax.swing.JFrame {
                 if(i == 0){
                     
                     Fachada.getInstance().remover(usuario, professorAchado);
+                    
+                    Fachada.getInstance().salvarPessoasNoArquivo("pessoas.dat");
+                    
                     JOptionPane.showMessageDialog(null, "Professor excluido com sucesso!", "ATENÇÃO", 1);
+                    
                     limparCamposProfessor();
                     
                 }else{

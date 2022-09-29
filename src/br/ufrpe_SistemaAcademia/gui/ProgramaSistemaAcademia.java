@@ -2,7 +2,6 @@
 package br.ufrpe_SistemaAcademia.gui;
 
 import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
-import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
 import br.ufrpe_SistemaAcademia.exception.ProfessorNaoContemAluno;
 import br.ufrpe_SistemaAcademia.negocio.Fachada;
 import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
@@ -16,14 +15,25 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Treino;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ProgramaSistemaAcademia {
     
     public static void main(String[] args) throws ElementoJaExisteException, ProfessorNaoContemAluno {
         
-        testes();
+        Pessoa gerente = new Gerente("999", "jose", "3030", 
+                                  LocalDate.of(1989, 11, 17), "jose@gmail.com");
+        
+        Fachada.getInstance().adicionar(gerente, gerente);
+        /*
+        int i = 0;
+        System.out.println(i);
+        i += Fachada.getInstance().listarTodos().size();
+        System.out.println(i);
+        System.out.println(Fachada.getInstance().listarTodos().get(0).getNome());
+        */
+        new TelaInicial().setVisible(true);
+        
+        //testes();
         
        /*
         LocalDate data = LocalDate.of(2021, 9, 12);

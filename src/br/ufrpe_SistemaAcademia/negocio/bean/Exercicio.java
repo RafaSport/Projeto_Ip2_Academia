@@ -1,7 +1,9 @@
 
 package br.ufrpe_SistemaAcademia.negocio.bean;
 
-public class Exercicio {
+import java.io.Serializable;
+
+public class Exercicio implements Serializable{
     
     private TipoTreino tipoExercicio;
     private Integer duracaoMinuto;

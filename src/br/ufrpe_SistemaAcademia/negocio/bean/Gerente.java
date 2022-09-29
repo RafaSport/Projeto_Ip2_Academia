@@ -1,9 +1,10 @@
 package br.ufrpe_SistemaAcademia.negocio.bean;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Gerente extends Pessoa{
+public class Gerente extends Pessoa implements Serializable{
     
     private String senha;
 

@@ -19,9 +19,6 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
     public TelaGerenteCadastro() {
         initComponents();
         
-        professorDoAluno = Fachada.getInstance().escolheProfessorParaAluno(usuario);
-        
-        lblProfessorParaAluno.setText(professorDoAluno.getNome());
     }
 
     /**
@@ -382,61 +379,73 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
 
     private void btnCadastrarAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarAlunoActionPerformed
         
-        String nome = txtNomeAluno.getText();
-        String matricula = txtMatriculaAluno.getText();
-        String email = txtEmailAluno.getText();
-        
-        int mesesPagos = (int)spnMesesPagos.getValue();
-        
-        String cpf = String.valueOf(fTxtCpfAluno.getText());
-        String dtNasc = String.valueOf(fTxtDataNascimentoAluno.getText());
-        
-        try{
-            LocalDate dataNascimento = Fachada.getInstance().stringParaLocalDate(dtNasc);
+        if(Fachada.getInstance().listarProfessor(usuario).size() > 0){
             
-            if(nome != null && matricula != null && email != null && cpf != null){
-                
-                if(LocalDate.now().getYear() - dataNascimento.getYear()>=60){
-                
+            professorDoAluno = Fachada.getInstance().escolheProfessorParaAluno(usuario);       
+            lblProfessorParaAluno.setText(professorDoAluno.getNome());
+
+            String nome = txtNomeAluno.getText();
+            String matricula = txtMatriculaAluno.getText();
+            String email = txtEmailAluno.getText();
+
+            int mesesPagos = (int)spnMesesPagos.getValue();
+
+            String cpf = String.valueOf(fTxtCpfAluno.getText());
+            String dtNasc = String.valueOf(fTxtDataNascimentoAluno.getText());
+
+            try{
+                LocalDate dataNascimento = Fachada.getInstance().stringParaLocalDate(dtNasc);
+
+                if(nome != null && matricula != null && email != null && cpf != null){
+
+                    if(LocalDate.now().getYear() - dataNascimento.getYear()>=60){
+
+                        JOptionPane.showMessageDialog(null, "Atenção! Aluno com 60 anos ou mais!", "ATENÇÃO", 1);
+                    }
+
+                    double mensalidade = Fachada.getInstance().getValorMensalidade();
+
+                    Aluno aluno = new Aluno(matricula, professorDoAluno, nome, cpf, dataNascimento, email);
+
+                    PlanoPagamento pp = new PlanoPagamento( mensalidade, mesesPagos, LocalDate.now());                
+                    aluno.setPlanoPagamento(pp);
+
+                    Fachada.getInstance().cadastrarPlanoTreino(professorDoAluno, aluno, null, LocalDate.now());
+
+                    Fachada.getInstance().adicionar(usuario, aluno);
+
+                    Fachada.getInstance().cadastrarAlunoParaProfessor(aluno, professorDoAluno);
+
+                    Fachada.getInstance().salvarPessoasNoArquivo("pessoas.dat");
+                    
+                    JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "ATENÇÃO", 1);
+
+                    txtEmailAluno.setText("");
+                    txtMatriculaAluno.setText("");
+                    txtNomeAluno.setText("");
+
+                    fTxtCpfAluno.setText("");
+                    fTxtDataNascimentoAluno.setText("");
+
+                }else{
+
                     JOptionPane.showMessageDialog(null, "Atenção! Aluno com 60 anos ou mais!", "ATENÇÃO", 1);
-                }
-                
-                double mensalidade = Fachada.getInstance().getValorMensalidade();
-                
-                Aluno aluno = new Aluno(matricula, professorDoAluno, nome, cpf, dataNascimento, email);
-                
-                PlanoPagamento pp = new PlanoPagamento( mensalidade, mesesPagos, LocalDate.now());                
-                aluno.setPlanoPagamento(pp);
-                
-                Fachada.getInstance().cadastrarPlanoTreino(professorDoAluno, aluno, null, LocalDate.now());
-                
-                Fachada.getInstance().adicionar(usuario, aluno);
-                
-                Fachada.getInstance().cadastrarAlunoParaProfessor(aluno, professorDoAluno);
-                
-                JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "ATENÇÃO", 1);
-                
-                txtEmailAluno.setText("");
-                txtMatriculaAluno.setText("");
-                txtNomeAluno.setText("");
-                
-                fTxtCpfAluno.setText("");
+                }            
+
+            }catch(DateTimeParseException ex){
+
                 fTxtDataNascimentoAluno.setText("");
-                
-            }else{
-                
-                JOptionPane.showMessageDialog(null, "Atenção! Aluno com 60 anos ou mais!", "ATENÇÃO", 1);
-            }            
+                JOptionPane.showMessageDialog(null, "Data invalida!", "ERRO", 0);
+
+            } catch (ElementoJaExisteException | ProfessorNaoContemAluno ex) {
+
+                JOptionPane.showMessageDialog(null, ex.getMessage() , "ERRO", 0);          
+            }
+        }else{
             
-        }catch(DateTimeParseException ex){
-            
-            fTxtDataNascimentoAluno.setText("");
-            JOptionPane.showMessageDialog(null, "Data invalida!", "ERRO", 0);
-            
-        } catch (ElementoJaExisteException | ProfessorNaoContemAluno ex) {
-            
-            JOptionPane.showMessageDialog(null, ex.getMessage() , "ERRO", 0);          
+            JOptionPane.showMessageDialog(null, "Cadastre primeiro professores!" , "ERRO", 0);
         }
+        
     }//GEN-LAST:event_btnCadastrarAlunoActionPerformed
 
     private void btnCadastrarProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarProfessorActionPerformed
@@ -463,6 +472,8 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
                 Professor professor = new Professor(idProfessor, senha, salario, nome, cpf, dataNascimento, email);
                 
                 Fachada.getInstance().adicionar(usuario, professor);
+                
+                Fachada.getInstance().salvarPessoasNoArquivo("pessoas.dat");
                 
                 JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!", "ATENÇÃO", 1);
                 

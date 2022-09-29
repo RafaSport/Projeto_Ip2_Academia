@@ -484,7 +484,9 @@ public class TelaAluno extends javax.swing.JFrame {
                 treinoExecutado = new TreinoExecutado(usuario, treino, diaDoTreino);
             
                 try {
-                    Fachada.getInstance().salvarTreinoExecutado(treinoExecutado);                   
+                    Fachada.getInstance().salvarTreinoExecutado(treinoExecutado); 
+                    
+                    Fachada.getInstance().salvarTreinosExecutadosNoArquivo("treinosExecutados.dat");
                         
                     JOptionPane.showMessageDialog(null, "Treino salvo com sucesso", "CONFIRMAÇÃO", 1);
                         

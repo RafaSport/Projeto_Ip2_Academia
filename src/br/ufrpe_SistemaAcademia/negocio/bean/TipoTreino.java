@@ -1,6 +1,8 @@
 package br.ufrpe_SistemaAcademia.negocio.bean;
 
-public enum TipoTreino {
+import java.io.Serializable;
+
+public enum TipoTreino implements Serializable{
     
     MUSCULAÇÃO_PERNA,
     MUSCULAÇÃO_BRAÇO,

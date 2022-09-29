@@ -96,7 +96,6 @@ public class TelaGerenteListar extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tableProfessores = new javax.swing.JTable();
         btnSair = new javax.swing.JButton();
-        btnListar = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -278,13 +277,6 @@ public class TelaGerenteListar extends javax.swing.JFrame {
             }
         });
 
-        btnListar.setText("Listar");
-        btnListar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnListarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -293,8 +285,6 @@ public class TelaGerenteListar extends javax.swing.JFrame {
             .addComponent(jTabbedPane1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnListar)
-                .addGap(103, 103, 103)
                 .addComponent(btnSair)
                 .addContainerGap())
         );
@@ -305,9 +295,7 @@ public class TelaGerenteListar extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSair)
-                    .addComponent(btnListar))
+                .addComponent(btnSair)
                 .addContainerGap())
         );
 
@@ -319,11 +307,6 @@ public class TelaGerenteListar extends javax.swing.JFrame {
         this.dispose();
         new TelaGerente().setVisible(true);
     }//GEN-LAST:event_btnSairActionPerformed
-
-    private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
-        
-        
-    }//GEN-LAST:event_btnListarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -364,7 +347,6 @@ public class TelaGerenteListar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnListar;
     private javax.swing.JButton btnSair;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

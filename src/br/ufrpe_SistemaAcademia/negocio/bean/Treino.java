@@ -1,10 +1,11 @@
 
 package br.ufrpe_SistemaAcademia.negocio.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Treino {
+public class Treino implements Serializable{
     
     private List<Exercicio> exercicios;
 

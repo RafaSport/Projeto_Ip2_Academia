@@ -8,11 +8,12 @@ import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
 import br.ufrpe_SistemaAcademia.negocio.bean.Gerente;
 import br.ufrpe_SistemaAcademia.negocio.bean.Pessoa;
 import br.ufrpe_SistemaAcademia.negocio.bean.Professor;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class RepositorioGenerico <T> implements IRepositorioGenerico<T>{
+public class RepositorioGenerico <T> implements IRepositorioGenerico<T>, Serializable{
 
     protected List<T> lista;
 
@@ -139,6 +140,12 @@ public class RepositorioGenerico <T> implements IRepositorioGenerico<T>{
     @Override
     public List<T> listarTodos() {
         return Collections.unmodifiableList(this.lista);
+        //return this.lista;
+    }
+
+    @Override
+    public void salvarPessoasNaMemoria(List<T> dadosMemoria) {
+        this.lista.addAll(dadosMemoria);
     }
     
 }

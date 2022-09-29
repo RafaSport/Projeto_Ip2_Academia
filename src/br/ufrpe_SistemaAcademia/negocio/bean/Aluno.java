@@ -1,9 +1,10 @@
 package br.ufrpe_SistemaAcademia.negocio.bean;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Aluno extends Pessoa{
+public class Aluno extends Pessoa implements Serializable{
     
     private String matricula;
     private PlanoPagamento planoPagamento;

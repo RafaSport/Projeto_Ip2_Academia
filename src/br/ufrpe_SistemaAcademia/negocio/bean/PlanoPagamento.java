@@ -1,9 +1,10 @@
 
 package br.ufrpe_SistemaAcademia.negocio.bean;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class PlanoPagamento {
+public class PlanoPagamento implements Serializable{
     
     private Double valorMensal;
     private Integer qtdMesPago;

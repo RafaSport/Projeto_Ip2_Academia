@@ -621,8 +621,12 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
             if(i == 0){
                 JOptionPane.showMessageDialog(null, "Não foi possivel alterar os itens", "ERRO!", 0);
             }else if(i == 1){
+                Fachada.getInstance().salvarPessoasNoArquivo("pessoas.dat");
+                
                 JOptionPane.showMessageDialog(null, "Item alterado com sucesso!", "ATENÇÃO", 1);
             }else{
+                Fachada.getInstance().salvarPessoasNoArquivo("pessoas.dat");
+                
                 JOptionPane.showMessageDialog(null, "Itens alterado com sucesso!", "ATENÇÃO", 1);
             }
             this.dispose();
@@ -647,8 +651,12 @@ public class TelaGerenteEditar extends javax.swing.JFrame {
             if(i == 0){
                 JOptionPane.showMessageDialog(null, "Não foi possivel alterar os itens", "ERRO!", 0);
             }else if(i == 1){
+                Fachada.getInstance().salvarPessoasNoArquivo("pessoas.dat");
+                
                 JOptionPane.showMessageDialog(null, "Item alterado com sucesso!", "ATENÇÃO", 1);
             }else{
+                Fachada.getInstance().salvarPessoasNoArquivo("pessoas.dat");
+                
                 JOptionPane.showMessageDialog(null, "Itens alterado com sucesso!", "ATENÇÃO", 1);
             }
             this.dispose();

@@ -64,6 +64,10 @@ public class ControladorPessoa {
         return this.repositorioPessoa.listarTodos();
     }
     
+    public void salvarPessoasNamemoria(List<Pessoa> dadosArquivo){
+        this.repositorioPessoa.salvarPessoasNaMemoria(dadosArquivo);
+    }
+    
     public void cadastrarAlunoParaProfessor(Aluno a, Professor p){
         if(a.getProfessor().equals(p)){
             p.getAlunos().add(a);

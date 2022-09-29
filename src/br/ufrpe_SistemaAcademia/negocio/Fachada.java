@@ -1,5 +1,6 @@
 package br.ufrpe_SistemaAcademia.negocio;
 
+import br.ufrpe_SistemaAcademia.dados.RepositorioArquivo;
 import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
 import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
 import br.ufrpe_SistemaAcademia.exception.ProfessorNaoContemAluno;
@@ -87,6 +88,15 @@ public class Fachada {
         return controladorPessoa.listarTodos();
     }
     
+    public void salvarPessoasNaMemoria(List<Pessoa> lista){
+        this.controladorPessoa.salvarPessoasNamemoria(lista);
+    }
+     
+    public void salvarPessoasNoArquivo(String nomeArquivo){
+        
+        RepositorioArquivo.salvarPessoasNoArquivo(this.listarTodos(), nomeArquivo);
+    }
+    
     public Pessoa login(String email, String senha){
         return controladorPessoa.login(email, senha);
     }
@@ -168,7 +178,18 @@ public class Fachada {
         return this.controladorTreinoExecutado.consultarTreinoExecutado(treinoExecutado);
     }
     
+   public List<TreinoExecutado> listarTodosOsTreinosExecutados(){
+        return this.controladorTreinoExecutado.listarTodosOsTreinosExecutados();
+    }
     
+    public void salvarTreinoExecutadoNaMemoria(List<TreinoExecutado> dadosArquivo){
+        this.controladorTreinoExecutado.salvarTreinoExecutadoNaMemoria(dadosArquivo);
+    }
+    
+    public void salvarTreinosExecutadosNoArquivo(String nomeArquivo){
+        
+        RepositorioArquivo.salvarTreinosExecutadosNoArquivo(this.listarTodosOsTreinosExecutados(), nomeArquivo);
+    }
     
     //------------------Metodos Delegate ControladorSistema---------------------
     

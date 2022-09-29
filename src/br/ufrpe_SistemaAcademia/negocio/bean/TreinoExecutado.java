@@ -1,9 +1,10 @@
 package br.ufrpe_SistemaAcademia.negocio.bean;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class TreinoExecutado {
+public class TreinoExecutado implements Serializable{
     
     private Aluno aluno;
     private Treino treino;

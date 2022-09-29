@@ -1,9 +1,10 @@
 package br.ufrpe_SistemaAcademia.negocio.bean;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public abstract class Pessoa {
+public abstract class Pessoa implements Serializable{
     
     private String nome;
     private String cpf;

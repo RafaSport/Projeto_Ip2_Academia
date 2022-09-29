@@ -2,13 +2,12 @@ package br.ufrpe_SistemaAcademia.dados;
 
 import br.ufrpe_SistemaAcademia.exception.ElementoJaExisteException;
 import br.ufrpe_SistemaAcademia.exception.ElementoNaoExisteException;
-import br.ufrpe_SistemaAcademia.negocio.bean.Aluno;
-import br.ufrpe_SistemaAcademia.negocio.bean.TreinoExecutado;
-import java.time.LocalDate;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class RepositorioDeTreino <TreinoExecutado> {
+public class RepositorioDeTreino <TreinoExecutado> implements Serializable{
     
     protected List<TreinoExecutado> lista;
 
@@ -36,5 +35,16 @@ public class RepositorioDeTreino <TreinoExecutado> {
             throw new ElementoNaoExisteException(treinoExecutado);
         }
        
+    }
+    
+    
+    
+    public List<TreinoExecutado> listarTodosOsTreinosExecutados(){
+        return Collections.unmodifiableList(this.lista);
+    }
+    
+    
+    public void salvarTreinoExecutadoNaMemoria(List<TreinoExecutado> dadosArquivo){
+        this.lista.addAll(dadosArquivo);
     }
 }
