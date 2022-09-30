@@ -26,7 +26,7 @@ public class TelaGerenteListar extends javax.swing.JFrame {
                 
                 if(a.getPlanoPagamento() == null){
                     s = "Sem plano!";
-                }else if(!Fachada.getInstance().dataNaValidade(LocalDate.now(), a.getPlanoPagamento().getDataFim())){
+                }else if(Fachada.getInstance().dataNaValidade(LocalDate.now(), a.getPlanoPagamento().getDataFim())){
                     s = "Inadiplente!";
                 }else{
                     s = Fachada.getInstance().dateParaString(a.getPlanoPagamento().getDataFim());
