@@ -436,6 +436,7 @@ public class TelaGerenteCadastro extends javax.swing.JFrame {
 
                         fTxtCpfAluno.setText("");
                         fTxtDataNascimentoAluno.setText("");
+                        lblProfessorParaAluno.setText("");
                         
                     }
 
